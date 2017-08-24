@@ -12,4 +12,8 @@ export class NavBarComponent implements OnInit {
   ngOnInit() {
   }
 
+  graphNavClicked()
+  {
+    alert("Graph Clicked");
+  }
 }
