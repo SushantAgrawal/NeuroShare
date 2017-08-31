@@ -1,32 +1,49 @@
-<div>{{testValue}}</div>
-<div class="reviewArea">
-  <input type="checkbox">
-  <label>Review relapses</label>
-  <br />
-  <input type="checkbox">
-  <label>Review MRI images</label>
-  <br />
-  <input type="checkbox">
-  <label>Review symptom status</label>
-  <br />
-  <input type="checkbox">
-  <label>Review MS type/status</label>
-  <br />
-  <input type="checkbox">
-  <label>Review DMTs</label>
-  <br />
-  <input type="checkbox">
-  <label>Review monitoring labs</label>
-  <br />
-  <input type="checkbox">
-  <label>Review Vitamin D</label>
-  <br />
-  <input type="checkbox">
-  <label>Review other related meds</label>
-  <br />
-  <input type="checkbox">
-  <label>Review symptoms referrals</label>
-  <br />
-  <input type="checkbox">
-  <label>Review vaccinations</label>
+<div class="headerDiv">
+  <span class="headerText">Neuro Related Care</span>
+  <input class="headerButton" type="image" src="../../assets/images/nav-up-second.PNG" (click)="buttonclicked('book')" width="35" height="35">
 </div>
+<br />
+<table class="reviewAreaTable">
+  <tr>
+    <td class="reviewCheckboxTd"><label><input type="checkbox" (click)="checkBoxClicked('reviewRelapses')" /> Review relapses </label></td>
+    <td class="infoImageTd"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoRelapses')" width="20px" height="20px"></td>
+  </tr>
+  <tr>
+    <td class="reviewCheckboxTd"><label><input type="checkbox" (click)="checkBoxClicked('reviewMriImages')" /> Review MRI images </label></td>
+    <td class="infoImageTd"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoMri')" width="20px" height="20px"></td>
+  </tr>
+  <tr>
+    <td class="reviewCheckboxTd"><label><input type="checkbox" (click)="checkBoxClicked('reviewSymptomStatus')" /> Review symptom status </label></td>
+    <td class="infoImageTd"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoSymptom')" width="20px" height="20px"></td>
+  </tr>
+  <tr>
+    <td class="reviewCheckboxTd"><label><input type="checkbox" (click)="checkBoxClicked('reviewMsType')" /> Review MS type/status </label></td>
+    <td class="infoImageTd"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoMsType')" width="20px" height="20px"></td>
+  </tr>
+  <tr>
+    <td class="reviewCheckboxTd"><label><input type="checkbox" (click)="checkBoxClicked('reviewDmt')" /> Review DMTs </label></td>
+    <td class="infoImageTd"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoDMT')" width="20px" height="20px"></td>
+  </tr>
+  <tr>
+    <td class="reviewCheckboxTd"><label><input type="checkbox" (click)="checkBoxClicked('reviewMonitoringLabs')" /> Review monitoring labs </label></td>
+    <td class="infoImageTd"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoMonitoringLabs')" width="20px" height="20px"></td>
+  </tr>
+  <tr>
+    <td class="reviewCheckboxTd"><label><input type="checkbox" (click)="checkBoxClicked('reviewVitaminD')" /> Review Vitamin D </label></td>
+    <td class="infoImageTd"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoVitaminD')" width="20px" height="20px"></td>
+  </tr>
+  <tr>
+    <td class="reviewCheckboxTd"><label><input type="checkbox" (click)="checkBoxClicked('reviewOtherMeds')" /> Review other related meds </label></td>
+    <td class="infoImageTd"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoOtherMeds')" width="20px" height="20px"></td>
+  </tr>
+  <tr>
+    <td class="reviewCheckboxTd"><label><input type="checkbox" (click)="checkBoxClicked('dmt')" /> Review symptoms referrals </label></td>
+    <td class="infoImageTd"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoSymptomsReferrals')" width="20px" height="20px"></td>
+  </tr>
+  <tr>
+    <td class="reviewCheckboxTd"><label><input type="checkbox" (click)="checkBoxClicked('reviewVaccinations')" /> Review vaccinations </label></td>
+    <td class="infoImageTd"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoVaccinations')" width="20px" height="20px"></td>
+  </tr>
+</table>
+
+

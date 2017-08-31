@@ -1,53 +1,75 @@
-<div class="treatments">
-  <input type="checkbox" (click)="checkBoxClicked('dmt')">
-  <label>DMT</label>
-  <br />
-  <input type="checkbox" (click)="checkBoxClicked('Other Meds')">
-  <label>Other Meds</label>
-  <br />
-  <input type="checkbox" (click)="checkBoxClicked('Vitamin D')">
-  <label>Vitamin D</label>
-  <br />
-  <input type="checkbox" (click)="checkBoxClicked('Referrals')">
-  <label>Referrals</label>
+<div class="headerDiv">
+  <span class="headerText">Neuro Related</span>
 </div>
 
-<div class="outcomes">
-  <input type="checkbox">
-  <label>EDSS</label>
-  <br />
-  <input type="checkbox">
-  <label>25' Walk</label>
-  <br />
-  <input type="checkbox">
-  <label>Relapses</label>
-  <br />
-  <input type="checkbox">
-  <label>Imaging</label>
-  <br />
-  <input type="checkbox">
-  <label>Symptoms</label>
-</div>
+<table class="groupingTable">
+  <tr>
+    <td class="rotateText"></td>
+    <td><label><input type="checkbox" (click)="checkBoxClicked('dmt')" /> DMT </label></td>
+  </tr>
+  <tr>
+    <td class="rotateText"></td>
+    <td><label><input type="checkbox" (click)="checkBoxClicked('otherMeds')" /> Other Meds </label></td>
+  </tr>
+  <tr>
+    <td class="rotateText"></td>
+    <td><label><input type="checkbox" (click)="checkBoxClicked('vitaminD')" /> Vitamin D </label></td>
+  </tr>
+  <tr>
+    <td rowspan="4" class="rotateText">TREATMENTS</td>
+    <td><label><input type="checkbox" (click)="checkBoxClicked('referrals')" /> Referrals </label></td>
+  </tr>
+</table>
 
-<div class="monitoring">
-  <input type="checkbox">
-  <label>Labs</label>
-  <br />
-  <input type="checkbox">
-  <label>Vaccinations</label>
-  <br />
-  <input type="checkbox">
-  <label>DME</label>
-</div>
+<table class="groupingTable">
+  <tr>
+    <td class="rotateText"></td>
+    <td><label><input type="checkbox" (click)="checkBoxClicked('edss')" /> EDSS </label></td>
+  </tr>
+  <tr>
+    <td class="rotateText"></td>
+    <td><label><input type="checkbox" (click)="checkBoxClicked('25walk')" /> 25' Walk </label></td>
+  </tr>
+  <tr>
+    <td class="rotateText"></td>
+    <td><label><input type="checkbox" (click)="checkBoxClicked('relapses')" /> Relapses </label></td>
+  </tr>
+  <tr>
+    <td class="rotateText"></td>
+    <td><label><input type="checkbox" (click)="checkBoxClicked('imaging')" /> Imaging </label></td>
+  </tr>
+  <tr>
+    <td rowspan="5" class="rotateText">OUTCOMES</td>
+    <td><label><input type="checkbox" (click)="checkBoxClicked('imaging')" /> Symptoms </label></td>
+  </tr>
+</table>
 
-<div class="encounters">
-  <input type="checkbox">
-  <label>Office</label>
-  <br />
-  <input type="checkbox">
-  <label>MHO</label>
-  <br />
-  <input type="checkbox">
-  <label>Phone</label>
-</div>
-  
+<table class="groupingTable">
+  <tr>
+    <td class="rotateText"></td>
+    <td><label><input type="checkbox" (click)="checkBoxClicked('labs')" /> Labs </label></td>
+  </tr>
+  <tr>
+    <td class="rotateText"></td>
+    <td><label><input type="checkbox" (click)="checkBoxClicked('vaccinations')" /> Vaccinations </label></td>
+  </tr>
+  <tr>
+    <td rowspan="3" class="rotateText">MONITORING</td>
+    <td><label><input type="checkbox" (click)="checkBoxClicked('dme')" /> DME </label></td>
+  </tr>
+</table>
+
+<table class="groupingTable">
+  <tr>
+    <td class="rotateText"></td>
+    <td><label><input type="checkbox" (click)="checkBoxClicked('office')" /> Office </label></td>
+  </tr>
+  <tr>
+    <td class="rotateText"></td>
+    <td><label><input type="checkbox" (click)="checkBoxClicked('mho')" /> MHO </label></td>
+  </tr>
+  <tr>
+    <td rowspan="3" class="rotateText">ENCOUNTERS</td>
+    <td><label><input type="checkbox" (click)="checkBoxClicked('phone')" /> Phone </label></td>
+  </tr>
+</table>
