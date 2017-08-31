@@ -10,10 +10,12 @@ export class NeuroRelatedComponent implements OnInit {
   changed(e, value) {
     this
       .brokerService
-      .emit('neuro:related:'.concat(value), {checked: e.target.checked});
-    this.brokerService.httpGet('');
-    console.log(e);
+      .emit('neuro:related', {artifact:value, checked: e.target.checked});
+    this
+      .brokerService
+      .httpGet('http:get:medications');    
   }
+
   checkBoxClicked(source : String) {
     this
       .brokerService
