@@ -51,8 +51,6 @@ export class GraphPanelComponent implements OnInit {
       this.subscriptions.add(sub1);
   }
 
-  
-
   ngOnDestroy() {
     this
       .subscriptions
