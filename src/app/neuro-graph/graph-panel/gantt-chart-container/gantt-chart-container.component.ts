@@ -11,24 +11,10 @@ import { ActionTypes } from '../../../fire-base/fire-base.action-types';
 })
 export class GanttChartContainerComponent implements OnInit {
   @Input() private chartState: RootGraphContainerState;
-
-  private showDmt: boolean;
-  private showVitamineD: boolean;
-
   constructor(private brokerService: BrokerService) {
   }
   ngOnInit() {
-    this.brokerService
-      .filterOn(ActionTypes.DMT_CLICKED)
-      .subscribe(d => {
-        this.showDmt = d.data;
-      });
-
-    this.brokerService
-      .filterOn(ActionTypes.VITAMINE_D_CLICKED)
-      .subscribe(d => {
-        this.showVitamineD = d.data;
-      });
+    //some common logic/calculation/positioning for Group 3 charts
   };
 
 }

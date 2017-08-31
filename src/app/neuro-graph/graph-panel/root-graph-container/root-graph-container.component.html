@@ -2,6 +2,7 @@
     <div id="root-graph-inner" #rootgraphcontainer>
         <svg id="root-canvas">
             <svg id="shared-chart-grid"></svg>
+            <!-- Group 3 charts will be positions 100px from top from the parent svg -->
             <svg app-gantt-chart-container *ngIf="state" [chartState]="state" id="gantt-chart-canvas" y="100"></svg>
         </svg>
     </div>

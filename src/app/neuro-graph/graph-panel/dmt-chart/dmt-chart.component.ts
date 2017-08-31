@@ -12,8 +12,8 @@ import { ActionTypes } from '../../../fire-base/fire-base.action-types';
 export class DmtChartComponent implements OnInit {
   @Input() private chartState: RootGraphContainerState;
   private subscriptions: any;
-  private loadChart: boolean;
 
+  //static data. will be fetched from api
   private dataset: Array<any> = [
     {
       medicationOrders: {
@@ -263,85 +263,98 @@ export class DmtChartComponent implements OnInit {
   constructor(private brokerService: BrokerService) { }
 
   ngOnInit() {
-    // this.brokerService
-    //   .filterOn(ActionTypes.DMT_CLICKED)
-    //   .subscribe(d => {
-    //   });
-    this.createChart();
+    this.brokerService
+      .filterOn(ActionTypes.DMT_CLICKED)
+      .subscribe(d => {
+        if (d.data) {
+          this.createChart();
+        }
+        else {
+          this.destroyChart();
+        }
+      });
   }
 
+  //moment.js to be used
   getDateObject(input: string): Date {
     return new Date(input);
   }
 
+  //moment.js to be used
   getEndDate(input: string): Date {
     if (input)
       return this.getDateObject(input)
     return this.chartState.xDomain.defaultMaxValue;
   }
 
+  //refractoring needed
   createChart() {
-    let svg = d3.select("#dmt-canvas")
-      .append("g")
-      .attr("transform", "translate(" + this.chartState.canvasDimension.marginLeft + "," + this.chartState.canvasDimension.marginTop + ")");
+    let svg = d3.select('#dmt-canvas')
+      .append('g')
+      .attr('class', 'dmt-chart-element')
+      .attr('transform', 'translate(' + this.chartState.canvasDimension.marginLeft + ',' + this.chartState.canvasDimension.marginTop + ')');
 
     let groupsUnfiltered = this.dataset.map(d => d.medicationOrders.medication.id);
     let groups = groupsUnfiltered.filter((elem, pos, arr) => arr.indexOf(elem) == pos);
 
     let rectangles = svg.append('g')
-      .selectAll("rect")
+      .selectAll('rect')
       .data(this.dataset)
       .enter();
 
-    // svg.append("g")
-    //   .attr("class", "x axis")
-    //   .attr("transform", "translate(0,0)")
-    //   .call(d3.axisBottom(this.chartState.xScale));
+    svg.append('g')
+      .attr('class', 'x axis')
+      .attr('transform', 'translate(0,0)')
+      .call(d3.axisBottom(this.chartState.xScale));
 
 
-    var innerRects = rectangles.append("rect")
-      .attr("rx", 0)
-      .attr("ry", 0)
-      .attr("x", d => {
+    var innerRects = rectangles.append('rect')
+      .attr('rx', 0)
+      .attr('ry', 0)
+      .attr('x', d => {
         let medStartDate = this.getDateObject(d.medicationOrders.date.medStart);
         return this.chartState.xScale(medStartDate);
       })
-      .attr("y", function (d: any, i) {
+      .attr('y', function (d: any, i) {
         for (var j = 0; j < groups.length; j++) {
           if (d.medicationOrders.medication.id == groups[j]) {
             return j * 30 + 54;
           }
         }
       })
-      .attr("width", d => {
+      .attr('width', d => {
         let medStartDate = this.getDateObject(d.medicationOrders.date.medStart);
         let medEndDate = this.getEndDate(d.medicationOrders.date.medEnded);
         return this.chartState.xScale(medEndDate) - this.chartState.xScale(medStartDate);
       })
-      .attr("height", 10)
-      .attr("stroke", "none")
-      .attr("fill", "#607D8B");
+      .attr('height', 10)
+      .attr('stroke', 'none')
+      .attr('fill', '#607D8B');
 
 
-    var rectText = rectangles.append("text")
+    var rectText = rectangles.append('text')
       .text(d => d.medicationOrders.medication.name)
-      .attr("x", d => {
+      .attr('x', d => {
         let medStartDate = this.getDateObject(d.medicationOrders.date.medStart);
         let medEndDate = this.getEndDate(d.medicationOrders.date.medEnded);
         let width = this.chartState.xScale(medEndDate) - this.chartState.xScale(medStartDate);
         let pos = this.chartState.xScale(medStartDate);
         return pos;
       })
-      .attr("y", function (d: any, i) {
+      .attr('y', function (d: any, i) {
         for (var j = 0; j < groups.length; j++) {
           if (d.medicationOrders.medication.id == groups[j]) {
             return j * 30 + 50;
           }
         }
       })
-      .attr("font-size", 11)
-      .attr("text-anchor", "start")
-      .attr("text-height", 40)
-      .attr("fill", "black");
+      .attr('font-size', 11)
+      .attr('text-anchor', 'start')
+      .attr('text-height', 40)
+      .attr('fill', 'black');
+  }
+
+  destroyChart() {
+    d3.selectAll('.dmt-chart-element').remove();
   }
 }

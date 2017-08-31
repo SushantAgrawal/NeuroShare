@@ -19,13 +19,15 @@ export class NeuroRelatedComponent implements OnInit {
   //   this.brokerService.httpGet('http:get:test',[{name:'type',value:source}],[{name:'x-access-token',value:'ABCD'}]);
   // }
 
-  //Method to be updated.
+  //Method to be updated. Switch case can be avoided by using factory pattern.
+  //Emitting different actions so that chart components can register and listen to specific click action .
+  //Filtering for specific chart type is done here only.
+  //Action Types or Message Ids are kept in one place to avoid typos while subcribing in one or multiple components. 
   checkBoxClicked(source: String, event: any) {
     this.brokerService.emit(ActionTypes.LOG_OPERATION, source.concat(' clicked'));
 
     switch (source) {
       case 'DMT': {
-        debugger;
         this.brokerService.emit(ActionTypes.DMT_CLICKED, event.target.checked);
         if (event.target.checked) {
           //this.brokerService.httpGet(ActionTypes.HTTP_GET_DMT, [{ name: 'type', value: source }], [{ name: 'x-access-token', value: 'ABCD' }]);
