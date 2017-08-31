@@ -1,14 +1,14 @@
 <div class="treatments">
-  <input type="checkbox" (click)="checkBoxClicked('dmt')">
+  <input type="checkbox" (change)="checkBoxClicked('DMT', $event)">
   <label>DMT</label>
   <br />
-  <input type="checkbox" (click)="checkBoxClicked('Other Meds')">
+  <input type="checkbox" (change)="checkBoxClicked('Other Meds', $event)">
   <label>Other Meds</label>
   <br />
-  <input type="checkbox" (click)="checkBoxClicked('Vitamin D')">
+  <input type="checkbox" (change)="checkBoxClicked('Vitamin D', $event)">
   <label>Vitamin D</label>
   <br />
-  <input type="checkbox" (click)="checkBoxClicked('Referrals')">
+  <input type="checkbox" (change)="checkBoxClicked('Referrals', $event)">
   <label>Referrals</label>
 </div>
 
@@ -50,4 +50,3 @@
   <input type="checkbox">
   <label>Phone</label>
 </div>
-  

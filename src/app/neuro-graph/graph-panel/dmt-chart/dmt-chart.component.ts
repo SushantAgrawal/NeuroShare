@@ -2,6 +2,7 @@ import { Component, OnInit, OnChanges, ViewChild, ElementRef, Input, ViewEncapsu
 import * as d3 from 'd3';
 import { CanvasDimension, XDomain, RootGraphContainerState } from '../model/shared.model';
 import { BrokerService } from '../../../fire-base/broker.service';
+import { ActionTypes } from '../../../fire-base/fire-base.action-types';
 
 @Component({
   selector: '[app-dmt-chart]',
@@ -262,22 +263,7 @@ export class DmtChartComponent implements OnInit {
   constructor(private brokerService: BrokerService) { }
 
   ngOnInit() {
-    this.subscriptions = this
-      .brokerService
-      .filterOn('test')
-      .subscribe(d => {
-        debugger;
-        this.loadChart = d.data;
-      });
-
-    let sub = this.brokerService.filterOn('http:get:test').subscribe(d => {
-      console.log(d.data);
-    });
-    this.subscriptions.add(sub);
-
-
-    //this.createChart();
-
+    this.createChart();
   }
 
   getDateObject(input: string): Date {
