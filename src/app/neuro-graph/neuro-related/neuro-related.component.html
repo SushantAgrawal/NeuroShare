@@ -5,7 +5,7 @@
 <table class="groupingTable">
   <tr>
     <td class="rotateText"></td>
-    <td><label><input type="checkbox" (click)="checkBoxClicked('dmt')" /> DMT </label></td>
+    <td><label><input type="checkbox" (change)='changed($event,"dmt")' /> DMT </label></td>
   </tr>
   <tr>
     <td class="rotateText"></td>
@@ -40,7 +40,7 @@
   </tr>
   <tr>
     <td rowspan="5" class="rotateText">OUTCOMES</td>
-    <td><label><input type="checkbox" (click)="checkBoxClicked('imaging')" /> Symptoms </label></td>
+    <td><label><input type="checkbox" (click)="checkBoxClicked('symptoms')" /> Symptoms </label></td>
   </tr>
 </table>
 

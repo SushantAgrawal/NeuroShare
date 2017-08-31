@@ -4,7 +4,7 @@ import {HttpModule} from '@angular/http';
 import {AppComponent} from './app.component';
 import {NeuroGraphModule} from './neuro-graph/neuro-graph.module';
 import {SharedModule} from './shared/shared.module';
-import {BrokerService} from './fire-base/broker.service';
+// import {BrokerService} from './fire-base/broker.service';
 // import {ChartModule} from 'angular2-highcharts';
 // import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
 // import * as highcharts from 'highcharts';
@@ -20,7 +20,8 @@ import {BrokerService} from './fire-base/broker.service';
    
     // ChartModule.forRoot(require('highcharts'))    
   ],
-  providers: [BrokerService,
+  providers: [
+    //BrokerService,
     // {
     // provide: HighchartsStatic,
     // useFactory: highchartsFactory
