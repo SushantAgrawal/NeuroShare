@@ -30,7 +30,8 @@ export class NeuroRelatedComponent implements OnInit {
       case 'DMT': {
         this.brokerService.emit(ActionTypes.DMT_CLICKED, event.target.checked);
         if (event.target.checked) {
-          //this.brokerService.httpGet(ActionTypes.HTTP_GET_DMT, [{ name: 'type', value: source }], [{ name: 'x-access-token', value: 'ABCD' }]);
+          //Need to fix : Message Id string is kept in two places 1.app.config.ts and 2.fire-base.action-types.ts
+          this.brokerService.httpGet(ActionTypes.HTTP_GET_DMT, [{ name: 'type', value: source }], [{ name: 'x-access-token', value: 'ABCD' }]);
         }
         break;
       }

@@ -11,10 +11,10 @@ import { ActionTypes } from '../../../fire-base/fire-base.action-types';
 })
 export class DmtChartComponent implements OnInit {
   @Input() private chartState: RootGraphContainerState;
-  private subscriptions: any;
+  private loadChart: boolean = false;
 
   //static data. will be fetched from api
-  private dataset: Array<any> = [
+  private dataset_old: Array<any> = [
     {
       medicationOrders: {
         medication: {
@@ -260,17 +260,30 @@ export class DmtChartComponent implements OnInit {
 
   ];
 
+  private dataset: Array<any> =[];
+
   constructor(private brokerService: BrokerService) { }
 
   ngOnInit() {
+
+    //Need to check if chaining is possible.
     this.brokerService
       .filterOn(ActionTypes.DMT_CLICKED)
       .subscribe(d => {
         if (d.data) {
-          this.createChart();
+          this.loadChart = d.data;
         }
         else {
           this.destroyChart();
+        }
+      });
+
+    this.brokerService
+      .filterOn(ActionTypes.HTTP_GET_DMT)
+      .subscribe(d => {
+        if (d.data && this.loadChart) {
+          this.dataset = d.data;
+          this.createChart();
         }
       });
   }
