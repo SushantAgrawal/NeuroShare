@@ -25,8 +25,11 @@ export class NeuroRelatedComponent implements OnInit {
 
     switch (source) {
       case 'DMT': {
+        debugger;
         this.brokerService.emit(ActionTypes.DMT_CLICKED, event.target.checked);
-        this.brokerService.httpGet(ActionTypes.HTTP_GET_DMT, [{ name: 'type', value: source }], [{ name: 'x-access-token', value: 'ABCD' }]);
+        if (event.target.checked) {
+          //this.brokerService.httpGet(ActionTypes.HTTP_GET_DMT, [{ name: 'type', value: source }], [{ name: 'x-access-token', value: 'ABCD' }]);
+        }
         break;
       }
       case 'Other Meds': {

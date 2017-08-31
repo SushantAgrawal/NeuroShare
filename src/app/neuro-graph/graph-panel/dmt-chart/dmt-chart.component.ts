@@ -263,6 +263,10 @@ export class DmtChartComponent implements OnInit {
   constructor(private brokerService: BrokerService) { }
 
   ngOnInit() {
+    // this.brokerService
+    //   .filterOn(ActionTypes.DMT_CLICKED)
+    //   .subscribe(d => {
+    //   });
     this.createChart();
   }
 
