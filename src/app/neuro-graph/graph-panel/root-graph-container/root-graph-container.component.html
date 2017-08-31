@@ -1,0 +1,19 @@
+<div id="root-graph-outer">
+    <div id="root-graph-inner" #rootgraphcontainer>
+        <svg id="root-canvas">
+            <svg id="shared-chart-grid"></svg>
+            <svg app-gantt-chart-container *ngIf="state" [chartState]="state" id="gantt-chart-canvas" y="100"></svg>
+        </svg>
+    </div>
+    <div id="root-graph-control-panel">
+        <div id="undo" class="control-button" style="background-color: #e7d7f7">
+            U
+        </div>
+        <div id="zoom" class="control-button" style="background-color: #e1f4ff">
+            K
+        </div>
+        <div (click)="zoom($event)" id="legend" class="control-button" style="background-color:#dff1a6">
+            Z
+        </div>
+    </div>
+</div>

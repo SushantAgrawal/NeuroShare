@@ -1,0 +1,62 @@
+#root-graph-outer {
+    padding-top: 1px;
+    height: 560px;
+    width: 700px;
+    margin: 0px auto;
+    background-color: #FFF;
+    position: relative;
+}
+
+#root-graph-inner {
+    margin: 0px 24px 0px 5px;
+    /* border: 1px solid #F2F2F2; */
+    min-height: 560px;
+}
+
+#root-graph-control-panel {
+    width: 20px;
+    position: absolute;
+    top: 5px;
+    right: 2px;
+}
+
+#root-graph-control-panel .control-button {
+    height: 16px;
+    /* background-color: #E4E4E4; */
+    margin-bottom: 1px;
+    text-align: center;
+    cursor: pointer;
+    color: #7A7A7A;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.7em;
+    padding-top: 5px;
+}
+
+
+#root-graph-inner .custom-x-domain {
+    fill: #EBEBEB;
+}
+
+#root-graph-inner .x-axis-arrow {
+    fill: #C8C8C8;
+    cursor: pointer;
+}
+
+#root-graph-inner .x-axis line {
+    stroke: #7D7D7D;
+    stroke-width: 1px;
+}
+
+#root-graph-inner .grid-lines line {
+    stroke: #D2D2D2;
+    stroke-width: 1px;
+    stroke-dasharray: 1, 3;
+}
+
+#root-graph-inner .x-axis .tick:first-child {
+    display: none!important;
+}
+
+#root-graph-inner .grid-lines .tick:first-child {
+    display: none!important;
+}
