@@ -1,6 +1,7 @@
 import { Component, OnInit, OnChanges, ViewChild, ElementRef, Input, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
 import { CanvasDimension, XDomain, RootGraphContainerState } from '../model/shared.model';
+import {BrokerService} from '../../../fire-base/broker.service';
 
 @Component({
   selector: '[app-gantt-chart-container]',

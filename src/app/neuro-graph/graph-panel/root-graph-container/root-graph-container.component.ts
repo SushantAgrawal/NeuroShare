@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewChild, ElementRef, ViewEncapsulation } fr
 import * as d3 from 'd3';
 import { CanvasDimension, XDomain, RootGraphContainerState } from '../model/shared.model';
 import { RootGraphContainerHelper } from './root-graph-container.helper';
+import {BrokerService} from '../../../fire-base/broker.service';
 
 @Component({
   selector: 'app-root-graph-container',
