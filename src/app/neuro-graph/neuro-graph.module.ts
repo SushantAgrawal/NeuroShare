@@ -4,6 +4,7 @@ import {GraphPanelComponent} from './graph-panel/graph-panel.component';
 import {NeuroRelatedComponent} from './neuro-related/neuro-related.component';
 import {NeuroRelatedCareComponent} from './neuro-related-care/neuro-related-care.component';
 import {PatientConcernsComponent} from './patient-concerns/patient-concerns.component';
+import {NeuroGraphBoxComponent} from './neuro-graph-box/neuro-graph-box.component';
 // import {ChartModule} from 'angular2-highcharts';
 @NgModule({
   imports: [
@@ -11,8 +12,14 @@ import {PatientConcernsComponent} from './patient-concerns/patient-concerns.comp
     //, ChartModule.forRoot(require('highcharts'))
   ],
   declarations: [
-    GraphPanelComponent, NeuroRelatedComponent, NeuroRelatedCareComponent, PatientConcernsComponent
+    GraphPanelComponent, NeuroRelatedComponent, NeuroRelatedCareComponent, PatientConcernsComponent, NeuroGraphBoxComponent
   ],
-  exports: [GraphPanelComponent, NeuroRelatedComponent, NeuroRelatedCareComponent, PatientConcernsComponent]
+  exports: [
+    GraphPanelComponent
+    , NeuroRelatedComponent
+    , NeuroRelatedCareComponent
+    , PatientConcernsComponent
+    , NeuroGraphBoxComponent
+  ]
 })
 export class NeuroGraphModule {}
