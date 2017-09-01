@@ -11,28 +11,8 @@ export class NeuroRelatedComponent implements OnInit {
     this
       .brokerService
       .emit('neuro:related', {artifact:value, checked: e.target.checked});
-    this
+    e.target.checked && this
       .brokerService
       .httpGet('http:get:medications');    
   }
-
-  checkBoxClicked(source : String) {
-    this
-      .brokerService
-      .emit('test', source.concat(' clicked'));
-    this
-      .brokerService
-      .httpGet('http:get:test', [
-        {
-          name: 'type',
-          value: source
-        }
-      ], [
-        {
-          name: 'x-access-token',
-          value: 'ABCD'
-        }
-      ]);
-  }
-
 }
