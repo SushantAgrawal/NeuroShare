@@ -5,43 +5,43 @@
 <br />
 <table class="review-area">
   <tr>
-    <td class="review-checkbox"><label><input type="checkbox" [checked]='cds.relapses' (click)="checkBoxClicked('reviewRelapses')" /> Review relapses </label></td>
-    <td class="info-image"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoRelapses')" width="20px" height="20px"></td>
+    <td class="review-checkbox"><label><input type="checkbox" [(ngModel)]='cdsState.relapses' /> Review relapses </label></td>
+    <td class="info-image"><input type="image" src="../../assets/images/information-icon.png"  width="20px" height="20px"></td>
   </tr>
   <tr>
-    <td class="review-checkbox"><label><input type="checkbox" (click)="checkBoxClicked('reviewMriImages')" /> Review MRI images </label></td>
+    <td class="review-checkbox"><label><input type="checkbox" [(ngModel)]='cdsState.images' /> Review MRI images </label></td>
     <td class="info-image"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoMri')" width="20px" height="20px"></td>
   </tr>
   <tr>
-    <td class="review-checkbox"><label><input type="checkbox" (click)="checkBoxClicked('reviewSymptomStatus')" /> Review symptom status </label></td>
+    <td class="review-checkbox"><label><input type="checkbox" [(ngModel)]='cdsState.symptomStatus' /> Review symptom status </label></td>
     <td class="info-image"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoSymptom')" width="20px" height="20px"></td>
   </tr>
   <tr>
-    <td class="review-checkbox"><label><input type="checkbox" (click)="checkBoxClicked('reviewMsType')" /> Review MS type/status </label></td>
+    <td class="review-checkbox"><label><input type="checkbox" [(ngModel)]='cdsState.typeStatus' /> Review MS type/status </label></td>
     <td class="info-image"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoMsType')" width="20px" height="20px"></td>
   </tr>
   <tr>
-    <td class="review-checkbox"><label><input type="checkbox" (click)="checkBoxClicked('reviewDmt')" /> Review DMTs </label></td>
+    <td class="review-checkbox"><label><input type="checkbox" [(ngModel)]='cdsState.dmt' /> Review DMTs </label></td>
     <td class="info-image"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoDMT')" width="20px" height="20px"></td>
   </tr>
   <tr>
-    <td class="review-checkbox"><label><input type="checkbox" (click)="checkBoxClicked('reviewMonitoringLabs')" /> Review monitoring labs </label></td>
+    <td class="review-checkbox"><label><input type="checkbox" [(ngModel)]='cdsState.labs'  /> Review monitoring labs </label></td>
     <td class="info-image"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoMonitoringLabs')" width="20px" height="20px"></td>
   </tr>
   <tr>
-    <td class="review-checkbox"><label><input type="checkbox" (click)="checkBoxClicked('reviewVitaminD')" /> Review Vitamin D </label></td>
+    <td class="review-checkbox"><label><input type="checkbox" [(ngModel)]='cdsState.vitaminD'  /> Review Vitamin D </label></td>
     <td class="info-image"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoVitaminD')" width="20px" height="20px"></td>
   </tr>
   <tr>
-    <td class="review-checkbox"><label><input type="checkbox" (click)="checkBoxClicked('reviewOtherMeds')" /> Review other related meds </label></td>
+    <td class="review-checkbox"><label><input type="checkbox" [(ngModel)]='cdsState.otherMeds'  /> Review other related meds </label></td>
     <td class="info-image"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoOtherMeds')" width="20px" height="20px"></td>
   </tr>
   <tr>
-    <td class="review-checkbox"><label><input type="checkbox" (click)="checkBoxClicked('dmt')" /> Review symptoms referrals </label></td>
+    <td class="review-checkbox"><label><input type="checkbox" [(ngModel)]='cdsState.referrals' /> Review symptoms referrals </label></td>
     <td class="info-image"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoSymptomsReferrals')" width="20px" height="20px"></td>
   </tr>
   <tr>
-    <td class="review-checkbox"><label><input type="checkbox" (click)="checkBoxClicked('reviewVaccinations')" /> Review vaccinations </label></td>
+    <td class="review-checkbox"><label><input type="checkbox" [(ngModel)]='cdsState.vaccinations' /> Review vaccinations </label></td>
     <td class="info-image"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoVaccinations')" width="20px" height="20px"></td>
   </tr>
 </table>

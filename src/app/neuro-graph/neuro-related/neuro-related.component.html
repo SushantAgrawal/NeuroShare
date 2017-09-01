@@ -5,71 +5,71 @@
 <table class="grouping-checkboxes">
   <tr>
     <td class="rotate-text"></td>
-    <td><label><input type="checkbox" (change)='changed($event,"dmt")' /> DMT </label></td>
+    <td><label><input type="checkbox" [checked]="true" (change)='changed($event,"dmt")' /> DMT </label></td>
   </tr>
   <tr>
     <td class="rotate-text"></td>
-    <td><label><input type="checkbox" (click)="checkBoxClicked('otherMeds')" /> Other Meds </label></td>
+    <td><label><input type="checkbox" (change)='changed($event,"otherMeds")' /> Other Meds </label></td>
   </tr>
   <tr>
     <td class="rotate-text"></td>
-    <td><label><input type="checkbox" (click)="checkBoxClicked('vitaminD')" /> Vitamin D </label></td>
+    <td><label><input type="checkbox" (change)='changed($event,"vitaminD")' /> Vitamin D </label></td>
   </tr>
   <tr>
     <td rowspan="4" class="rotate-text">TREATMENTS</td>
-    <td><label><input type="checkbox" (click)="checkBoxClicked('referrals')" /> Referrals </label></td>
+    <td><label><input type="checkbox" (change)='changed($event,"referrals")' /> Referrals </label></td>
   </tr>
 </table>
 
 <table class="grouping-checkboxes">
   <tr>
     <td class="rotate-text"></td>
-    <td><label><input type="checkbox" (click)="checkBoxClicked('edss')" /> EDSS </label></td>
+    <td><label><input type="checkbox" (change)='changed($event,"edss")' /> EDSS </label></td>
   </tr>
   <tr>
     <td class="rotate-text"></td>
-    <td><label><input type="checkbox" (click)="checkBoxClicked('25walk')" /> 25' Walk </label></td>
+    <td><label><input type="checkbox" (change)='changed($event,"25FeetWalk")' /> 25' Walk </label></td>
   </tr>
   <tr>
     <td class="rotate-text"></td>
-    <td><label><input type="checkbox" (click)="checkBoxClicked('relapses')" /> Relapses </label></td>
+    <td><label><input type="checkbox" (change)='changed($event,"relapses")' /> Relapses </label></td>
   </tr>
   <tr>
     <td class="rotate-text"></td>
-    <td><label><input type="checkbox" (click)="checkBoxClicked('imaging')" /> Imaging </label></td>
+    <td><label><input type="checkbox" (change)='changed($event,"imaging")' /> Imaging </label></td>
   </tr>
   <tr>
     <td rowspan="5" class="rotate-text">OUTCOMES</td>
-    <td><label><input type="checkbox" (click)="checkBoxClicked('symptoms')" /> Symptoms </label></td>
+    <td><label><input type="checkbox" (change)='changed($event,"symptoms")' /> Symptoms </label></td>
   </tr>
 </table>
 
 <table class="grouping-checkboxes">
   <tr>
     <td class="rotate-text"></td>
-    <td><label><input type="checkbox" (click)="checkBoxClicked('labs')" /> Labs </label></td>
+    <td><label><input type="checkbox" (change)='changed($event,"labs")' /> Labs </label></td>
   </tr>
   <tr>
     <td class="rotate-text"></td>
-    <td><label><input type="checkbox" (click)="checkBoxClicked('vaccinations')" /> Vaccinations </label></td>
+    <td><label><input type="checkbox" (change)='changed($event,"vaccinations")' /> Vaccinations </label></td>
   </tr>
   <tr>
     <td rowspan="3" class="rotate-text">MONITORING</td>
-    <td><label><input type="checkbox" (click)="checkBoxClicked('dme')" /> DME </label></td>
+    <td><label><input type="checkbox" (change)='changed($event,"dme")' /> DME </label></td>
   </tr>
 </table>
 
 <table class="grouping-checkboxes">
   <tr>
     <td class="rotate-text"></td>
-    <td><label><input type="checkbox" (click)="checkBoxClicked('office')" /> Office </label></td>
+    <td><label><input type="checkbox" (change)='changed($event,"office")' /> Office </label></td>
   </tr>
   <tr>
     <td class="rotate-text"></td>
-    <td><label><input type="checkbox" (click)="checkBoxClicked('mho')" /> MHO </label></td>
+    <td><label><input type="checkbox" (change)='changed($event,"mho")' /> MHO </label></td>
   </tr>
   <tr>
     <td rowspan="3" class="rotate-text">ENCOUNTERS</td>
-    <td><label><input type="checkbox" (click)="checkBoxClicked('phone')" /> Phone </label></td>
+    <td><label><input type="checkbox" (change)='changed($event,"phone")' /> Phone </label></td>
   </tr>
 </table>

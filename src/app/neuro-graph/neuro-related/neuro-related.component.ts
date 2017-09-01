@@ -5,7 +5,15 @@ export class NeuroRelatedComponent implements OnInit {
 
   constructor(private brokerService : BrokerService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('neuro-related');
+  }
+
+  // ngAfterViewInit(){
+  //   this
+  //   .brokerService
+  //   .emit('neuro:related', {artifact:'dmt', checked: true});
+  // }
 
   changed(e, value) {
     this

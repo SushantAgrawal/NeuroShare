@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 import {GraphPanelComponent} from './graph-panel/graph-panel.component';
 import {NeuroRelatedComponent} from './neuro-related/neuro-related.component';
 import {NeuroRelatedCareComponent} from './neuro-related-care/neuro-related-care.component';
@@ -8,7 +9,7 @@ import {NeuroGraphBoxComponent} from './neuro-graph-box/neuro-graph-box.componen
 import {BrokerService} from '../fire-base/broker.service';
 import {NeuroGraphService} from './neuro-graph.service';
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule,FormsModule],
   declarations: [
     GraphPanelComponent, NeuroRelatedComponent, NeuroRelatedCareComponent, PatientConcernsComponent, NeuroGraphBoxComponent
   ],

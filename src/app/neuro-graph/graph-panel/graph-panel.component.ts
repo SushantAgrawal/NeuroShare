@@ -26,10 +26,7 @@ export class GraphPanelComponent implements OnInit {
       .filterOn('http:get:medications')
       .subscribe(d => {
         console.log(d.data);
-      });
-    this
-      .brokerService
-      .httpGet('http:get:medications');
+      });    
     this
       .subscriptions
       .add(sub1);

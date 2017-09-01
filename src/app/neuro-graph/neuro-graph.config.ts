@@ -10,11 +10,13 @@ let urlMaps = {
 export {urlMaps};
 
 let cds = {
-dmt:['typeOrStatus','msType','dmt'],
+dmt:['symptomStatus','typeStatus','dmt'],
 otherMeds:['otherMeds'],
 vitaminD:['vitaminD'],
 referrals:['referrals'],
-edss:[]
+edss:['relapses'],
+labs:['labs'],
+vaccinations:['vaccinations']
 };
 export {cds};
 
