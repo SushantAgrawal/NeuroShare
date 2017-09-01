@@ -21,7 +21,7 @@ export class GraphPanelComponent implements OnInit {
         console.log(d.data);
         this.neuroRelatedState[d.data.artifact] = d.data.checked;
       });
-    let sub1 = this
+    let medicationSubscription = this
       .brokerService
       .filterOn('http:get:medications')
       .subscribe(d => {
@@ -29,7 +29,7 @@ export class GraphPanelComponent implements OnInit {
       });
     this
       .subscriptions
-      .add(sub1);
+      .add(medicationSubscription);
   }
 
   ngOnDestroy() {
