@@ -13,10 +13,7 @@ export class NeuroGraphBoxComponent implements OnInit {
   }
 
   ngOnInit() {
-    // let baseUrl = envs[envs.selectedEnv];
-    this
-      .brokerService
-      .httpGet('http:get:medications');
+    // let baseUrl = envs[envs.selectedEnv];    
   }
 
 }

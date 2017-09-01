@@ -22,11 +22,8 @@
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
     "@types/core-js": "^0.9.43",
-    "angular2-highcharts": "^0.5.5",
     "core-js": "^2.4.1",
     "d3": "^4.10.0",
-    "highcharts": "^5.0.14",
-    "mustache": "^2.3.0",
     "rxjs": "^5.4.1",
     "zone.js": "^0.8.14"
   },
