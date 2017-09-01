@@ -18,9 +18,9 @@ export class NeuroRelatedCareComponent implements OnInit {
       .brokerService
       .filterOn('neuro:related')
       .subscribe(d => {
-        let cdsSource = d.artifact.value
-        let cdsTarget = cds[]
-        this.testValue = d.data;
+        let cdsSource = d.artifact.value;
+        // let cdsTarget = cds[]
+        // this.testValue = d.data;
       });
   }
 

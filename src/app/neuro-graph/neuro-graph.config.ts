@@ -9,7 +9,6 @@ let urlMaps = {
 };
 export {urlMaps};
 
-<<<<<<< HEAD
 let cds = {
 dmt:['typeOrStatus','msType','dmt'],
 otherMeds:['otherMeds'],
@@ -18,7 +17,6 @@ referrals:['referrals'],
 edss:[]
 };
 export {cds};
-=======
 
 let medication = {
     "DMT":"genericName:{MitoxantroneHCl,Glatiramer Acetate,Interferon Beta-1a,Interferon Beta-1b,Peginterferon Beta-1a,Teriflunomide,Alemtuzumab,Natalizumab,Dimethyl Fumarate,Dalfampridine,FingolimodHCl,Rituximab IV Soln,DaclizumabSoln,Ocrelizumab}",
@@ -26,4 +24,3 @@ let medication = {
     "OtherMeds":"id:{15987,40627,6545,28827,52604,32495,28826,6802,6538,31034,52603,32496,29292,48876,133042,51331,6801,133041,78895,25491,133043,24149,25490,157653,44951,13408,45558,44950,13410,157652,24148,13409,57985,85385,41276,57986,1130,54133,57988,1131,48967,57987,1127,36593,57991,1132,44062,57989,56142,44063,57984,56143,44897,54963,94748,48459,54962,54982,48968,54961,31022,31022,2388,27520,27520,2389,27521,27521,1644,30276,30276,64466,46461,46461,6507,30791,29319,6505,30792,29315,6506,14668,76987,69011,83093,16942,92951,49297,29948,26609,49298,2501,14184,53407,1130,36476,25473,1131,56873,26233,1127,56874,45862,1132,2388,40628,6544,2389,40626,64466,1644},associatedDiagnosesId:{G35}"
 };
 export {medication}
->>>>>>> 29f3508c6ab76df5fc8dcf189a9653e6fdbd3bc6
