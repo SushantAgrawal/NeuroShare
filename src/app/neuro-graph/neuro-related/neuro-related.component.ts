@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {BrokerService} from '../../fire-base/broker.service'
+import {BrokerService} from '../../fire-base/broker.service';
+import {allMessages,allHttpMessages} from '../neuro-graph.config';
 @Component({selector: 'app-neuro-related', templateUrl: './neuro-related.component.html', styleUrls: ['./neuro-related.component.sass']})
 export class NeuroRelatedComponent implements OnInit {
 
@@ -18,9 +19,9 @@ export class NeuroRelatedComponent implements OnInit {
   changed(e, value) {
     this
       .brokerService
-      .emit('neuro:related', {artifact:value, checked: e.target.checked});
+      .emit(allMessages.neuroRelated, {artifact:value, checked: e.target.checked});
     e.target.checked && this
       .brokerService
-      .httpGet('http:get:medications');    
+      .httpGet(allHttpMessages.httpGetMedications);    
   }
 }

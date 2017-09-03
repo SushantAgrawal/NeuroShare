@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BrokerService } from '../../fire-base/broker.service';
+import {allMessages,allHttpMessages} from '../neuro-graph.config';
 import * as d3 from 'd3-selection';
 import * as d3Scale from "d3-scale";
 import * as d3Shape from "d3-shape";
@@ -7,23 +8,21 @@ import * as d3Array from "d3-array";
 import * as d3Axis from "d3-axis";
 @Component({ selector: 'app-graph-panel', templateUrl: './graph-panel.component.html', styleUrls: ['./graph-panel.component.sass'] })
 export class GraphPanelComponent implements OnInit {
-  // title : string = 'D3.js with Angular 2!'; subtitle : string = 'Line Chart';
   subscriptions: any;
-  // options : Object; testValue : String = 'Initial Value';
   neuroRelatedState: any={};
   constructor(private brokerService: BrokerService) { }
 
   ngOnInit() {
     this.subscriptions = this
       .brokerService
-      .filterOn('neuro:related')
+      .filterOn(allMessages.neuroRelated)
       .subscribe(d => {
         console.log(d.data);
         this.neuroRelatedState[d.data.artifact] = d.data.checked;
       });
     let sub1 = this
       .brokerService
-      .filterOn('http:get:medications')
+      .filterOn(allHttpMessages.httpGetMedications)
       .subscribe(d => {
         console.log(d.data);
       });    

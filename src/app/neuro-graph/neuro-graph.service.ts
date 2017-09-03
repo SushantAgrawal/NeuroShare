@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {urlMaps} from './neuro-graph.config';
-import {envs} from '../app.config';
+import { Injectable } from '@angular/core';
+import { urlMaps } from './neuro-graph.config';
+import { envs } from '../app.config';
 @Injectable()
 export class NeuroGraphService {
-  global : any
+  global: any
   constructor() {
     let baseUrl = envs[envs.selectedEnv];
     this.set('baseUrl', baseUrl);

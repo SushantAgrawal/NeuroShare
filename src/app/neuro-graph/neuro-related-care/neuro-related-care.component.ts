@@ -1,6 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { BrokerService } from '../../fire-base/broker.service';
-import { cds } from '../neuro-graph.config';
+import { cds,allMessages } from '../neuro-graph.config';
 
 @Component({
   selector: 'app-neuro-related-care',
@@ -29,7 +29,7 @@ export class NeuroRelatedCareComponent implements OnInit {
   ngOnInit() {
     this.subscriptions = this
       .brokerService
-      .filterOn('neuro:related')
+      .filterOn(allMessages.neuroRelated)
       .subscribe(d => {
         let cdsSource = d.data.artifact;
         let cdsTarget: [any] = cds[cdsSource];
@@ -38,7 +38,7 @@ export class NeuroRelatedCareComponent implements OnInit {
       });
       this
       .brokerService
-      .emit('neuro:related', {artifact:'dmt', checked: true});
+      .emit(allMessages.neuroRelated, {artifact:'dmt', checked: true});
   }
 
   // ngAfterViewInit(){
