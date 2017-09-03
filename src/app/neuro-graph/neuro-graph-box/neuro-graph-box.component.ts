@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { envs } from '../../app.config';
-import {allHttpMessages} from '../neuro-graph.config';
+import { allHttpMessages } from '../neuro-graph.config';
 import { BrokerService } from '../../fire-base/broker.service';
 import { NeuroGraphService } from '../neuro-graph.service';
 
@@ -16,7 +16,7 @@ export class NeuroGraphBoxComponent implements OnInit {
     console.log('neuro-graph-box afterViewInit');
     this
       .brokerService
-      .httpGet(allHttpMessages.httpGetMedications);    
+      .httpGet(allHttpMessages.httpGetMedications);
   }
   ngOnInit() {
   }
