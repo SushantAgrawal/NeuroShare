@@ -1,11 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { BrokerService } from '../../fire-base/broker.service';
 import { allMessages, allHttpMessages } from '../neuro-graph.config';
+<<<<<<< HEAD
 import * as d3 from 'd3';
 // import * as d3Scale from "d3-scale";
 // import * as d3Shape from "d3-shape";
 // import * as d3Array from "d3-array";
 // import * as d3Axis from "d3-axis";
+=======
+import * as d3 from 'd3-selection';
+import * as d3Scale from "d3-scale";
+import * as d3Shape from "d3-shape";
+import * as d3Array from "d3-array";
+import * as d3Axis from "d3-axis";
+>>>>>>> 84aed85bb179d86cc7cdaa44c02b7878fb59bed9
 @Component({ selector: 'app-graph-panel', templateUrl: './graph-panel.component.html', styleUrls: ['./graph-panel.component.sass'] })
 export class GraphPanelComponent implements OnInit {
   subscriptions: any;
