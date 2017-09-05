@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { BrokerService } from '../../fire-base/broker.service';
-import {allMessages,allHttpMessages} from '../neuro-graph.config';
-import * as d3 from 'd3-selection';
-import * as d3Scale from "d3-scale";
-import * as d3Shape from "d3-shape";
-import * as d3Array from "d3-array";
-import * as d3Axis from "d3-axis";
+import { allMessages, allHttpMessages } from '../neuro-graph.config';
+import * as d3 from 'd3';
+// import * as d3Scale from "d3-scale";
+// import * as d3Shape from "d3-shape";
+// import * as d3Array from "d3-array";
+// import * as d3Axis from "d3-axis";
 @Component({ selector: 'app-graph-panel', templateUrl: './graph-panel.component.html', styleUrls: ['./graph-panel.component.sass'] })
 export class GraphPanelComponent implements OnInit {
   subscriptions: any;
-  neuroRelatedState: any={};
+  neuroRelatedState: any = {};
   constructor(private brokerService: BrokerService) { }
 
   ngOnInit() {
@@ -25,10 +25,11 @@ export class GraphPanelComponent implements OnInit {
       .filterOn(allHttpMessages.httpGetMedications)
       .subscribe(d => {
         console.log(d.data);
-      });    
+      });
     this
       .subscriptions
       .add(sub1);
+      this.testDraw();
   }
 
   ngOnDestroy() {
@@ -36,6 +37,30 @@ export class GraphPanelComponent implements OnInit {
       .subscriptions
       .unsubscribe();
   }
+
+  testDraw() {
+    let circle = d3.select('#g1')
+      .append("circle")
+      .attr("cx", 0)
+      .attr("cy", 0)
+      .attr('fill', 'red')
+      .attr("r", 30);
+
+      let circle1 = d3.select('#g2')
+      .append("circle")
+      .attr("cx", 0)
+      .attr("cy", 0)
+      .attr('fill', 'red')
+      .attr("r", 30);
+
+      let circle2 = d3.select('#g3')
+      .append("circle")
+      .attr("cx", 0)
+      .attr("cy", 0)
+      .attr('fill', 'red')
+      .attr("r", 30);
+  }
+
 }
 /* Deprecated
 let svgContainer = d3.select('svg');
