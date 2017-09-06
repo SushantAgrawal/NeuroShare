@@ -8,10 +8,11 @@ import {PatientConcernsComponent} from './patient-concerns/patient-concerns.comp
 import {NeuroGraphBoxComponent} from './neuro-graph-box/neuro-graph-box.component';
 import {BrokerService} from '../fire-base/broker.service';
 import {NeuroGraphService} from './neuro-graph.service';
+import { MedicationsComponent } from './graph-panel/medications/medications.component';
 @NgModule({
   imports: [CommonModule,FormsModule],
   declarations: [
-    GraphPanelComponent, NeuroRelatedComponent, NeuroRelatedCareComponent, PatientConcernsComponent, NeuroGraphBoxComponent
+    GraphPanelComponent, NeuroRelatedComponent, NeuroRelatedCareComponent, PatientConcernsComponent, NeuroGraphBoxComponent, MedicationsComponent
   ],
   exports: [NeuroGraphBoxComponent],
   providers: [BrokerService, NeuroGraphService]
