@@ -26,38 +26,38 @@ export class MedicationsComponent implements OnInit {
       .subscribe(d => {
         console.log(d.data);
       }));
-    this.setLocation();
-
+    this.drawMedications();
   }
-  setLocation() {
-    d3.select("#medications").attr('transform', 'translate(150 150)')
-      // .append("circle")
-      // .attr("r", 30)
-      // .attr("cx", 50)
-      // .attr("cy", 50)
-      // .attr('fill', 'red');
-
-    this.drawDmt();
-  }
-  
-  drawDmt() {
-    d3.select('#dmt')
-      .attr('transform', 'translate(10 10)')
+  drawMedications() {
+    //Remove below code and draw charts for DMT, Othermeds and Vitamin D
+    d3.select("#medications")      
+      .append('g')
+      .attr('transform', 'translate(100 0)')
       .append("circle")
-      .attr("r", 20)
+      .attr("r", 30)
       .attr("cx", 50)
       .attr("cy", 50)
       .attr('fill', 'red');
-    
-      d3.select('#other-meds')
-      .attr('transform', 'translate(30 30)')
+      
+      d3.select("#medications")
+      .append('g')
+      .attr('transform', 'translate(100 50)')
       .append("circle")
-      .attr("r", 20)
+      .attr("r", 30)
       .attr("cx", 50)
       .attr("cy", 50)
       .attr('fill', 'red');
 
+      d3.select("#medications")
+      .append('g')
+      .attr('transform', 'translate(100 100)')
+      .append("circle")
+      .attr("r", 30)
+      .attr("cx", 50)
+      .attr("cy", 50)
+      .attr('fill', 'red');
   }
+
 
   ngOnDestroy() {
     this
