@@ -2,16 +2,16 @@ import {Component, OnInit} from '@angular/core';
 import * as d3 from 'd3';
 import {BrokerService} from '../../../fire-base/broker.service';
 import {allMessages, allHttpMessages, medication} from '../../neuro-graph.config';
-// import {EnumMedicationtypes} from '../../neuro-graph.helper';
+import {searchObject} from '../../neuro-graph.helper';
 
 @Component({selector: '[app-medications]', templateUrl: './medications.component.html', styleUrls: ['./medications.component.sass']})
 export class MedicationsComponent implements OnInit {
   subscriptions : any;
-  medicationOrders : Array < any >= [];
-  allMedications : any;
-  dmt : Array < any > = [];
-  vitaminD : Array < any > = [];
-  otherMeds : Array < any > = [];
+  // medicationOrders : Array < any >= [];
+  // allMedications : any;
+  dmtArray : Array < any > = [];
+  vitaminDArray : Array < any > = [];
+  otherMedsArray : Array < any > = [];
 
   constructor(private brokerService : BrokerService) {}
 
@@ -25,12 +25,13 @@ export class MedicationsComponent implements OnInit {
       .filterOn(allMessages.neuroRelated);
 
     this.processMedication(httpGetMedications, neuroRelated, 'dmt');
-    this.processMedication(httpGetMedications, neuroRelated, 'otherMeds');
     this.processMedication(httpGetMedications, neuroRelated, 'vitaminD');
+    this.processMedication(httpGetMedications, neuroRelated, 'otherMeds');
+    
   }
 
   processMedication(httpGetMedications, neuroRelated, medication) {
-    // Only one specific medication was checked
+    // A medication was checked
     this.subscriptions = httpGetMedications.filter(t => {
       return (t.localMessage && ((t.localMessage.artifact == medication) && (t.localMessage.checked)));
     }).subscribe(d => {
@@ -41,16 +42,14 @@ export class MedicationsComponent implements OnInit {
           this.prepareMedications(d.data);
           if (medication == 'dmt') {
             //drawDmt()
-          } else if (medication == 'otherMeds') {
-            //drawOtherMeds
+          } else if (medication == 'vitaminD') {
+            //drawVitaminD           
           } else {
-            //drawVitaminD
+             //drawOtherMeds
           }
-          // create array for the particular medication and  display graph for that
-          // medication
         })();
     });
-    //One specific medication was unchecked
+    //A medication was unchecked
     let sub1 = neuroRelated.filter(t => {
       return ((t.data.artifact == medication) && (!t.data.checked));
     }).subscribe(d => {
@@ -60,12 +59,11 @@ export class MedicationsComponent implements OnInit {
           console.log(d.data);
           if (medication == 'dmt') {
             //removeDmt()
-          } else if (medication == 'otherMeds') {
-            //removeOtherMeds()
-          } else {
+          } else if (medication == 'vitaminD') {
             //removeVitaminD()
-          }
-          //remove graph for that medication
+          } else {            
+            //removeOtherMeds()
+          }          
         })();
     });
     this
@@ -73,7 +71,8 @@ export class MedicationsComponent implements OnInit {
       .add(sub1);
   }
   prepareMedications(data) {
-    data && data.EPIC && data.EPIC.patients && (data.EPIC.patients.length > 0) && (this.medicationOrders = data.EPIC.patients[0].medicationOrders);
+    let medicationOrders: Array<any> = [];
+    data && data.EPIC && data.EPIC.patients && (data.EPIC.patients.length > 0) && (medicationOrders = data.EPIC.patients[0].medicationOrders);
     let genericNames = medication
       .dmt
       .genericNames
@@ -83,8 +82,7 @@ export class MedicationsComponent implements OnInit {
     let vitaminDIds = medication.vitaminD.ids;
     let otherMedsIds = medication.otherMeds.ids;
     let mappedCodes = medication.otherMeds.mappedCodes;
-    this
-      .medicationOrders
+   medicationOrders
       .forEach(x => {
         if (x.medication && genericNames.includes(x.medication.simple_generic_name.toLowerCase())) {
           x.type = 'dmt' //m.medication.id
@@ -92,11 +90,18 @@ export class MedicationsComponent implements OnInit {
           x.type = 'vitaminD'
         } else if (x.medication && otherMedsIds.includes(x.medication.id)) {
           x.type = 'otherMeds'
+        } else if (searchObject(x, 'mapped_code', mappedCodes).length > 0) {
+          x.type = 'otherMeds'
         }
-
-        // x.associatedDiagnoses && (x.associatedDiagnoses.length > 0) && 
       });
+      this.dmtArray = medicationOrders.filter(x=>x.type=='dmt');
+      this.vitaminDArray = medicationOrders.filter(x=>x.type=='vitaminD');
+      this.otherMedsArray = medicationOrders.filter(x=>x.type=='otherMeds');      
+    // let newArray = medicationOrders
+    //   .filter(x => x.type == 'otherMeds');
   }
+
+
   //sample for drawing medications
   drawMedications() {
     //Remove below code and draw charts for DMT, Othermeds and Vitamin D
@@ -139,24 +144,6 @@ export class MedicationsComponent implements OnInit {
 
 }
 /* Deprecated
-processAllMedications(httpGetMedications) {
-    // All medications were checked
-    this.subscriptions = httpGetMedications.filter(t => {
-      return (t.localMessage && ((t.localMessage.artifact == 'all') && (t.localMessage.checked)));
-    }).subscribe(d => {
-      d.error
-        ? console.log(d.error)
-        : (() => {
-          console.log(d.data);
-          // create array for dmt, otherMeds and VitaminD and  display graphs for dmt,
-          // otherMeds and VitaminD. prepareMedications()
-          //drawDmt();
-          //drawOtherMeds();
-          //drawVitaminD();
-        })();
-    });
-  }
-
 categorizeMedication() {
     this.allMedications.EPIC.patients[0].medicationOrders.forEach((m) => {
 
