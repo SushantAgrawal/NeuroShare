@@ -110,7 +110,7 @@ export class MedicationsComponent implements OnInit {
         }
       });
     });
-    alert("DMT - " + this.dmt.length + " / Vitamin D - " + this.vitaminD.length + " / Other Meds - " + this.otherMeds.length);
+    //alert("DMT - " + this.dmt.length + " / Vitamin D - " + this.vitaminD.length + " / Other Meds - " + this.otherMeds.length);
   }
 
   ngOnDestroy() {
