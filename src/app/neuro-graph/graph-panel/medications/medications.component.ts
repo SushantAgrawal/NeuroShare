@@ -7,7 +7,7 @@ import {allMessages, allHttpMessages, medication} from '../../neuro-graph.config
 @Component({selector: '[app-medications]', templateUrl: './medications.component.html', styleUrls: ['./medications.component.sass']})
 export class MedicationsComponent implements OnInit {
   subscriptions : any;
-
+  medicationOrders : Array < any >= [];
   allMedications : any;
   dmt : Array < any > = [];
   vitaminD : Array < any > = [];
@@ -16,20 +16,20 @@ export class MedicationsComponent implements OnInit {
   constructor(private brokerService : BrokerService) {}
 
   ngOnInit() {
+
     let httpGetMedications = this
       .brokerService
       .filterOn(allHttpMessages.httpGetMedications);
     let neuroRelated = this
       .brokerService
       .filterOn(allMessages.neuroRelated);
-    // this.processAllMedications(httpGetMedications);
-    
-    this.processMedication(httpGetMedications,neuroRelated,'dmt');
-    this.processMedication(httpGetMedications,neuroRelated,'otherMeds');
-    this.processMedication(httpGetMedications,neuroRelated,'vitaminD');       
-  }  
 
-  processMedication(httpGetMedications,neuroRelated, medication) {
+    this.processMedication(httpGetMedications, neuroRelated, 'dmt');
+    this.processMedication(httpGetMedications, neuroRelated, 'otherMeds');
+    this.processMedication(httpGetMedications, neuroRelated, 'vitaminD');
+  }
+
+  processMedication(httpGetMedications, neuroRelated, medication) {
     // Only one specific medication was checked
     this.subscriptions = httpGetMedications.filter(t => {
       return (t.localMessage && ((t.localMessage.artifact == medication) && (t.localMessage.checked)));
@@ -38,15 +38,16 @@ export class MedicationsComponent implements OnInit {
         ? console.log(d.error)
         : (() => {
           console.log(d.data);
-          //prepareMedications()
-          if(medication=='dmt') {
+          this.prepareMedications(d.data);
+          if (medication == 'dmt') {
             //drawDmt()
-          } else if(medication=='otherMeds'){
+          } else if (medication == 'otherMeds') {
             //drawOtherMeds
-          } else{
+          } else {
             //drawVitaminD
           }
-          //create array for the particular medication and  display graph for that medication
+          // create array for the particular medication and  display graph for that
+          // medication
         })();
     });
     //One specific medication was unchecked
@@ -57,19 +58,45 @@ export class MedicationsComponent implements OnInit {
         ? console.log(d.error)
         : (() => {
           console.log(d.data);
-          if(medication=='dmt'){
+          if (medication == 'dmt') {
             //removeDmt()
-          } else if(medication == 'otherMeds'){
+          } else if (medication == 'otherMeds') {
             //removeOtherMeds()
-          } else{
+          } else {
             //removeVitaminD()
           }
           //remove graph for that medication
         })();
     });
-    this.subscriptions.add(sub1);
+    this
+      .subscriptions
+      .add(sub1);
   }
+  prepareMedications(data) {
+    data && data.EPIC && data.EPIC.patients && (data.EPIC.patients.length > 0) && (this.medicationOrders = data.EPIC.patients[0].medicationOrders);
+    let genericNames = medication
+      .dmt
+      .genericNames
+      .toString()
+      .toLowerCase()
+      .split(',');
+    let vitaminDIds = medication.vitaminD.ids;
+    let otherMedsIds = medication.otherMeds.ids;
+    let mappedCodes = medication.otherMeds.mappedCodes;
+    this
+      .medicationOrders
+      .forEach(x => {
+        if (x.medication && genericNames.includes(x.medication.simple_generic_name.toLowerCase())) {
+          x.type = 'dmt' //m.medication.id
+        } else if (x.medication && vitaminDIds.includes(x.medication.id)) {
+          x.type = 'vitaminD'
+        } else if (x.medication && otherMedsIds.includes(x.medication.id)) {
+          x.type = 'otherMeds'
+        }
 
+        // x.associatedDiagnoses && (x.associatedDiagnoses.length > 0) && 
+      });
+  }
   //sample for drawing medications
   drawMedications() {
     //Remove below code and draw charts for DMT, Othermeds and Vitamin D
@@ -103,8 +130,6 @@ export class MedicationsComponent implements OnInit {
       .attr("cy", 50)
       .attr('fill', 'red');
   }
-
-  
 
   ngOnDestroy() {
     this
