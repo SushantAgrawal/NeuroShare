@@ -31,7 +31,7 @@ export class MedicationsComponent implements OnInit {
 
   processMedication(httpGetMedications,neuroRelated, medication) {
     // Only one specific medication was checked
-    let sub1 = httpGetMedications.filter(t => {
+    this.subscriptions = httpGetMedications.filter(t => {
       return (t.localMessage && ((t.localMessage.artifact == medication) && (t.localMessage.checked)));
     }).subscribe(d => {
       d.error
@@ -50,7 +50,7 @@ export class MedicationsComponent implements OnInit {
         })();
     });
     //One specific medication was unchecked
-    let sub2 = neuroRelated.filter(t => {
+    let sub1 = neuroRelated.filter(t => {
       return ((t.data.artifact == medication) && (!t.data.checked));
     }).subscribe(d => {
       d.error
@@ -67,7 +67,7 @@ export class MedicationsComponent implements OnInit {
           //remove graph for that medication
         })();
     });
-    this.subscriptions.add(sub1).add(sub2);
+    this.subscriptions.add(sub1);
   }
 
   //sample for drawing medications
