@@ -16,7 +16,7 @@ export class NeuroGraphBoxComponent implements OnInit {
   ngAfterViewInit() {
     // console.log('neuro-graph-box afterViewInit');
     let localMessage = {
-      artifact: 'all',
+      artifact: 'dmt',
       checked: true
     };
     this

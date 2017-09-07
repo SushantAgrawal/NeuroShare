@@ -22,32 +22,14 @@ export class MedicationsComponent implements OnInit {
     let neuroRelated = this
       .brokerService
       .filterOn(allMessages.neuroRelated);
-    this.processAllMedications(httpGetMedications);
+    // this.processAllMedications(httpGetMedications);
     
-    this.processExactMedication(httpGetMedications,neuroRelated,'dmt');
-    this.processExactMedication(httpGetMedications,neuroRelated,'otherMeds');
-    this.processExactMedication(httpGetMedications,neuroRelated,'vitaminD');       
-  }
+    this.processMedication(httpGetMedications,neuroRelated,'dmt');
+    this.processMedication(httpGetMedications,neuroRelated,'otherMeds');
+    this.processMedication(httpGetMedications,neuroRelated,'vitaminD');       
+  }  
 
-  processAllMedications(httpGetMedications) {
-    // All medications were checked
-    this.subscriptions = httpGetMedications.filter(t => {
-      return (t.localMessage && ((t.localMessage.artifact == 'all') && (t.localMessage.checked)));
-    }).subscribe(d => {
-      d.error
-        ? console.log(d.error)
-        : (() => {
-          console.log(d.data);
-          // create array for dmt, otherMeds and VitaminD and  display graphs for dmt,
-          // otherMeds and VitaminD. prepareMedications()
-          //drawDmt();
-          //drawOtherMeds();
-          //drawVitaminD();
-        })();
-    });
-  }
-
-  processExactMedication(httpGetMedications,neuroRelated, medication) {
+  processMedication(httpGetMedications,neuroRelated, medication) {
     // Only one specific medication was checked
     let sub1 = httpGetMedications.filter(t => {
       return (t.localMessage && ((t.localMessage.artifact == medication) && (t.localMessage.checked)));
@@ -75,6 +57,13 @@ export class MedicationsComponent implements OnInit {
         ? console.log(d.error)
         : (() => {
           console.log(d.data);
+          if(medication=='dmt'){
+            //removeDmt()
+          } else if(medication == 'otherMeds'){
+            //removeOtherMeds()
+          } else{
+            //removeVitaminD()
+          }
           //remove graph for that medication
         })();
     });
@@ -149,3 +138,22 @@ export class MedicationsComponent implements OnInit {
   }
 
 }
+/* Deprecated
+processAllMedications(httpGetMedications) {
+    // All medications were checked
+    this.subscriptions = httpGetMedications.filter(t => {
+      return (t.localMessage && ((t.localMessage.artifact == 'all') && (t.localMessage.checked)));
+    }).subscribe(d => {
+      d.error
+        ? console.log(d.error)
+        : (() => {
+          console.log(d.data);
+          // create array for dmt, otherMeds and VitaminD and  display graphs for dmt,
+          // otherMeds and VitaminD. prepareMedications()
+          //drawDmt();
+          //drawOtherMeds();
+          //drawVitaminD();
+        })();
+    });
+  }
+*/
