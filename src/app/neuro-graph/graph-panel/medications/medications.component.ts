@@ -7,8 +7,6 @@ import {searchObject} from '../../neuro-graph.helper';
 @Component({selector: '[app-medications]', templateUrl: './medications.component.html', styleUrls: ['./medications.component.sass']})
 export class MedicationsComponent implements OnInit {
   subscriptions : any;
-  // medicationOrders : Array < any >= [];
-  // allMedications : any;
   dmtArray : Array < any > = [];
   vitaminDArray : Array < any > = [];
   otherMedsArray : Array < any > = [];
