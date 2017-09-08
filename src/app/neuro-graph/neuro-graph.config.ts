@@ -11,13 +11,17 @@ export const urlMaps = {
 };
 
 export const cds = {
-    dmt: ['symptomStatus', 'typeStatus', 'dmt'],
+    dmt: ['dmt'],
     otherMeds: ['otherMeds'],
     vitaminD: ['vitaminD'],
     referrals: ['referrals'],
-    edss: ['relapses'],
+    edss: ['symptomStatus'],
+    walk25Feet:['symptomStatus'],
+    imaging:['imaging'],
+    symptoms:['symptomStatus'],
     labs: ['labs'],
-    vaccinations: ['vaccinations']
+    vaccinations: ['vaccinations'],
+    relapses:['relapses']
 };
 
 export const medication = {

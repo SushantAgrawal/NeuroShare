@@ -23,7 +23,8 @@ export class NeuroRelatedComponent implements OnInit {
     this
       .brokerService
       .emit(allMessages.neuroRelated, localMessage);
-    e.target.checked && this
+      
+    e.target.checked && ((value == 'dmt') || (value == 'otherMeds') || (value == 'vitaminD')) && this
       .brokerService
       .httpGet(allHttpMessages.httpGetMedications, localMessage);
   }

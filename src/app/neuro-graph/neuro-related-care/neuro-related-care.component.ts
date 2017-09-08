@@ -14,7 +14,7 @@ export class NeuroRelatedCareComponent implements OnInit {
   constructor(private brokerService: BrokerService) {
     this.cdsState = {
       relapses: false,
-      images: false,
+      imaging: false,
       symptomStatus: false,
       typeStatus: false,
       dmt: false,
