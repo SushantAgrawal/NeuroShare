@@ -3,11 +3,11 @@ import { BrokerService } from '../../fire-base/broker.service';
 import { cds,allMessages } from '../neuro-graph.config';
 
 @Component({
-  selector: 'app-neuro-related-care',
-  templateUrl: './neuro-related-care.component.html',
-  styleUrls: ['./neuro-related-care.component.sass']
+  selector: 'app-cds',
+  templateUrl: './cds.component.html',
+  styleUrls: ['./cds.component.sass']
 })
-export class NeuroRelatedCareComponent implements OnInit {
+export class CdsComponent implements OnInit {
   subscriptions: any;
   cdsState: Object = {};
   relapses = true;
