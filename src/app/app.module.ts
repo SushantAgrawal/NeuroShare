@@ -4,32 +4,13 @@ import {HttpModule} from '@angular/http';
 import {AppComponent} from './app.component';
 import {NeuroGraphModule} from './neuro-graph/neuro-graph.module';
 import {SharedModule} from './shared/shared.module';
-// import {BrokerService} from './fire-base/broker.service';
-// import {ChartModule} from 'angular2-highcharts';
-// import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
-// import * as highcharts from 'highcharts';
-
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    BrowserModule,
-    NeuroGraphModule,
-    SharedModule,
-    HttpModule
-   
-    // ChartModule.forRoot(require('highcharts'))    
+    BrowserModule, NeuroGraphModule, SharedModule, HttpModule
   ],
-  providers: [
-    //BrokerService,
-    // {
-    // provide: HighchartsStatic,
-    // useFactory: highchartsFactory
-  // }
-],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
-// export function highchartsFactory() {
-//   return highcharts;
-// }

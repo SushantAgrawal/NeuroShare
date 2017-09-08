@@ -1,17 +1,13 @@
-import { Component, OnInit} from '@angular/core';
-import { BrokerService } from '../../fire-base/broker.service';
-import { cds,allMessages } from '../neuro-graph.config';
+import {Component, OnInit} from '@angular/core';
+import {BrokerService} from '../../fire-base/broker.service';
+import {cds, allMessages} from '../neuro-graph.config';
 
-@Component({
-  selector: 'app-cds',
-  templateUrl: './cds.component.html',
-  styleUrls: ['./cds.component.sass']
-})
+@Component({selector: 'app-cds', templateUrl: './cds.component.html', styleUrls: ['./cds.component.sass']})
 export class CdsComponent implements OnInit {
-  subscriptions: any;
-  cdsState: Object = {};
+  subscriptions : any;
+  cdsState : Object = {};
   relapses = true;
-  constructor(private brokerService: BrokerService) {
+  constructor(private brokerService : BrokerService) {
     this.cdsState = {
       relapses: false,
       imaging: false,
@@ -32,21 +28,36 @@ export class CdsComponent implements OnInit {
       .filterOn(allMessages.neuroRelated)
       .subscribe(d => {
         let cdsSource = d.data.artifact;
-        let cdsTarget: [any] = cds[cdsSource];
+        let cdsTarget : [any] = cds[cdsSource];
         let checked = d.data.checked;
         checked && (cdsTarget && cdsTarget.map(x => this.cdsState[x] = true));
       });
-      this
+    this
       .brokerService
-      .emit(allMessages.neuroRelated, {artifact:'dmt', checked: true});
+      .emit(allMessages.neuroRelated, {
+        artifact: 'dmt',
+        checked: true
+      });
+    this
+      .brokerService
+      .emit(allMessages.neuroRelated, {
+        artifact: 'edss',
+        checked: true
+      });
+    this
+      .brokerService
+      .emit(allMessages.neuroRelated, {
+        artifact: 'labs',
+        checked: true
+      });
   }
 
-  // ngAfterViewInit(){
-    
-  // }
+  // ngAfterViewInit(){ }
 
   ngOnDestroy() {
-    this.subscriptions.unsubscribe();
+    this
+      .subscriptions
+      .unsubscribe();
   }
 
 }
