@@ -57,7 +57,7 @@ export class CdsComponent implements OnInit {
   ngOnDestroy() {
     this
       .subscriptions
-      .unsubscribe();
+      .unsubscribe();    
   }
 
 }
