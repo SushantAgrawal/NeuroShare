@@ -6,11 +6,6 @@ import {cds, allMessages} from '../neuro-graph.config';
 export class CdsComponent implements OnInit {
   subscriptions : any;
   cdsState : Object = {};
-  // cdsInfo:{};
-  // display : Boolean = false;
-  // dismissableMask=true;
-  // header:String='';
-  // relapses = true;
   constructor(private brokerService : BrokerService) {
     this.cdsState = {
       relapses: {checked:false,info:"Lorem ipsum dolor sit amet, maecenas parturient ac urna sed mi, dui nibh sed orci, convallis ligula ultricies a, mauris risus quisque ornare, malesuada nulla in ut aliquet. Sem consequat fermentum in elit,",title:"Review relapses"},
@@ -27,6 +22,7 @@ export class CdsComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('cds ngOnInit');
     this.subscriptions = this
       .brokerService
       .filterOn(allMessages.neuroRelated)
@@ -36,26 +32,8 @@ export class CdsComponent implements OnInit {
         let checked = d.data.checked;
         checked && (cdsTarget && cdsTarget.map(x => this.cdsState[x].checked = true));
       });
-    this
-      .brokerService
-      .emit(allMessages.neuroRelated, {
-        artifact: 'dmt',
-        checked: true
-      });
-    this
-      .brokerService
-      .emit(allMessages.neuroRelated, {
-        artifact: 'edss',
-        checked: true
-      });
-    this
-      .brokerService
-      .emit(allMessages.neuroRelated, {
-        artifact: 'labs',
-        checked: true
-      });
   }
-
+  
   // buttonClicked(item) {
   //   this.display=true;
   //   this.header = item;

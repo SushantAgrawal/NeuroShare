@@ -52,7 +52,7 @@ export class BrokerService {
       });
   };
 
-  httpGet(id : string, localMessage?: any, queryParams?: [any], headers?: [any]) {
+  httpGet(id : string, queryParams?: [any], headers?: [any], carryBag?: any) {
     try {
       let url = this.urlMaps[id];
       let myParams = new URLSearchParams();
@@ -77,7 +77,7 @@ export class BrokerService {
           .subscribe(d => {
             this
               .subject
-              .next({id: id, data: d, localMessage: localMessage});
+              .next({id: id, data: d, carryBag: carryBag});
           }, err => {
             this
               .subject

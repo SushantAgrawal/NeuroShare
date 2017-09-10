@@ -1,69 +1,134 @@
-import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
+import {Component, OnInit, Input, ViewEncapsulation} from '@angular/core';
 import * as d3 from 'd3';
-import { BrokerService } from '../../../fire-base/broker.service';
-import { allMessages, allHttpMessages, medication } from '../../neuro-graph.config';
-import { GRAPH_SETTINGS } from '../../neuro-graph.config';
+import {BrokerService} from '../../../fire-base/broker.service';
+import {allMessages, allHttpMessages, medication} from '../../neuro-graph.config';
+import {GRAPH_SETTINGS} from '../../neuro-graph.config';
 
-@Component({
-  selector: '[app-edss]',
-  templateUrl: './edss.component.html',
-  styleUrls: ['./edss.component.sass'],
-  encapsulation: ViewEncapsulation.None
-})
+@Component({selector: '[app-edss]', templateUrl: './edss.component.html', styleUrls: ['./edss.component.sass'], encapsulation: ViewEncapsulation.None})
 export class EdssComponent implements OnInit {
-  @Input() private chartState: any;
+  @Input()private chartState : any;
 
-  constructor(private brokerService: BrokerService) { }
-  private subscriptions: any;
-  private yScale: any;
-  private yDomain: Array<number> = [0, GRAPH_SETTINGS.edss.maxValueY];
-
+  constructor(private brokerService : BrokerService) {}
+  private subscriptions : any;
+  private yScale : any;
+  private yDomain : Array < number > = [0, GRAPH_SETTINGS.edss.maxValueY];
+  private edssData : Array < any >;
   //This is temporary data set
-  private dataset: Array<any> = [
-    { 'x': new Date(2015, 6, 1), 'y': 2 },
-    { 'x': new Date(2016, 0, 1), 'y': 2.5 },
-    { 'x': new Date(2016, 6, 1), 'y': 2.5 },
-    { 'x': new Date(2017, 0, 1), 'y': 3.0 },
-    { 'x': new Date(2017, 6, 1), 'y': 3.5 },
+  private dataset : Array < any > = [
+    {
+      'x': new Date(2015, 6, 1),
+      'y': 2
+    }, {
+      'x': new Date(2016, 0, 1),
+      'y': 2.5
+    }, {
+      'x': new Date(2016, 6, 1),
+      'y': 2.5
+    }, {
+      'x': new Date(2017, 0, 1),
+      'y': 3.0
+    }, {
+      'x': new Date(2017, 6, 1),
+      'y': 3.5
+    }
   ];
 
   ngOnInit() {
-    this.subscriptions = this.brokerService
-      .filterOn(allMessages.neuroRelated)
+    console.log('edss ngOnInit');
+    this.subscriptions = this
+      .brokerService
+      .filterOn(allHttpMessages.httpGetEdss)
       .subscribe(d => {
-        d.data.artifact == 'edss' && d.data.checked && this.drawChart();
-        d.data.artifact == 'edss' && !d.data.checked && this.removeChart();
+        d.error
+          ? console.log(d.error)
+          : (() => {
+            console.log(d.data);
+            this.edssData = d.data;
+            //drawEDSS
+          })();
+      })
+    let edss = this
+      .brokerService
+      .filterOn(allMessages.neuroRelated)
+      .filter(t => (t.data.artifact == 'edss'));
+
+    let sub1 = edss
+      .filter(t => t.data.checked)
+      .subscribe(d => {
+        d.error
+          ? console.log(d.error)
+          : (() => {
+            console.log(d.data);
+            //make api call
+            this
+              .brokerService
+              .httpGet(allHttpMessages.httpGetEdss);
+          })();
       });
+    let sub2 = edss
+      .filter(t => !t.data.checked)
+      .subscribe(d => {
+        d.error
+          ? console.log(d.error)
+          : (() => {
+            console.log(d.data);
+            //remove EDSS
+          })();
+      })
+    this
+      .subscriptions
+      .add(sub1)
+      .add(sub2);
+    // this.subscriptions = this.brokerService   .filterOn(allMessages.neuroRelated)
+    //   .subscribe(d => {     d.data.artifact == 'edss' && d.data.checked &&
+    // this.drawChart();     d.data.artifact == 'edss' && !d.data.checked &&
+    // this.removeChart();   });
+  }
+
+  ngOnDestroy() {
+    this
+      .subscriptions
+      .unsubscribe();
   }
 
   drawChart() {
-    this.yScale = d3.scaleLinear()
+    this.yScale = d3
+      .scaleLinear()
       .domain(this.yDomain)
-      .range([GRAPH_SETTINGS.edss.chartHeight - 20, 0]);
+      .range([
+        GRAPH_SETTINGS.edss.chartHeight - 20,
+        0
+      ]);
 
-    let line = d3.line<any>()
-      .x((d: any) => this.chartState.xScale(d.x))
-      .y((d: any) => this.yScale(d.y));
+    let line = d3.line < any > ().x((d : any) => this.chartState.xScale(d.x)).y((d : any) => this.yScale(d.y));
 
-    let svg = d3.select('#edss')
+    let svg = d3
+      .select('#edss')
       .append('g')
       .attr('class', 'edss-elements-wrapper')
       .attr('transform', 'translate(' + GRAPH_SETTINGS.panel.marginLeft + ', 5)');
 
-    svg.append('g')
+    svg
+      .append('g')
       .attr('class', 'edss-y-axis')
       .call(g => {
         let yAxis = g.call(d3.axisLeft(this.yScale).tickFormat(d3.format('.1f')));
-        g.select('.domain').remove();
-        yAxis.selectAll('line').style('display', 'none');
-        yAxis.selectAll('text')
+        g
+          .select('.domain')
+          .remove();
+        yAxis
+          .selectAll('line')
+          .style('display', 'none');
+        yAxis
+          .selectAll('text')
           .attr('x', '-5')
           .attr('fill', GRAPH_SETTINGS.edss.color)
           .style('font-size', '1.2em')
           .style('font-weight', 'bold');
       });
 
-    svg.append('path')
+    svg
+      .append('path')
       .datum(this.dataset)
       .attr('class', 'line')
       .style('fill', 'none')
@@ -71,7 +136,8 @@ export class EdssComponent implements OnInit {
       .style('stroke-width', '1')
       .attr('d', line);
 
-    svg.selectAll('.dot')
+    svg
+      .selectAll('.dot')
       .data(this.dataset)
       .enter()
       .append('circle')
@@ -83,18 +149,21 @@ export class EdssComponent implements OnInit {
       .style('stroke', '#FFFFFF')
       .style('cursor', 'pointer')
       .on('mouseover', d => {
-        d3.select(d3.event.currentTarget)
+        d3
+          .select(d3.event.currentTarget)
           .style('stroke', '#000000');
       })
       .on('mouseout', d => {
-        d3.select(d3.event.currentTarget)
+        d3
+          .select(d3.event.currentTarget)
           .style('stroke', '#FFFFFF');
       })
       .on('click', d => {
         console.log(d);
       })
 
-    svg.selectAll('.label')
+    svg
+      .selectAll('.label')
       .data(this.dataset)
       .enter()
       .append('text')
@@ -107,6 +176,8 @@ export class EdssComponent implements OnInit {
   }
 
   removeChart() {
-    d3.selectAll('.edss-elements-wrapper').remove();
+    d3
+      .selectAll('.edss-elements-wrapper')
+      .remove();
   }
 }

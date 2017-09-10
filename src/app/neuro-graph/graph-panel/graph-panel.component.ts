@@ -14,6 +14,7 @@ export class GraphPanelComponent implements OnInit {
 
   constructor() { }
   ngOnInit() {
+    console.log('graph-panel ngOnInit');
     this.state = this.getDefaultState();
   }
 
