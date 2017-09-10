@@ -1,12 +1,13 @@
 <div class="header-area">
   <span class="header-text">Neuro Related Care</span>
-  <input class="header-button" type="image" src="../../assets/images/nav-up-second.PNG" (click)="buttonclicked('book')" width="35" height="35">
+  <input class="header-button" type="image" src="../../assets/images/nav-up-second.PNG" (click)="buttonclicked('book')" width="35"
+    height="35">
 </div>
 <br />
 <table class="review-area">
   <tr>
     <td class="review-checkbox"><label><input type="checkbox" [(ngModel)]='cdsState.relapses' /> Review relapses </label></td>
-    <td class="info-image"><input type="image" src="../../assets/images/information-icon.png"  width="20px" height="20px"></td>
+    <td class="info-image"><input type="image" src="../../assets/images/information-icon.png" width="20px" height="20px"></td>
   </tr>
   <tr>
     <td class="review-checkbox"><label><input type="checkbox" [(ngModel)]='cdsState.imaging' /> Review MRI images </label></td>
@@ -14,11 +15,13 @@
   </tr>
   <tr>
     <td class="review-checkbox"><label><input type="checkbox" [(ngModel)]='cdsState.symptomStatus' /> Review symptom status </label></td>
-    <td class="info-image"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoSymptom')" width="20px" height="20px"></td>
+    <td class="info-image"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoSymptom')" width="20px"
+        height="20px"></td>
   </tr>
   <tr>
     <td class="review-checkbox"><label><input type="checkbox" [(ngModel)]='cdsState.typeStatus' /> Review MS type/status </label></td>
-    <td class="info-image"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoMsType')" width="20px" height="20px"></td>
+    <td class="info-image"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoMsType')" width="20px"
+        height="20px"></td>
   </tr>
   <tr>
     <td class="review-checkbox"><label><input type="checkbox" [(ngModel)]='cdsState.dmt' /> Review DMTs </label></td>
@@ -26,22 +29,38 @@
   </tr>
   <tr>
     <td class="review-checkbox"><label><input type="checkbox" [(ngModel)]='cdsState.labs'  /> Review monitoring labs </label></td>
-    <td class="info-image"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoMonitoringLabs')" width="20px" height="20px"></td>
+    <td class="info-image"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoMonitoringLabs')" width="20px"
+        height="20px"></td>
   </tr>
   <tr>
     <td class="review-checkbox"><label><input type="checkbox" [(ngModel)]='cdsState.vitaminD'  /> Review Vitamin D </label></td>
-    <td class="info-image"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoVitaminD')" width="20px" height="20px"></td>
+    <td class="info-image"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoVitaminD')" width="20px"
+        height="20px"></td>
   </tr>
   <tr>
     <td class="review-checkbox"><label><input type="checkbox" [(ngModel)]='cdsState.otherMeds'  /> Review other related meds </label></td>
-    <td class="info-image"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoOtherMeds')" width="20px" height="20px"></td>
+    <td class="info-image"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoOtherMeds')" width="20px"
+        height="20px"></td>
   </tr>
   <tr>
     <td class="review-checkbox"><label><input type="checkbox" [(ngModel)]='cdsState.referrals' /> Review symptoms referrals </label></td>
-    <td class="info-image"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoSymptomsReferrals')" width="20px" height="20px"></td>
+    <td class="info-image"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoSymptomsReferrals')" width="20px"
+        height="20px"></td>
   </tr>
   <tr>
     <td class="review-checkbox"><label><input type="checkbox" [(ngModel)]='cdsState.vaccinations' /> Review vaccinations </label></td>
-    <td class="info-image"><input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoVaccinations')" width="20px" height="20px"></td>
+    <td class="info-image">
+      <input type="image" src="../../assets/images/information-icon.png" (click)="buttonClicked('vaccinations')" width="20px" height="20px">
+      <!-- <button type="button" class="btn btn-outline-secondary" placement="top" ngbPopover="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
+        popoverTitle="Popover on top">
+        Popover on top
+      </button> -->
+    </td>
   </tr>
 </table>
+<!-- <p-dialog [header]="header" [(visible)]="display" dismissableMask="false" closable='true' width="300">
+  Content
+</p-dialog> -->
+<!-- <p-overlayPanel #op [showCloseIcon]="true" [dismissable]="false">
+  Content
+</p-overlayPanel> -->

@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+// import {Dialog} from 'primeng/primeng';
 // import { ActivatedRoute} from '@angular/router';
 import {BrokerService} from '../../fire-base/broker.service';
 import {allMessages, allHttpMessages} from '../neuro-graph.config';
@@ -7,17 +8,11 @@ import {allMessages, allHttpMessages} from '../neuro-graph.config';
 
 @Component({selector: 'app-neuro-related', templateUrl: './neuro-related.component.html', styleUrls: ['./neuro-related.component.sass']})
 export class NeuroRelatedComponent implements OnInit {
-
+  display:Boolean=false;
   constructor(private brokerService : BrokerService) {}
-  paramsSub : any;
+  // paramsSub : any;
   ngOnInit() {
-    console.log('neuro-related');
-    // this.paramsSub = this
-    //   .activatedRoute
-    //   .queryParams
-    //   .subscribe(params => {
-    //     console.log(params);        
-    //   });
+    console.log('neuro-related');    
   }
 
   // ngAfterViewInit(){   this   .brokerService   .emit('neuro:related',
@@ -31,7 +26,7 @@ export class NeuroRelatedComponent implements OnInit {
     this
       .brokerService
       .emit(allMessages.neuroRelated, localMessage);
-
+this.display=true;
     e.target.checked && ((value == 'dmt') || (value == 'otherMeds') || (value == 'vitaminD')) && this
       .brokerService
       .httpGet(allHttpMessages.httpGetMedications, localMessage);

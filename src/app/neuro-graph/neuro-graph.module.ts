@@ -2,21 +2,30 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 // import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
-import {RouterModule,Routes} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
+// import {DialogModule, OverlayPanelModule} from 'primeng/primeng';
+// import {NgbModule,NgbPopoverConfig} from '@ng-bootstrap/ng-bootstrap';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {GraphPanelComponent} from './graph-panel/graph-panel.component';
 import {NeuroRelatedComponent} from './neuro-related/neuro-related.component';
 import {PatientConcernsComponent} from './patient-concerns/patient-concerns.component';
 import {NeuroGraphBoxComponent} from './neuro-graph-box/neuro-graph-box.component';
 import {BrokerService} from '../fire-base/broker.service';
 import {NeuroGraphService} from './neuro-graph.service';
-import { MedicationsComponent } from './graph-panel/medications/medications.component';
-import { CdsComponent } from './cds/cds.component';
-export const ROUTES: Routes = [];
+import {MedicationsComponent} from './graph-panel/medications/medications.component';
+import {CdsComponent} from './cds/cds.component';
+export const ROUTES : Routes = [];
 @NgModule({
-  imports: [CommonModule,FormsModule,/*BrowserModule,*/ RouterModule.forRoot(ROUTES)],
+  imports: [
+    CommonModule, FormsModule, RouterModule.forRoot(ROUTES),    
+    BrowserAnimationsModule
+  ],
   declarations: [
-    GraphPanelComponent, NeuroRelatedComponent, 
-    /*NeuroRelatedCareComponent,*/ PatientConcernsComponent, NeuroGraphBoxComponent, MedicationsComponent, CdsComponent
+    GraphPanelComponent, NeuroRelatedComponent,
+    PatientConcernsComponent,
+    NeuroGraphBoxComponent,
+    MedicationsComponent,
+    CdsComponent
   ],
   exports: [NeuroGraphBoxComponent],
   providers: [BrokerService, NeuroGraphService]

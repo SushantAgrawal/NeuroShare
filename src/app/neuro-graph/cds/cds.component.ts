@@ -6,7 +6,10 @@ import {cds, allMessages} from '../neuro-graph.config';
 export class CdsComponent implements OnInit {
   subscriptions : any;
   cdsState : Object = {};
-  relapses = true;
+  display : Boolean = false;
+  dismissableMask=true;
+  header:String='';
+  // relapses = true;
   constructor(private brokerService : BrokerService) {
     this.cdsState = {
       relapses: false,
@@ -52,12 +55,17 @@ export class CdsComponent implements OnInit {
       });
   }
 
+  buttonClicked(item) {
+    this.display=true;
+    this.header = item;
+  }
+
   // ngAfterViewInit(){ }
 
   ngOnDestroy() {
     this
       .subscriptions
-      .unsubscribe();    
+      .unsubscribe();
   }
 
 }
