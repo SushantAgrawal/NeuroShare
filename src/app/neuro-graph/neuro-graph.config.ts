@@ -7,7 +7,7 @@ consumers: neuro-related-cares, graph-panel
 export const allMessages = { 'neuroRelated': 'neuro:related' };
 export const allHttpMessages = { 'httpGetMedications': 'http:get:medications' };
 export const urlMaps = {
-    "http:get:medications": "medications"
+    "http:get:medications": "https://private-242c4d-ehrmedicationorders.apiary-mock.com/maestro/api/ehr/medications-orders/?pom_id=82043"
 };
 
 export const cds = {
@@ -38,13 +38,6 @@ export const medication = {
                 mappedCodes:["G35"]
             }
 };
-
-// export const GRAPH_SETTINGS = {
-//     medications:{
-//         x:100,
-//         y:100
-//     }
-// }
 
 export const GRAPH_SETTINGS = {
     panel: {

@@ -6,22 +6,23 @@ import {cds, allMessages} from '../neuro-graph.config';
 export class CdsComponent implements OnInit {
   subscriptions : any;
   cdsState : Object = {};
-  display : Boolean = false;
-  dismissableMask=true;
-  header:String='';
+  // cdsInfo:{};
+  // display : Boolean = false;
+  // dismissableMask=true;
+  // header:String='';
   // relapses = true;
   constructor(private brokerService : BrokerService) {
     this.cdsState = {
-      relapses: false,
-      imaging: false,
-      symptomStatus: false,
-      typeStatus: false,
-      dmt: false,
-      labs: false,
-      vitaminD: false,
-      otherMeds: false,
-      referrals: false,
-      vaccinations: false
+      relapses: {checked:false,info:"Lorem ipsum dolor sit amet, maecenas parturient ac urna sed mi, dui nibh sed orci, convallis ligula ultricies a, mauris risus quisque ornare, malesuada nulla in ut aliquet. Sem consequat fermentum in elit,",title:"Review relapses"},
+      imaging: {checked:false,info:"",title:""},
+      symptomStatus: {checked:false,info:"",title:""},
+      typeStatus: {checked:false,info:"",title:""},
+      dmt: {checked:false,info:"",title:""},
+      labs: {checked:false,info:"",title:""},
+      vitaminD: {checked:false,info:"",title:""},
+      otherMeds: {checked:false,info:"",title:""},
+      referrals: {checked:false,info:"",title:""},
+      vaccinations: {checked:false,info:"",title:""}
     }
   }
 
@@ -33,7 +34,7 @@ export class CdsComponent implements OnInit {
         let cdsSource = d.data.artifact;
         let cdsTarget : [any] = cds[cdsSource];
         let checked = d.data.checked;
-        checked && (cdsTarget && cdsTarget.map(x => this.cdsState[x] = true));
+        checked && (cdsTarget && cdsTarget.map(x => this.cdsState[x].checked = true));
       });
     this
       .brokerService
@@ -55,10 +56,10 @@ export class CdsComponent implements OnInit {
       });
   }
 
-  buttonClicked(item) {
-    this.display=true;
-    this.header = item;
-  }
+  // buttonClicked(item) {
+  //   this.display=true;
+  //   this.header = item;
+  // }
 
   // ngAfterViewInit(){ }
 

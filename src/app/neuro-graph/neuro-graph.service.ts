@@ -8,9 +8,9 @@ export class NeuroGraphService {
   constructor(private activatedRoute : ActivatedRoute) {
     let baseUrl = envs[envs.selectedEnv];
     this.set('baseUrl', baseUrl);
-    Object
-      .keys(urlMaps)
-      .map(key => urlMaps[key] = baseUrl.concat('/', urlMaps[key]));
+    // Object
+    //   .keys(urlMaps)
+    //   .map(key => urlMaps[key] = baseUrl.concat('/', urlMaps[key]));
     this.set('urlMaps', urlMaps);
     let sub = this
       .activatedRoute
