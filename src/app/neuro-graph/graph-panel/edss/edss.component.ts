@@ -20,11 +20,11 @@ export class EdssComponent implements OnInit {
 
   //This is temporary data set
   private dataset: Array<any> = [
-    { 'x': new Date(2015, 6, 1), 'y': 2 },
-    { 'x': new Date(2016, 0, 1), 'y': 2.5 },
-    { 'x': new Date(2016, 6, 1), 'y': 2.5 },
-    { 'x': new Date(2017, 0, 1), 'y': 3.0 },
-    { 'x': new Date(2017, 6, 1), 'y': 3.5 },
+    { last_updated_instant: new Date(2015, 6, 1), score: 2.0 },
+    { last_updated_instant: new Date(2016, 0, 1), score: 2.5 },
+    { last_updated_instant: new Date(2016, 6, 1), score: 2.5 },
+    { last_updated_instant: new Date(2017, 0, 1), score: 3.0 },
+    { last_updated_instant: new Date(2017, 6, 1), score: 3.5 },
   ];
 
   ngOnInit() {
@@ -42,8 +42,8 @@ export class EdssComponent implements OnInit {
       .range([GRAPH_SETTINGS.edss.chartHeight - 20, 0]);
 
     let line = d3.line<any>()
-      .x((d: any) => this.chartState.xScale(d.x))
-      .y((d: any) => this.yScale(d.y));
+      .x((d: any) => this.chartState.xScale(d.last_updated_instant))
+      .y((d: any) => this.yScale(d.score));
 
     let svg = d3.select('#edss')
       .append('g')
@@ -76,8 +76,8 @@ export class EdssComponent implements OnInit {
       .enter()
       .append('circle')
       .attr('class', 'dot')
-      .attr('cx', d => this.chartState.xScale(d.x))
-      .attr('cy', d => this.yScale(d.y))
+      .attr('cx', d => this.chartState.xScale(d.last_updated_instant))
+      .attr('cy', d => this.yScale(d.score))
       .attr('r', 7)
       .style('fill', GRAPH_SETTINGS.edss.color)
       .style('stroke', '#FFFFFF')
@@ -100,9 +100,9 @@ export class EdssComponent implements OnInit {
       .append('text')
       .attr('class', 'label')
       .style('font-size', '0.8em')
-      .attr('x', d => this.chartState.xScale(d.x) - 5)
-      .attr('y', d => this.yScale(d.y) - 10)
-      .text(d => d.y);
+      .attr('x', d => this.chartState.xScale(d.last_updated_instant) - 5)
+      .attr('y', d => this.yScale(d.score) - 10)
+      .text(d => d.score);
 
   }
 
