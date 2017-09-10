@@ -14,32 +14,12 @@ export class EdssComponent implements OnInit {
   private yDomain : Array < number > = [0, GRAPH_SETTINGS.edss.maxValueY];
   private edssData : Array < any >;
   //This is temporary data set
-<<<<<<< HEAD
-  private dataset : Array < any > = [
-    {
-      'x': new Date(2015, 6, 1),
-      'y': 2
-    }, {
-      'x': new Date(2016, 0, 1),
-      'y': 2.5
-    }, {
-      'x': new Date(2016, 6, 1),
-      'y': 2.5
-    }, {
-      'x': new Date(2017, 0, 1),
-      'y': 3.0
-    }, {
-      'x': new Date(2017, 6, 1),
-      'y': 3.5
-    }
-=======
   private dataset: Array<any> = [
     { last_updated_instant: new Date(2015, 6, 1), score: 2.0 },
     { last_updated_instant: new Date(2016, 0, 1), score: 2.5 },
     { last_updated_instant: new Date(2016, 6, 1), score: 2.5 },
     { last_updated_instant: new Date(2017, 0, 1), score: 3.0 },
     { last_updated_instant: new Date(2017, 6, 1), score: 3.5 },
->>>>>>> 052de2b7a98f9e97adb63bea59eaccb846dcf218
   ];
 
   ngOnInit() {
