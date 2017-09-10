@@ -1,21 +1,21 @@
-import {Component, OnInit, Input, ViewEncapsulation} from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
-import {BrokerService} from '../../../fire-base/broker.service';
-import {allMessages, allHttpMessages, medication} from '../../neuro-graph.config';
-import {searchObject} from '../../neuro-graph.helper';
-import {GRAPH_SETTINGS} from '../../neuro-graph.config';
+import { BrokerService } from '../../../fire-base/broker.service';
+import { allMessages, allHttpMessages, medication } from '../../neuro-graph.config';
+import { searchObject } from '../../neuro-graph.helper';
+import { GRAPH_SETTINGS } from '../../neuro-graph.config';
 
-@Component({selector: '[app-medications]', templateUrl: './medications.component.html', styleUrls: ['./medications.component.sass']})
+@Component({ selector: '[app-medications]', templateUrl: './medications.component.html', styleUrls: ['./medications.component.sass'] })
 export class MedicationsComponent implements OnInit {
-  @Input()private chartState : any;
-  subscriptions : any;
-  dmtArray : Array < any > = [];
-  vitaminDArray : Array < any > = [];
-  otherMedsArray : Array < any > = [];
-  selectedMed : Object = {
-    dmt:false,
-    otherMeds:false,
-    vitaminD:false
+  @Input() private chartState: any;
+  subscriptions: any;
+  dmtArray: Array<any> = [];
+  vitaminDArray: Array<any> = [];
+  otherMedsArray: Array<any> = [];
+  selectedMed: Object = {
+    dmt: false,
+    otherMeds: false,
+    vitaminD: false
   };
   medType = {
     dmt: 'dmt',
@@ -23,7 +23,7 @@ export class MedicationsComponent implements OnInit {
     vitaminD: 'vitaminD'
   };
 
-  constructor(private brokerService : BrokerService) {}
+  constructor(private brokerService: BrokerService) { }
 
   ngOnInit() {
     console.log('medications ngOnInit');
@@ -38,10 +38,10 @@ export class MedicationsComponent implements OnInit {
             this.prepareMedications(d.data);
             if (this.selectedMed[this.medType.dmt]) {
               this.drawDmt();
-            } 
+            }
             if (this.selectedMed[this.medType.vitaminD]) {
               this.drawVitaminD();
-            } if(this.selectedMed[this.medType.otherMeds]){
+            } if (this.selectedMed[this.medType.otherMeds]) {
               this.drawOtherMeds();
             }
           })();
@@ -84,7 +84,7 @@ export class MedicationsComponent implements OnInit {
         : (() => {
           console.log(d.data);
           this.selectedMed[medication] = false;
-          if (medication == this.medType.dmt) {            
+          if (medication == this.medType.dmt) {
             this.removeDmt()
           } else if (medication == this.medType.vitaminD) {
             this.removeVitaminD()
@@ -100,7 +100,7 @@ export class MedicationsComponent implements OnInit {
   }
 
   prepareMedications(data) {
-    let medicationOrders : Array < any > = [];
+    let medicationOrders: Array<any> = [];
     data && data.EPIC && data.EPIC.patients && (data.EPIC.patients.length > 0) && (medicationOrders = data.EPIC.patients[0].medicationOrders);
     let genericNames = medication
       .dmt
@@ -161,14 +161,9 @@ export class MedicationsComponent implements OnInit {
     this.removeChart(this.medType.otherMeds);
   }
 
-  //Moment js will be used
-  getDateObject(input) {
-    return new Date(input);
-  }
-
   getEndDate(input) {
-    if (input) 
-      return this.getDateObject(input)
+    if (input)
+      return Date.parse(input)
     return this.chartState.xDomain.defaultMaxValue;
   }
 
@@ -180,7 +175,7 @@ export class MedicationsComponent implements OnInit {
     return capitalize + ' ...';
   }
 
-  drawChart(dataset : Array < any >, containterId, barColor, onClickCallback) {
+  drawChart(dataset: Array<any>, containterId, barColor, onClickCallback) {
     let svg = d3
       .select('#' + containterId)
       .append('g')
@@ -203,7 +198,7 @@ export class MedicationsComponent implements OnInit {
       .attr('rx', 0)
       .attr('ry', 0)
       .attr('x', d => {
-        let medStartDate = this.getDateObject(d.date.medStart || d.date.orderDate);
+        let medStartDate = Date.parse(d.date.medStart || d.date.orderDate);
         let pos = this
           .chartState
           .xScale(medStartDate);
@@ -211,7 +206,7 @@ export class MedicationsComponent implements OnInit {
           ? 0
           : pos;
       })
-      .attr('y', function (d : any, i) {
+      .attr('y', function (d: any, i) {
         for (var j = 0; j < groups.length; j++) {
           if (d.medication.id == groups[j]) {
             return j * 27 + 12;
@@ -219,13 +214,13 @@ export class MedicationsComponent implements OnInit {
         }
       })
       .attr('width', d => {
-        let medStartDate = this.getDateObject(d.date.medStart || d.date.orderDate);
+        let medStartDate = Date.parse(d.date.medStart || d.date.orderDate);
         let medEndDate = this.getEndDate(d.date.medEnd);
         return this
           .chartState
           .xScale(medEndDate) - this
-          .chartState
-          .xScale(medStartDate);
+            .chartState
+            .xScale(medStartDate);
       })
       .attr('height', 6)
       .attr('stroke', 'none')
@@ -240,13 +235,13 @@ export class MedicationsComponent implements OnInit {
       .append('text')
       .text(d => this.getShortenedName(d.name))
       .attr('x', d => {
-        let medStartDate = this.getDateObject(d.date.medStart || d.date.orderDate);
+        let medStartDate = Date.parse(d.date.medStart || d.date.orderDate);
         let medEndDate = this.getEndDate(d.date.medEnded);
         let width = this
           .chartState
           .xScale(medEndDate) - this
-          .chartState
-          .xScale(medStartDate);
+            .chartState
+            .xScale(medStartDate);
         let pos = this
           .chartState
           .xScale(medStartDate);
@@ -254,7 +249,7 @@ export class MedicationsComponent implements OnInit {
           ? 0
           : pos;
       })
-      .attr('y', function (d : any, i) {
+      .attr('y', function (d: any, i) {
         for (var j = 0; j < groups.length; j++) {
           if (d.medication.id == groups[j]) {
             return j * 27 + 8;
