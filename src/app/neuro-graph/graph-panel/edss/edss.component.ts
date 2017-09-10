@@ -14,6 +14,7 @@ export class EdssComponent implements OnInit {
   private yDomain : Array < number > = [0, GRAPH_SETTINGS.edss.maxValueY];
   private edssData : Array < any >;
   //This is temporary data set
+<<<<<<< HEAD
   private dataset : Array < any > = [
     {
       'x': new Date(2015, 6, 1),
@@ -31,6 +32,14 @@ export class EdssComponent implements OnInit {
       'x': new Date(2017, 6, 1),
       'y': 3.5
     }
+=======
+  private dataset: Array<any> = [
+    { last_updated_instant: new Date(2015, 6, 1), score: 2.0 },
+    { last_updated_instant: new Date(2016, 0, 1), score: 2.5 },
+    { last_updated_instant: new Date(2016, 6, 1), score: 2.5 },
+    { last_updated_instant: new Date(2017, 0, 1), score: 3.0 },
+    { last_updated_instant: new Date(2017, 6, 1), score: 3.5 },
+>>>>>>> 052de2b7a98f9e97adb63bea59eaccb846dcf218
   ];
 
   ngOnInit() {
@@ -100,7 +109,9 @@ export class EdssComponent implements OnInit {
         0
       ]);
 
-    let line = d3.line < any > ().x((d : any) => this.chartState.xScale(d.x)).y((d : any) => this.yScale(d.y));
+    let line = d3.line<any>()
+      .x((d: any) => this.chartState.xScale(d.last_updated_instant))
+      .y((d: any) => this.yScale(d.score));
 
     let svg = d3
       .select('#edss')
@@ -142,8 +153,8 @@ export class EdssComponent implements OnInit {
       .enter()
       .append('circle')
       .attr('class', 'dot')
-      .attr('cx', d => this.chartState.xScale(d.x))
-      .attr('cy', d => this.yScale(d.y))
+      .attr('cx', d => this.chartState.xScale(d.last_updated_instant))
+      .attr('cy', d => this.yScale(d.score))
       .attr('r', 7)
       .style('fill', GRAPH_SETTINGS.edss.color)
       .style('stroke', '#FFFFFF')
@@ -169,9 +180,9 @@ export class EdssComponent implements OnInit {
       .append('text')
       .attr('class', 'label')
       .style('font-size', '0.8em')
-      .attr('x', d => this.chartState.xScale(d.x) - 5)
-      .attr('y', d => this.yScale(d.y) - 10)
-      .text(d => d.y);
+      .attr('x', d => this.chartState.xScale(d.last_updated_instant) - 5)
+      .attr('y', d => this.yScale(d.score) - 10)
+      .text(d => d.score);
 
   }
 
