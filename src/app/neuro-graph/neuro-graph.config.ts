@@ -39,9 +39,33 @@ export const medication = {
             }
 };
 
+// export const GRAPH_SETTINGS = {
+//     medications:{
+//         x:100,
+//         y:100
+//     }
+// }
+
 export const GRAPH_SETTINGS = {
-    medications:{
-        x:100,
-        y:100
+    panel: {
+        offsetHeight: 520,
+        offsetWidth: 710,
+        marginTop: 5,
+        marginRight: 25,
+        marginBottom: 20,
+        marginLeft: 25,
+    },
+    medications: {
+        positionTop: 400,
+        containerHeight: 112,
+        dmtColor: "#607D8B",
+        vitaminDColor: "#D8DFE2",
+        otherMedsColor: "#FBC02D",
+    },
+    edss: {
+        positionTop: 180,
+        chartHeight: 210,
+        maxValueY: 9,
+        color: "#EA700D"
     }
 }

@@ -4,11 +4,11 @@
         <input class="header-info-button" type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoMri')" width="20px" height="20px">
     </div>
     <div class="right-content">
-        <a><img src="../../assets/images/nav-up-avs.PNG" width="50px" height="50px"></a>
-        <a><img src="../../assets/images/nav-up-second.PNG" width="50px" height="50px"></a>
+        <a><img src="../../assets/images/nav-up-avs.PNG" width="50px" height="40px"></a>
+        <a><img src="../../assets/images/nav-up-second.PNG" width="50px" height="40px"></a>
     </div>
 </div>
-<div>
+<!-- <div>
     <svg width="746" height="300">
         <g id='control-panel'></g>
         <g id="edss"></g>
@@ -17,4 +17,22 @@
 <div style="width:746px;height:400px;">
     <svg id='medications' app-medications>
     </svg>
+</div> -->
+
+<div id="graph-panel-wrapper">
+    <div id="graph-container" style="position:relative;" #graphcontainer>
+        <svg app-shared-grid [chartState]="state" id="shared-grid" width="100%" style="position:absolute; top:0px;"></svg>
+        <svg app-edss id="edss" [chartState]="state" width="100%" [attr.height]="graphSetting.edss.chartHeight" [style.top.px]="graphSetting.edss.positionTop" style="position:absolute;"></svg>
+        <div app-medications [chartState]="state" id="medications-container" [style.top.px]="graphSetting.medications.positionTop" [style.height.px]="graphSetting.medications.containerHeight" style="position:absolute;width:100%;overflow-y:auto;overflow-x:hidden;background-color:#FFF;border:1px solid #E7E7E7;padding-top:5px;">
+            <!-- contents of app-medications components will be injected here at runtime -->
+        </div>
+    </div>
+    <div id="graph-control">
+        <div id="undo" class="control-button" style="background-color: #e7d7f7">
+        </div>
+        <div id="zoom" class="control-button" style="background-color: #e1f4ff">
+        </div>
+        <div id="legend" class="control-button" style="background-color:#dff1a6">
+        </div>
+    </div>
 </div>
