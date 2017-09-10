@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit,ChangeDetectorRef} from '@angular/core';
 import {BrokerService} from '../../fire-base/broker.service';
 import {cds, allMessages} from '../neuro-graph.config';
 
@@ -6,7 +6,7 @@ import {cds, allMessages} from '../neuro-graph.config';
 export class CdsComponent implements OnInit {
   subscriptions : any;
   cdsState : Object = {};
-  constructor(private brokerService : BrokerService) {
+  constructor(private brokerService : BrokerService, private changeDetector:ChangeDetectorRef) {
     this.cdsState = {
       relapses: {checked:false,info:"Lorem ipsum dolor sit amet, maecenas parturient ac urna sed mi, dui nibh sed orci, convallis ligula ultricies a, mauris risus quisque ornare, malesuada nulla in ut aliquet. Sem consequat fermentum in elit,",title:"Review relapses"},
       imaging: {checked:false,info:"",title:""},
@@ -23,6 +23,7 @@ export class CdsComponent implements OnInit {
 
   ngOnInit() {
     console.log('cds ngOnInit');
+    
     this.subscriptions = this
       .brokerService
       .filterOn(allMessages.neuroRelated)
@@ -30,8 +31,10 @@ export class CdsComponent implements OnInit {
         let cdsSource = d.data.artifact;
         let cdsTarget : [any] = cds[cdsSource];
         let checked = d.data.checked;
-        checked && (cdsTarget && cdsTarget.map(x => this.cdsState[x].checked = true));
+        checked && (cdsTarget && cdsTarget.forEach(x => this.cdsState[x].checked = true));        
+        this.changeDetector.detectChanges();
       });
+      
   }
   
   // buttonClicked(item) {
