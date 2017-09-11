@@ -207,6 +207,9 @@ export class MedicationsComponent implements OnInit {
   }
 
   drawChart(dataset: Array<any>, containterId, barColor, onClickCallback) {
+    //temporary fix to avoid overwrite
+    d3.selectAll('.' + containterId + '-elements-wrapper').remove();
+
     let svg = d3
       .select('#' + containterId)
       .append('g')
@@ -217,15 +220,13 @@ export class MedicationsComponent implements OnInit {
     let groupsUnfiltered = dataset.map(d => d.medication.id);
     let groups = groupsUnfiltered.filter((elem, pos, arr) => arr.indexOf(elem) == pos);
 
-    let rectangles = svg
-      .append('g')
+    let rectangles = svg.append('g')
       .selectAll('rect')
       .data(dataset)
       .enter();
 
     //Draws rectangles
-    rectangles
-      .append('rect')
+    rectangles.append('rect')
       .attr('rx', 0)
       .attr('ry', 0)
       .attr('x', d => {
@@ -262,8 +263,7 @@ export class MedicationsComponent implements OnInit {
       })
 
     //Draws texts
-    rectangles
-      .append('text')
+    rectangles.append('text')
       .text(d => this.getShortenedName(d.name))
       .attr('x', d => {
         let medStartDate = Date.parse(d.date.medStart || d.date.orderDate);
@@ -293,24 +293,14 @@ export class MedicationsComponent implements OnInit {
       .attr('fill', 'black')
       .style('text-transform', 'capitalize');
 
-    d3
-      .select('#' + containterId)
-      .attr('height', groups.length * 30);
-    d3
-      .select('#' + containterId)
-      .style('display', 'block');
+    d3.select('#' + containterId).attr('height', groups.length * 30);
+    d3.select('#' + containterId).style('display', 'block');
   }
 
   removeChart(containterId) {
-    d3
-      .selectAll('.' + containterId + '-elements-wrapper')
-      .remove();
-    d3
-      .select('#' + containterId)
-      .attr('height', 0);
-    d3
-      .select('#' + containterId)
-      .style('display', 'none');
+    d3.selectAll('.' + containterId + '-elements-wrapper').remove();
+    d3.select('#' + containterId).attr('height', 0);
+    d3.select('#' + containterId).style('display', 'none');
   }
 
 }
