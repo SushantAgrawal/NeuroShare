@@ -18,11 +18,11 @@ export class EdssComponent implements OnInit {
   private edssData: Array<any>;
   //This is temporary data set
   private dataset: Array<any> = [
-    { last_updated_instant: "01/31/2015 10:41:05", score: "2.0" },
-    { last_updated_instant: "07/31/2015 10:41:05", score: "2.5" },
-    { last_updated_instant: "01/31/2016 10:41:05", score: "2.5" },
-    { last_updated_instant: "07/31/2016 10:41:05", score: "3.0" },
-    { last_updated_instant: "08/31/2017 10:41:05", score: "3.5" },
+    { last_updated_instant: "07/1/2015 10:41:05", score: "2.0", last_updated_provider_id: "Clinician" },
+    { last_updated_instant: "01/1/2016 10:41:05", score: "3.5", last_updated_provider_id: "Clinician" },
+    { last_updated_instant: "07/1/2016 10:41:05", score: "2.5", last_updated_provider_id: "Clinician" },
+    { last_updated_instant: "01/1/2017 10:41:05", score: "3.0", last_updated_provider_id: "Clinician" },
+    { last_updated_instant: "07/1/2017 10:41:05", score: "4.5", last_updated_provider_id: "Clinician" },
   ];
 
   constructor(private brokerService: BrokerService, private modalService: BsModalService) { }
@@ -87,7 +87,7 @@ export class EdssComponent implements OnInit {
 
   drawChart() {
     //data prepare
-    let dataset = this.edssData.map(d => {
+    let dataset = this.dataset.map(d => {
       return {
         ...d,
         lastUpdatedDate: Date.parse(d.last_updated_instant),
