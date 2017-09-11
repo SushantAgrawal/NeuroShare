@@ -1,13 +1,25 @@
-import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation, TemplateRef, ViewChild } from '@angular/core';
 import * as d3 from 'd3';
 import { BrokerService } from '../../../fire-base/broker.service';
 import { allMessages, allHttpMessages, medication } from '../../neuro-graph.config';
 import { searchObject } from '../../neuro-graph.helper';
 import { GRAPH_SETTINGS } from '../../neuro-graph.config';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 
-@Component({ selector: '[app-medications]', templateUrl: './medications.component.html', styleUrls: ['./medications.component.sass'] })
+@Component({
+  selector: '[app-medications]',
+  templateUrl: './medications.component.html',
+  styleUrls: ['./medications.component.sass']
+})
 export class MedicationsComponent implements OnInit {
+  @ViewChild('dmtSecondLevelTemplate') private dmtSecondLevelTemplate: TemplateRef<any>;
+  @ViewChild('vitaminDSecondLevelTemplate') private vitaminDSecondLevelTemplate: TemplateRef<any>;
+  @ViewChild('otherMedsSecondLevelTemplate') private otherMedsSecondLevelTemplate: TemplateRef<any>;
   @Input() private chartState: any;
+
+  medicationDetail: any;
+  modalRef: BsModalRef;
   subscriptions: any;
   dmtArray: Array<any> = [];
   vitaminDArray: Array<any> = [];
@@ -23,7 +35,7 @@ export class MedicationsComponent implements OnInit {
     vitaminD: 'vitaminD'
   };
 
-  constructor(private brokerService: BrokerService) { }
+  constructor(private brokerService: BrokerService, private modalService: BsModalService) { }
 
   ngOnInit() {
     console.log('medications ngOnInit');
@@ -134,16 +146,35 @@ export class MedicationsComponent implements OnInit {
     // let newArray = medicationOrders   .filter(x => x.type == 'otherMeds');
   }
 
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+
   drawDmt() {
-    this.drawChart(this.dmtArray, this.medType.dmt, GRAPH_SETTINGS.medications.dmtColor, x => console.log('open dmt 2nd level'));
+    let config = { backdrop: false, class: 'dmtSecondLevel' };
+    let openDmtModal = (data) => {
+      this.medicationDetail = data;
+      this.modalRef = this.modalService.show(this.dmtSecondLevelTemplate, config)
+    };
+    this.drawChart(this.dmtArray, this.medType.dmt, GRAPH_SETTINGS.medications.dmtColor, openDmtModal);
   }
 
   drawVitaminD() {
-    this.drawChart(this.vitaminDArray, this.medType.vitaminD, GRAPH_SETTINGS.medications.vitaminDColor, x => console.log('open vitamin d 2nd level'));
+    let config = { backdrop: false, class: 'vitaminDSecondLevel' };
+    let openVitaminDModal = (data) => {
+      this.medicationDetail = data;
+      this.modalRef = this.modalService.show(this.vitaminDSecondLevelTemplate)
+    };
+    this.drawChart(this.vitaminDArray, this.medType.vitaminD, GRAPH_SETTINGS.medications.vitaminDColor, openVitaminDModal);
   }
 
   drawOtherMeds() {
-    this.drawChart(this.otherMedsArray, this.medType.otherMeds, GRAPH_SETTINGS.medications.otherMedsColor, x => console.log('open other meds 2nd level'));
+    let config = { backdrop: false, class: 'otherMedsSecondLevel' };
+    let openOtherMedsModal = (data) => {
+      this.medicationDetail = data;
+      this.modalRef = this.modalService.show(this.otherMedsSecondLevelTemplate)
+    };
+    this.drawChart(this.otherMedsArray, this.medType.otherMeds, GRAPH_SETTINGS.medications.otherMedsColor, openOtherMedsModal);
   }
 
   removeDmt() {
@@ -227,7 +258,7 @@ export class MedicationsComponent implements OnInit {
       .attr('fill', barColor)
       .style('cursor', 'pointer')
       .on("click", d => {
-        onClickCallback();
+        onClickCallback(d);
       })
 
     //Draws texts

@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { PopoverModule } from 'ngx-bootstrap/popover';
+import { ModalModule } from 'ngx-bootstrap/modal';
 // import {DialogModule, OverlayPanelModule} from 'primeng/primeng';
 // import {NgbModule,NgbPopoverConfig} from '@ng-bootstrap/ng-bootstrap';
 // import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -21,11 +22,15 @@ import { EdssComponent } from './graph-panel/edss/edss.component';
 export const ROUTES: Routes = [];
 @NgModule({
   imports: [
-    CommonModule, FormsModule, RouterModule.forRoot(ROUTES),PopoverModule.forRoot()
+    CommonModule,
+    FormsModule,
+    RouterModule.forRoot(ROUTES),
+    PopoverModule.forRoot(),
+    ModalModule.forRoot()
     // ,BrowserAnimationsModule
   ],
   declarations: [
-    GraphPanelComponent, 
+    GraphPanelComponent,
     NeuroRelatedComponent,
     PatientConcernsComponent,
     NeuroGraphBoxComponent,

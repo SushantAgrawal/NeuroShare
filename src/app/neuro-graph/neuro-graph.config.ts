@@ -223,8 +223,8 @@ export const GRAPH_SETTINGS = {
         positionTop: 400,
         containerHeight: 120,
         dmtColor: "#607D8B",
-        vitaminDColor: "#D8DFE2",
-        otherMedsColor: "#FBC02D"
+        vitaminDColor: "#FBC02D",
+        otherMedsColor: "#D8DFE2"
     },
     edss: {
         positionTop: 180,
