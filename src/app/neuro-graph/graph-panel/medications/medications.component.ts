@@ -146,10 +146,6 @@ export class MedicationsComponent implements OnInit {
     // let newArray = medicationOrders   .filter(x => x.type == 'otherMeds');
   }
 
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
-  }
-
   drawDmt() {
     let config = { backdrop: false, class: 'dmtSecondLevel' };
     let openDmtModal = (data) => {

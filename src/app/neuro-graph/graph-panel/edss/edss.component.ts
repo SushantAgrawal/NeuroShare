@@ -1,14 +1,17 @@
-import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, TemplateRef, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
 import { BrokerService } from '../../../fire-base/broker.service';
 import { allMessages, allHttpMessages, medication } from '../../neuro-graph.config';
 import { GRAPH_SETTINGS } from '../../neuro-graph.config';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 
 @Component({ selector: '[app-edss]', templateUrl: './edss.component.html', styleUrls: ['./edss.component.sass'], encapsulation: ViewEncapsulation.None })
 export class EdssComponent implements OnInit {
+  @ViewChild('edssSecondLevelTemplate') private edssSecondLevelTemplate: TemplateRef<any>;
   @Input() private chartState: any;
-
-  constructor(private brokerService: BrokerService) { }
+  private modalRef: BsModalRef;
+  private edssScoreDetail: any;
   private subscriptions: any;
   private yScale: any;
   private yDomain: Array<number> = [0, GRAPH_SETTINGS.edss.maxValueY];
@@ -22,6 +25,8 @@ export class EdssComponent implements OnInit {
     { last_updated_instant: "08/31/2017 10:41:05", score: "3.5" },
   ];
 
+  constructor(private brokerService: BrokerService, private modalService: BsModalService) { }
+
   ngOnInit() {
     console.log('edss ngOnInit');
     this.subscriptions = this
@@ -31,8 +36,6 @@ export class EdssComponent implements OnInit {
         d.error
           ? console.log(d.error)
           : (() => {
-            console.log(d.data);
-            debugger;
             this.edssData = d.data.edss_scores;
             this.drawChart();
           })();
@@ -72,9 +75,14 @@ export class EdssComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this
-      .subscriptions
-      .unsubscribe();
+    this.subscriptions.unsubscribe();
+  }
+
+  showSecondLevel(data) {
+    console.log(data);
+    let config = { backdrop: false, class: 'otherMedsSecondLevel' };
+    this.edssScoreDetail = data;
+    this.modalRef = this.modalService.show(this.edssSecondLevelTemplate)
   }
 
   drawChart() {
@@ -144,7 +152,7 @@ export class EdssComponent implements OnInit {
           .style('stroke', '#FFFFFF');
       })
       .on('click', d => {
-        console.log(d);
+        this.showSecondLevel(d);
       })
 
     svg.selectAll('.label')
