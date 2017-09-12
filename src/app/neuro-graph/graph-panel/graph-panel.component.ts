@@ -13,31 +13,20 @@ export class GraphPanelComponent implements OnInit {
   private graphSetting = GRAPH_SETTINGS;
 
   constructor() { }
+
   ngOnInit() {
     console.log('graph-panel ngOnInit');
     this.state = this.getDefaultState();
   }
 
-  getXDomain(minDate, maxDate) {
+  getXDomain(zoomOption) {
+    //Calculate range
     return {
-      defaultMinValue: minDate,
-      defaultMaxValue: maxDate,
-      currentMinValue: minDate,
-      currentMaxValue: maxDate
+      defaultMinValue: new Date(2015, 0, 1),
+      defaultMaxValue: new Date(2017, 11, 31),
+      currentMinValue: new Date(2015, 0, 1),
+      currentMaxValue: new Date(2017, 11, 31)
     };
-  }
-
-  getCanvasDimension() {
-    return {
-      offsetHeight: GRAPH_SETTINGS.panel.offsetHeight,
-      offsetWidth: GRAPH_SETTINGS.panel.offsetWidth,
-      height: GRAPH_SETTINGS.panel.offsetHeight - GRAPH_SETTINGS.panel.marginTop - GRAPH_SETTINGS.panel.marginBottom,
-      width: GRAPH_SETTINGS.panel.offsetWidth - GRAPH_SETTINGS.panel.marginLeft - GRAPH_SETTINGS.panel.marginRight,
-      marginTop: GRAPH_SETTINGS.panel.marginTop,
-      marginRight: GRAPH_SETTINGS.panel.marginRight,
-      marginBottom: GRAPH_SETTINGS.panel.marginBottom,
-      marginLeft: GRAPH_SETTINGS.panel.marginLeft
-    }
   }
 
   getXScale(dimension, xDomain): any {
@@ -48,9 +37,18 @@ export class GraphPanelComponent implements OnInit {
 
   getDefaultState() {
     let state: any = {};
-    state.canvasDimension = this.getCanvasDimension();
+    state.canvasDimension = {
+      offsetHeight: GRAPH_SETTINGS.panel.offsetHeight,
+      offsetWidth: GRAPH_SETTINGS.panel.offsetWidth,
+      height: GRAPH_SETTINGS.panel.offsetHeight - GRAPH_SETTINGS.panel.marginTop - GRAPH_SETTINGS.panel.marginBottom,
+      width: GRAPH_SETTINGS.panel.offsetWidth - GRAPH_SETTINGS.panel.marginLeft - GRAPH_SETTINGS.panel.marginRight,
+      marginTop: GRAPH_SETTINGS.panel.marginTop,
+      marginRight: GRAPH_SETTINGS.panel.marginRight,
+      marginBottom: GRAPH_SETTINGS.panel.marginBottom,
+      marginLeft: GRAPH_SETTINGS.panel.marginLeft
+    };
     //Currently dates are static. Later will be set dynamically based on zoom options.
-    state.xDomain = this.getXDomain(new Date(2015, 0, 1), new Date(2017, 11, 31));
+    state.xDomain = this.getXDomain(null);
     state.xScale = this.getXScale(state.canvasDimension, state.xDomain);
     return state;
   }
