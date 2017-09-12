@@ -20,6 +20,7 @@ export class GraphPanelComponent implements OnInit {
   }
 
   getXDomain(zoomOption) {
+    //Currently dates are static. Later will be set dynamically based on zoom options.
     //Calculate range
     return {
       defaultMinValue: new Date(2015, 0, 1),
@@ -47,7 +48,6 @@ export class GraphPanelComponent implements OnInit {
       marginBottom: GRAPH_SETTINGS.panel.marginBottom,
       marginLeft: GRAPH_SETTINGS.panel.marginLeft
     };
-    //Currently dates are static. Later will be set dynamically based on zoom options.
     state.xDomain = this.getXDomain(null);
     state.xScale = this.getXScale(state.canvasDimension, state.xDomain);
     return state;
