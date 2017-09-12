@@ -22,8 +22,6 @@ export class CdsComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('cds ngOnInit');
-    
     this.subscriptions = this
       .brokerService
       .filterOn(allMessages.neuroRelated)

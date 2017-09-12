@@ -38,7 +38,6 @@ export class MedicationsComponent implements OnInit {
   constructor(private brokerService: BrokerService, private modalService: BsModalService) { }
 
   ngOnInit() {
-    console.log('medications ngOnInit');
     this.subscriptions = this
       .brokerService
       .filterOn(allHttpMessages.httpGetMedications)
@@ -46,7 +45,6 @@ export class MedicationsComponent implements OnInit {
         d.error
           ? console.log(d.error)
           : (() => {
-            console.log(d.data);
             this.prepareMedications(d.data);
             if (this.selectedMed[this.medType.dmt]) {
               this.drawDmt();
@@ -80,7 +78,6 @@ export class MedicationsComponent implements OnInit {
       d.error
         ? console.log(d.error)
         : (() => {
-          console.log(d.data);
           this.selectedMed[medication] = true;
           this
             .brokerService
@@ -94,7 +91,6 @@ export class MedicationsComponent implements OnInit {
       d.error
         ? console.log(d.error)
         : (() => {
-          console.log(d.data);
           this.selectedMed[medication] = false;
           if (medication == this.medType.dmt) {
             this.removeDmt()

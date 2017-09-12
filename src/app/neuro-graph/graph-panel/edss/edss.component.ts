@@ -20,7 +20,6 @@ export class EdssComponent implements OnInit {
   constructor(private brokerService: BrokerService, private modalService: BsModalService) { }
 
   ngOnInit() {
-    console.log('edss ngOnInit');
     this.subscriptions = this
       .brokerService
       .filterOn(allHttpMessages.httpGetEdss)
@@ -56,7 +55,6 @@ export class EdssComponent implements OnInit {
         d.error
           ? console.log(d.error)
           : (() => {
-            console.log(d.data);
             this.removeChart();
           })();
       })
@@ -71,7 +69,6 @@ export class EdssComponent implements OnInit {
   }
 
   showSecondLevel(data) {
-    console.log(data);
     let config = { backdrop: false, class: 'otherMedsSecondLevel' };
     this.edssScoreDetail = data;
     this.modalRef = this.modalService.show(this.edssSecondLevelTemplate)
