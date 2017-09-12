@@ -16,14 +16,6 @@ export class EdssComponent implements OnInit {
   private yScale: any;
   private yDomain: Array<number> = [0, GRAPH_SETTINGS.edss.maxValueY];
   private edssData: Array<any>;
-  //This is temporary data set
-  private dataset: Array<any> = [
-    { last_updated_instant: "07/1/2015 10:41:05", score: "2.0", last_updated_provider_id: "Clinician" },
-    { last_updated_instant: "01/1/2016 10:41:05", score: "3.5", last_updated_provider_id: "Clinician" },
-    { last_updated_instant: "07/1/2016 10:41:05", score: "2.5", last_updated_provider_id: "Clinician" },
-    { last_updated_instant: "01/1/2017 10:41:05", score: "3.0", last_updated_provider_id: "Clinician" },
-    { last_updated_instant: "07/1/2017 10:41:05", score: "4.5", last_updated_provider_id: "Clinician" },
-  ];
 
   constructor(private brokerService: BrokerService, private modalService: BsModalService) { }
 
@@ -86,8 +78,8 @@ export class EdssComponent implements OnInit {
   }
 
   drawChart() {
-    //data prepare
-    let dataset = this.dataset.map(d => {
+    //data preparation
+    let dataset = this.edssData.map(d => {
       return {
         ...d,
         lastUpdatedDate: Date.parse(d.last_updated_instant),
@@ -106,9 +98,8 @@ export class EdssComponent implements OnInit {
 
     let svg = d3
       .select('#edss')
-      .append('g')
       .attr('class', 'edss-elements-wrapper')
-      .attr('transform', 'translate(' + GRAPH_SETTINGS.panel.marginLeft + ', 5)');
+      .attr('transform', `translate(${GRAPH_SETTINGS.panel.marginLeft},${GRAPH_SETTINGS.edss.positionTop})`)
 
     svg.append('g')
       .attr('class', 'edss-y-axis')
@@ -168,6 +159,6 @@ export class EdssComponent implements OnInit {
   }
 
   removeChart() {
-    d3.selectAll('.edss-elements-wrapper').remove();
+    d3.select('#edss').selectAll("*").remove();
   }
 }

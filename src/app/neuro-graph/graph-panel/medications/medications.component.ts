@@ -114,36 +114,30 @@ export class MedicationsComponent implements OnInit {
   prepareMedications(data) {
     let medicationOrders: Array<any> = [];
     data && data.EPIC && data.EPIC.patients && (data.EPIC.patients.length > 0) && (medicationOrders = data.EPIC.patients[0].medicationOrders);
-    let genericNames = medication
-      .dmt
-      .genericNames
-      .toString()
-      .toLowerCase()
-      .split(',');
+    let genericNames = medication.dmt.genericNames.toString().toLowerCase().split(',');
     let vitaminDIds = medication.vitaminD.ids;
     let otherMedsIds = medication.otherMeds.ids;
     let mappedCodes = medication.otherMeds.mappedCodes;
     medicationOrders.forEach(x => {
       if (x.medication && genericNames.includes(x.medication.simple_generic_name.toLowerCase())) {
-        x.type = 'dmt' //m.medication.id
+        x.type = this.medType.dmt //m.medication.id
       } else if (x.medication && vitaminDIds.includes(x.medication.id)) {
-        x.type = 'vitaminD'
+        x.type = this.medType.vitaminD
       } else if (x.medication && otherMedsIds.includes(x.medication.id)) {
-        x.type = 'otherMeds'
+        x.type = this.medType.otherMeds
       } else if (searchObject(x, 'mapped_code', mappedCodes).length > 0) {
-        x.type = 'otherMeds'
+        x.type = this.medType.otherMeds
       }
     });
     this.dmtArray = medicationOrders
-      .filter(x => x.type == 'dmt')
+      .filter(x => x.type == this.medType.dmt)
       .sort((a, b) => Date.parse(b.date.medStart) - Date.parse(a.date.medStart));
     this.vitaminDArray = medicationOrders
-      .filter(x => x.type == 'vitaminD')
+      .filter(x => x.type == this.medType.vitaminD)
       .sort((a, b) => Date.parse(b.date.medStart) - Date.parse(a.date.medStart));;
     this.otherMedsArray = medicationOrders
-      .filter(x => x.type == 'otherMeds')
+      .filter(x => x.type == this.medType.otherMeds)
       .sort((a, b) => Date.parse(b.date.medStart) - Date.parse(a.date.medStart));;
-    // let newArray = medicationOrders   .filter(x => x.type == 'otherMeds');
   }
 
   drawDmt() {
@@ -204,11 +198,10 @@ export class MedicationsComponent implements OnInit {
 
   drawChart(dataset: Array<any>, containterId, barColor, onClickCallback) {
     //temporary fix to avoid overwrite
-    d3.selectAll('.' + containterId + '-elements-wrapper').remove();
+    d3.selectAll('#' + containterId).selectAll("*").remove();
 
     let svg = d3
       .select('#' + containterId)
-      .append('g')
       .attr('class', containterId + '-elements-wrapper')
       .attr('transform', 'translate(' + GRAPH_SETTINGS.panel.marginLeft + ', 5)');
 
@@ -227,12 +220,8 @@ export class MedicationsComponent implements OnInit {
       .attr('ry', 0)
       .attr('x', d => {
         let medStartDate = Date.parse(d.date.medStart || d.date.orderDate);
-        let pos = this
-          .chartState
-          .xScale(medStartDate);
-        return pos < 0
-          ? 0
-          : pos;
+        let pos = this.chartState.xScale(medStartDate);
+        return pos < 0 ? 0 : pos;
       })
       .attr('y', function (d: any, i) {
         for (var j = 0; j < groups.length; j++) {
@@ -244,11 +233,7 @@ export class MedicationsComponent implements OnInit {
       .attr('width', d => {
         let medStartDate = Date.parse(d.date.medStart || d.date.orderDate);
         let medEndDate = this.getEndDate(d.date.medEnd);
-        return this
-          .chartState
-          .xScale(medEndDate) - this
-            .chartState
-            .xScale(medStartDate);
+        return this.chartState.xScale(medEndDate) - this.chartState.xScale(medStartDate);
       })
       .attr('height', 6)
       .attr('stroke', 'none')
@@ -258,23 +243,16 @@ export class MedicationsComponent implements OnInit {
         onClickCallback(d);
       })
 
+
     //Draws texts
     rectangles.append('text')
       .text(d => this.getShortenedName(d.name))
       .attr('x', d => {
         let medStartDate = Date.parse(d.date.medStart || d.date.orderDate);
         let medEndDate = this.getEndDate(d.date.medEnded);
-        let width = this
-          .chartState
-          .xScale(medEndDate) - this
-            .chartState
-            .xScale(medStartDate);
-        let pos = this
-          .chartState
-          .xScale(medStartDate);
-        return pos < 0
-          ? 0
-          : pos;
+        let width = this.chartState.xScale(medEndDate) - this.chartState.xScale(medStartDate);
+        let pos = this.chartState.xScale(medStartDate);
+        return pos < 0 ? 0 : pos;
       })
       .attr('y', function (d: any, i) {
         for (var j = 0; j < groups.length; j++) {
@@ -289,13 +267,13 @@ export class MedicationsComponent implements OnInit {
       .attr('fill', 'black')
       .style('text-transform', 'capitalize');
 
+    //Adjusts height
     d3.select('#' + containterId).attr('height', groups.length * 30);
     d3.select('#' + containterId).style('display', 'block');
   }
 
   removeChart(containterId) {
-    d3.selectAll('.' + containterId + '-elements-wrapper').remove();
-    d3.select('#' + containterId).attr('height', 0);
+    d3.selectAll('#' + containterId).selectAll("*").remove();
     d3.select('#' + containterId).style('display', 'none');
   }
 
