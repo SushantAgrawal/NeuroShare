@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ViewEncapsulation, TemplateRef, ViewChild } from '@angular/core';
 import * as d3 from 'd3';
-import { BrokerService } from '../../../fire-base/broker.service';
+import { BrokerService } from '../../../broker/broker.service';
 import { allMessages, allHttpMessages, medication } from '../../neuro-graph.config';
 import { searchObject } from '../../neuro-graph.helper';
 import { GRAPH_SETTINGS } from '../../neuro-graph.config';

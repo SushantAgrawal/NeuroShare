@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 import { envs } from '../../app.config';
 import { allMessages, allHttpMessages } from '../neuro-graph.config';
-import { BrokerService } from '../../fire-base/broker.service';
+import { BrokerService } from '../../broker/broker.service';
 import { NeuroGraphService } from '../neuro-graph.service';
 
 //changeDetection is important

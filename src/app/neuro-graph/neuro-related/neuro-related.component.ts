@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 // import {Dialog} from 'primeng/primeng'; import { ActivatedRoute} from
 // '@angular/router';
-import {BrokerService} from '../../fire-base/broker.service';
+import {BrokerService} from '../../broker/broker.service';
 import {allMessages, allHttpMessages} from '../neuro-graph.config';
 
 // import {EnumMedicationtypes} from '../neuro-graph.helper';

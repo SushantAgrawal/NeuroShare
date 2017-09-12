@@ -8,4 +8,4 @@ import {HttpModule} from '@angular/http';
   ],
   declarations: []
 })
-export class FireBaseModule { }
+export class BrokerModule { }

@@ -3,7 +3,7 @@ import {Http, URLSearchParams, Headers, RequestOptions} from '@angular/http';
 import {Subject} from 'rxjs/subject';
 import 'rxjs/add/operator/map';
 import {Observable} from 'rxjs/observable';
-import {messages} from './fire-base.config';
+import {messages} from './broker.config';
 import 'rxjs/add/operator/filter';
 
 @Injectable()

@@ -1,5 +1,5 @@
 import {Component, OnInit,ChangeDetectorRef} from '@angular/core';
-import {BrokerService} from '../../fire-base/broker.service';
+import {BrokerService} from '../../broker/broker.service';
 import {cds, allMessages} from '../neuro-graph.config';
 
 @Component({selector: 'app-cds', templateUrl: './cds.component.html', styleUrls: ['./cds.component.sass']})
