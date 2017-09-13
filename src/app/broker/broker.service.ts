@@ -97,7 +97,7 @@ export class BrokerService {
     }
   };
 
-  httpGetMany(messsageId:string, query :  IQuery[] , carryBag?: any) {
+  httpGetMany(messsageId:string, query : {urlId:string,queryParams?:[{name:string,value:string}], headers?:{name:string,value:string}[]}[] , carryBag?: any) {
     try {
       //check url's validity? let temp = query.map(u=>)
       let temp = query.map(t => {
