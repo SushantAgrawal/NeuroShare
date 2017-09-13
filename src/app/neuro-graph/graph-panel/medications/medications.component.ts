@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewEncapsulation, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
 import { BrokerService } from '../../../broker/broker.service';
 import { allMessages, allHttpMessages, medication } from '../../neuro-graph.config';
@@ -10,7 +10,8 @@ import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 @Component({
   selector: '[app-medications]',
   templateUrl: './medications.component.html',
-  styleUrls: ['./medications.component.sass']
+  styleUrls: ['./medications.component.sass'],
+  encapsulation: ViewEncapsulation.None
 })
 export class MedicationsComponent implements OnInit {
   @ViewChild('dmtSecondLevelTemplate') private dmtSecondLevelTemplate: TemplateRef<any>;
