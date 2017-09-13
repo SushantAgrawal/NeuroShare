@@ -97,11 +97,11 @@ export class BrokerService {
     }
   };
 
-  httpGetMany(id, query : Array < IQuery >, carryBag?: any) {
+  httpGetMany(messsageId, query : Array < IQuery >, carryBag?: any) {
     try {
       //check url's validity? let temp = query.map(u=>)
       let temp = query.map(t => {
-        let url = this.urlMaps[t.id];
+        let url = this.urlMaps[t.urlId];
         let myParams = new URLSearchParams();
         t.queryParams && (t.queryParams.map(x => myParams.append(x.name, x.value)));
 
@@ -124,7 +124,7 @@ export class BrokerService {
       if (emptyUrl) {
         this
           .subject
-          .next({id: id, error: messages.idNotMappedToUrl});
+          .next({id: messsageId, error: messages.idNotMappedToUrl});
         return;
       }
       let forks = temp.map(x => this.http.get(x.url, x.options).map(res => res.json()));
@@ -134,17 +134,17 @@ export class BrokerService {
         .subscribe(d => {
           this
             .subject
-            .next({id: id, data: d, carryBag: carryBag});
+            .next({id: messsageId, data: d, carryBag: carryBag});
         }, err => {
           this
             .subject
-            .next({id: id, error: err});
+            .next({id: messsageId, error: err});
         });
-        
+
     } catch (err) {
       this
         .subject
-        .next({id: id, error: messages.httpGetUnknownError})
+        .next({id: messsageId, error: messages.httpGetUnknownError})
     }
   }
 

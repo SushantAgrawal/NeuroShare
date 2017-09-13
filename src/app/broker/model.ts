@@ -1,5 +1,5 @@
 export interface IQuery{
-    id: string,
-    queryParams:[any],
-    headers:[any]
+    urlId: string,
+    queryParams:[{name:string,value:string}],
+    headers:[{name:string,value:string}]
 }
