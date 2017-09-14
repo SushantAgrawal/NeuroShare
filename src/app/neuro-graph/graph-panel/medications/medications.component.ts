@@ -19,7 +19,7 @@ export class MedicationsComponent implements OnInit {
   @ViewChild('otherMedsSecondLevelTemplate') private otherMedsSecondLevelTemplate: TemplateRef<any>;
   @Input() private chartState: any;
 
-  medicationDetail: any;
+  medSecondLayerModel: any;
   modalRef: BsModalRef;
   subscriptions: any;
   dmtArray: Array<any> = [];
@@ -102,8 +102,7 @@ export class MedicationsComponent implements OnInit {
           }
         })();
     });
-    this
-      .subscriptions
+    this.subscriptions
       .add(sub1)
       .add(sub2);
   }
@@ -137,31 +136,43 @@ export class MedicationsComponent implements OnInit {
       .sort((a, b) => Date.parse(b.date.medStart) - Date.parse(a.date.medStart));;
   }
 
+  getSecondLayerModel(data, medType) {
+    return {
+      ...data,
+      medType: medType,
+      allYears: Array.from(new Array(100), (val, index) => (new Date()).getFullYear() - index),
+      patientReportedStartDateMonth: 0,
+      patientReportedStartDateYear: 0,
+      encounterStatus: 'open',
+      reasonStopped: ''
+    };
+  }
+
   drawDmt() {
     let config = { backdrop: false, class: 'dmtSecondLevel' };
-    let openDmtModal = (data) => {
-      this.medicationDetail = data;
+    let openSecondLayer = (data) => {
+      this.medSecondLayerModel = this.getSecondLayerModel(data, this.medType.dmt);
       this.modalRef = this.modalService.show(this.dmtSecondLevelTemplate, config)
     };
-    this.drawChart(this.dmtArray, this.medType.dmt, GRAPH_SETTINGS.medications.dmtColor, openDmtModal);
+    this.drawChart(this.dmtArray, this.medType.dmt, GRAPH_SETTINGS.medications.dmtColor, openSecondLayer);
   }
 
   drawVitaminD() {
     let config = { backdrop: false, class: 'vitaminDSecondLevel' };
-    let openVitaminDModal = (data) => {
-      this.medicationDetail = data;
+    let openSecondLayer = (data) => {
+      this.medSecondLayerModel = data;
       this.modalRef = this.modalService.show(this.vitaminDSecondLevelTemplate)
     };
-    this.drawChart(this.vitaminDArray, this.medType.vitaminD, GRAPH_SETTINGS.medications.vitaminDColor, openVitaminDModal);
+    this.drawChart(this.vitaminDArray, this.medType.vitaminD, GRAPH_SETTINGS.medications.vitaminDColor, openSecondLayer);
   }
 
   drawOtherMeds() {
     let config = { backdrop: false, class: 'otherMedsSecondLevel' };
-    let openOtherMedsModal = (data) => {
-      this.medicationDetail = data;
+    let openSecondLayer = (data) => {
+      this.medSecondLayerModel = data;
       this.modalRef = this.modalService.show(this.otherMedsSecondLevelTemplate)
     };
-    this.drawChart(this.otherMedsArray, this.medType.otherMeds, GRAPH_SETTINGS.medications.otherMedsColor, openOtherMedsModal);
+    this.drawChart(this.otherMedsArray, this.medType.otherMeds, GRAPH_SETTINGS.medications.otherMedsColor, openSecondLayer);
   }
 
   removeDmt() {
