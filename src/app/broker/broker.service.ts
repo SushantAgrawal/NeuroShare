@@ -2,11 +2,11 @@ import {Injectable} from '@angular/core';
 import {Http, URLSearchParams, Headers, RequestOptions} from '@angular/http';
 import {Subject} from 'rxjs/subject';
 import 'rxjs/add/operator/map';
-import {Observable} from 'rxjs/observable';
+import {Observable} from 'rxjs/Observable';
 import {messages} from './broker.config';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/observable/forkJoin';
-import {IQuery} from './model';
+// import {IQuery, IQuery1} from './model';
 
 @Injectable()
 export class BrokerService {
@@ -90,6 +90,7 @@ export class BrokerService {
           .subject
           .next({id: id, error: messages.idNotMappedToUrl})
       }
+      //this.httpGetMany("test",[{urlId:"test",queryParams:null,headers:[{name:"",value:""}]}])
     } catch (err) {
       this
         .subject
@@ -97,16 +98,16 @@ export class BrokerService {
     }
   };
 
-  httpGetMany(messsageId:string, query : {urlId:string,queryParams?:[{name:string,value:string}], headers?:{name:string,value:string}[]}[] , carryBag?: any) {
+  httpGetMany(messsageId : string, queries : [{urlId:string,queryParams?:[{name:string,value:string}],headers?:[{name:string,value:string}]}], carryBag?: any) {
     try {
-      //check url's validity? let temp = query.map(u=>)
-      let temp = query.map(t => {
+            
+      let temp = queries.map(t => {
         let url = this.urlMaps[t.urlId];
         let myParams = new URLSearchParams();
-        t.queryParams && (t.queryParams.map(x => myParams.append(x.name, x.value)));
+        t.queryParams && (t.queryParams.forEach(x => myParams.append(x.name, x.value)));
 
         let myHeaders = new Headers();
-        t.headers && (t.headers.map(x => myHeaders.append(x.name, x.value)));
+        t.headers && (t.headers.forEach(x => myHeaders.append(x.name, x.value)));
 
         let options;
 

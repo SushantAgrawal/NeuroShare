@@ -7,6 +7,10 @@ consumers: neuro-related-cares, graph-panel
 export const allMessages = {
     'neuroRelated': 'neuro:related'
 };
+
+export const manyHttpMessages={
+    'httpGetTestMany':'http:get:test:many'
+};
 export const allHttpMessages = {
     'httpGetMedications': 'http:get:medications',
     'httpGetEdss': 'http:get:edss'

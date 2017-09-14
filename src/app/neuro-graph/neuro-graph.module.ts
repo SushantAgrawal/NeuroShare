@@ -13,6 +13,7 @@ import { NeuroRelatedComponent } from './neuro-related/neuro-related.component';
 import { PatientConcernsComponent } from './patient-concerns/patient-concerns.component';
 import { NeuroGraphBoxComponent } from './neuro-graph-box/neuro-graph-box.component';
 import { BrokerService } from '../broker/broker.service';
+// import { BrokerService } from 'broker';
 import { NeuroGraphService } from './neuro-graph.service';
 import { MedicationsComponent } from './graph-panel/medications/medications.component';
 import { CdsComponent } from './cds/cds.component';
