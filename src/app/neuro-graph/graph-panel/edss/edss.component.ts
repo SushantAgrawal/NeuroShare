@@ -6,7 +6,13 @@ import { GRAPH_SETTINGS } from '../../neuro-graph.config';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 
-@Component({ selector: '[app-edss]', templateUrl: './edss.component.html', styleUrls: ['./edss.component.sass'], encapsulation: ViewEncapsulation.None })
+@Component({
+  selector: '[app-edss]',
+  templateUrl: './edss.component.html',
+  styleUrls: ['./edss.component.sass'],
+  encapsulation: ViewEncapsulation.None
+})
+
 export class EdssComponent implements OnInit {
   @ViewChild('edssSecondLevelTemplate') private edssSecondLevelTemplate: TemplateRef<any>;
   @Input() private chartState: any;
