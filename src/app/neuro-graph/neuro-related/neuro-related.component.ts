@@ -1,18 +1,20 @@
 import {Component, OnInit} from '@angular/core';
-// import {Dialog} from 'primeng/primeng'; import { ActivatedRoute} from
-// '@angular/router';
 import {BrokerService} from '../../broker/broker.service';
-import {allMessages, allHttpMessages} from '../neuro-graph.config';
-
-// import {EnumMedicationtypes} from '../neuro-graph.helper';
+import {allMessages, allHttpMessages, manyHttpMessages} from '../neuro-graph.config';
 
 @Component({selector: 'app-neuro-related', templateUrl: './neuro-related.component.html', styleUrls: ['./neuro-related.component.sass']})
 export class NeuroRelatedComponent implements OnInit {
   display : Boolean = false;
   constructor(private brokerService : BrokerService) {}
-  
+
   ngOnInit() {
     console.log('neuro-related ngOnInit');
+    this
+      .brokerService
+      .filterOn(manyHttpMessages.httpGetTestMany)
+      .subscribe(d => {
+        console.log(d);
+      })
   }
 
   changed(e, value) {
@@ -22,5 +24,17 @@ export class NeuroRelatedComponent implements OnInit {
         artifact: value,
         checked: e.target.checked
       });
+  }
+
+  testMany() {
+    this
+      .brokerService
+      .httpGetMany(manyHttpMessages.httpGetTestMany, [
+        {
+          urlId: allHttpMessages.httpGetEdss
+        }, {
+          urlId: allHttpMessages.httpGetMedications
+        }
+      ]);
   }
 }
