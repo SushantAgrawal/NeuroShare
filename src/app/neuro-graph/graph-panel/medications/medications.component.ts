@@ -36,6 +36,7 @@ export class MedicationsComponent implements OnInit {
     vitaminD: 'vitaminD'
   };
 
+ 
   constructor(private brokerService: BrokerService, private modalService: BsModalService) { }
 
   ngOnInit() {

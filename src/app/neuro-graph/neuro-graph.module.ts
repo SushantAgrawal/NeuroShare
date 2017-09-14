@@ -1,19 +1,19 @@
+//Angular
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// import {BrowserModule} from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+//UI Frameworks
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { ModalModule } from 'ngx-bootstrap/modal';
-// import {DialogModule, OverlayPanelModule} from 'primeng/primeng';
-// import {NgbModule,NgbPopoverConfig} from '@ng-bootstrap/ng-bootstrap';
-// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MdSelectModule } from '@angular/material';
+import { MdCheckboxModule } from '@angular/material';
+//Custom Components, Services etc
 import { GraphPanelComponent } from './graph-panel/graph-panel.component';
 import { NeuroRelatedComponent } from './neuro-related/neuro-related.component';
 import { PatientConcernsComponent } from './patient-concerns/patient-concerns.component';
 import { NeuroGraphBoxComponent } from './neuro-graph-box/neuro-graph-box.component';
 import { BrokerService } from '../broker/broker.service';
-// import { BrokerService } from 'broker';
 import { NeuroGraphService } from './neuro-graph.service';
 import { MedicationsComponent } from './graph-panel/medications/medications.component';
 import { CdsComponent } from './cds/cds.component';
@@ -27,8 +27,9 @@ export const ROUTES: Routes = [];
     FormsModule,
     RouterModule.forRoot(ROUTES),
     PopoverModule.forRoot(),
-    ModalModule.forRoot()
-    // ,BrowserAnimationsModule
+    ModalModule.forRoot(),
+    MdSelectModule,
+    MdCheckboxModule
   ],
   declarations: [
     GraphPanelComponent,
