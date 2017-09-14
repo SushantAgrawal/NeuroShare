@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { envs } from '../../app.config';
 import { allMessages, allHttpMessages } from '../neuro-graph.config';
 import { BrokerService } from '../../broker/broker.service';
@@ -9,7 +9,8 @@ import { NeuroGraphService } from '../neuro-graph.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-neuro-graph-box',
   templateUrl: './neuro-graph-box.component.html',
-  styleUrls: ['./neuro-graph-box.component.sass']
+  styleUrls: ['./neuro-graph-box.component.sass'],
+  encapsulation: ViewEncapsulation.None
 })
 export class NeuroGraphBoxComponent implements OnInit {
 

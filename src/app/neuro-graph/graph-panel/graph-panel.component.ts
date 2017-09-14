@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { GRAPH_SETTINGS } from '../neuro-graph.config';
 import * as d3 from 'd3';
 
 @Component({
   selector: 'app-graph-panel',
   templateUrl: './graph-panel.component.html',
-  styleUrls: ['./graph-panel.component.sass']
+  styleUrls: ['./graph-panel.component.sass'],
+  encapsulation: ViewEncapsulation.None
 })
 export class GraphPanelComponent implements OnInit {
   isEdssSelected: boolean = false;

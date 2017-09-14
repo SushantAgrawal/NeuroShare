@@ -1,8 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {BrokerService} from '../../broker/broker.service';
 import {allMessages, allHttpMessages, manyHttpMessages} from '../neuro-graph.config';
 
-@Component({selector: 'app-neuro-related', templateUrl: './neuro-related.component.html', styleUrls: ['./neuro-related.component.sass']})
+@Component({
+  selector: 'app-neuro-related',
+  templateUrl: './neuro-related.component.html',
+  styleUrls: ['./neuro-related.component.sass'],
+  encapsulation: ViewEncapsulation.None
+})
 export class NeuroRelatedComponent implements OnInit {
   display : Boolean = false;
   constructor(private brokerService : BrokerService) {}

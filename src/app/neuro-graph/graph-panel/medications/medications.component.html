@@ -5,7 +5,7 @@
 
 <template #dmtSecondLevelTemplate>
     <div class="modal-header">
-        <h4 class="modal-title pull-left">{{medicationDetail.name}}</h4>
+        <h4 class="modal-title pull-left">{{medSecondLayerModel.name}}</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -13,31 +13,55 @@
     <div class="modal-body">
         <div class="row">
             <div class="col-xs-6">Generic Name</div>
-            <div class="col-xs-6">{{medicationDetail.medication.simple_generic_name}}</div>
+            <div class="col-xs-6">{{medSecondLayerModel.medication.simple_generic_name}}</div>
         </div>
         <div class="row">
             <div class="col-xs-6">Ordered</div>
-            <div class="col-xs-6">{{medicationDetail.date.orderDate}}</div>
+            <div class="col-xs-6">{{medSecondLayerModel.date.orderDate}}</div>
         </div>
         <div class="row">
             <div class="col-xs-6">End</div>
-            <div class="col-xs-6">{{medicationDetail.date.medEnd}}</div>
+            <div class="col-xs-6">{{medSecondLayerModel.date.medEnd}}</div>
         </div>
         <div class="row">
             <div class="col-xs-6">Patient Reported Start</div>
-            <div class="col-xs-6"></div>
+            <div class="col-xs-6">
+                <span>
+                    <select [ngModel]="medSecondLayerModel.patientReportedStartDateMonth" [disabled]="medSecondLayerModel.encounterStatus==='close'">
+                        <option value="0">Month</option>
+                        <option value="1">Janaury</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                </span>
+                <span>
+                    <select [ngModel]="medSecondLayerModel.patientReportedStartDateYear" [disabled]="medSecondLayerModel.encounterStatus==='close'">
+                        <option [value]="0">Year</option>
+                        <option *ngFor="let item of medSecondLayerModel.allYears" [value]="item">{{item}}</option>
+                    </select>
+                </span>
+            </div>
         </div>
         <div class="row">
             <div class="col-xs-6">Quantity</div>
-            <div class="col-xs-6">{{medicationDetail.medQuantity}}</div>
+            <div class="col-xs-6">{{medSecondLayerModel.medQuantity}}</div>
         </div>
         <div class="row">
             <div class="col-xs-6">Frequency</div>
-            <div class="col-xs-6">{{medicationDetail.frequency}}</div>
+            <div class="col-xs-6">{{medSecondLayerModel.frequency}}</div>
         </div>
         <div class="row">
             <div class="col-xs-6"># of Refills (Ordered/Remaining)</div>
-            <div class="col-xs-6">{{medicationDetail.refillCount}}/{{medicationDetail.refillRemain}}</div>
+            <div class="col-xs-6">{{medSecondLayerModel.refillCount || '...'}} / {{medSecondLayerModel.refillRemain || '...'}}</div>
         </div>
         <div class="row">
             <div class="col-xs-6"># of Relapses</div>
@@ -45,14 +69,24 @@
         </div>
         <div class="row">
             <div class="col-xs-6">Reason Stopped</div>
-            <div class="col-xs-6"></div>
+            <div class="col-xs-6">
+                <select [ngModel]="medSecondLayerModel.reasonStopped" [disabled]="medSecondLayerModel.encounterStatus==='close'">
+                    <option value="">--Select--</option>
+                    <option value="Side effects">Side effects </option>
+                    <option value="Insurance">Insurance</option>
+                    <option value="Cost">Cost</option>
+                    <option value="Logistics">Logistics</option>
+                    <option value="Needle fatigue">Needle fatigue</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
         </div>
     </div>
 </template>
 
 <template #vitaminDSecondLevelTemplate>
     <div class="modal-header">
-        <h4 class="modal-title pull-left">{{medicationDetail.name}}</h4>
+        <h4 class="modal-title pull-left">{{medSecondLayerModel.name}}</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -60,15 +94,15 @@
     <div class="modal-body">
         <div class="row">
             <div class="col-xs-6">Generic Name</div>
-            <div class="col-xs-6">{{medicationDetail.medication.simple_generic_name}}</div>
+            <div class="col-xs-6">{{medSecondLayerModel.medication.simple_generic_name}}</div>
         </div>
         <div class="row">
             <div class="col-xs-6">Ordered</div>
-            <div class="col-xs-6">{{medicationDetail.date.orderDate}}</div>
+            <div class="col-xs-6">{{medSecondLayerModel.date.orderDate}}</div>
         </div>
         <div class="row">
             <div class="col-xs-6">End</div>
-            <div class="col-xs-6">{{medicationDetail.date.medEnd}}</div>
+            <div class="col-xs-6">{{medSecondLayerModel.date.medEnd}}</div>
         </div>
         <div class="row">
             <div class="col-xs-6">Patient Reported Start</div>
@@ -85,7 +119,7 @@
 
 <template #otherMedsSecondLevelTemplate>
     <div class="modal-header">
-        <h4 class="modal-title pull-left">{{medicationDetail.name}}</h4>
+        <h4 class="modal-title pull-left">{{medSecondLayerModel.name}}</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -93,27 +127,27 @@
     <div class="modal-body">
         <div class="row">
             <div class="col-xs-6">Generic Name</div>
-            <div class="col-xs-6">{{medicationDetail.medication.simple_generic_name}}</div>
+            <div class="col-xs-6">{{medSecondLayerModel.medication.simple_generic_name}}</div>
         </div>
         <div class="row">
             <div class="col-xs-6">Ordered</div>
-            <div class="col-xs-6">{{medicationDetail.date.orderDate}}</div>
+            <div class="col-xs-6">{{medSecondLayerModel.date.orderDate}}</div>
         </div>
         <div class="row">
             <div class="col-xs-6">End</div>
-            <div class="col-xs-6">{{medicationDetail.date.medEnd}}</div>
+            <div class="col-xs-6">{{medSecondLayerModel.date.medEnd}}</div>
         </div>
         <div class="row">
             <div class="col-xs-6">Quantity</div>
-            <div class="col-xs-6">{{medicationDetail.medQuantity}}</div>
+            <div class="col-xs-6">{{medSecondLayerModel.medQuantity}}</div>
         </div>
         <div class="row">
             <div class="col-xs-6">Frequency</div>
-            <div class="col-xs-6">{{medicationDetail.frequency}}</div>
+            <div class="col-xs-6">{{medSecondLayerModel.frequency}}</div>
         </div>
         <div class="row">
             <div class="col-xs-6"># of Refills (Ordered/Remaining)</div>
-            <div class="col-xs-6">{{medicationDetail.refillCount}}/{{medicationDetail.refillRemain}}</div>
+            <div class="col-xs-6">{{medSecondLayerModel.refillCount}}/{{medSecondLayerModel.refillRemain}}</div>
         </div>
         <div class="row">
             <div class="col-xs-6">Reason for Med</div>
