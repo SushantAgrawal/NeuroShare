@@ -216,7 +216,7 @@ export const medication = {
 
 export const GRAPH_SETTINGS = {
     panel: {
-        offsetHeight: 520,
+        offsetHeight: 640,
         offsetWidth: 710,
         marginTop: 5,
         marginRight: 25,
@@ -224,14 +224,14 @@ export const GRAPH_SETTINGS = {
         marginLeft: 25
     },
     medications: {
-        positionTop: 400,
-        containerHeight: 120,
+        positionTop: 520,
+        containerHeight: 118,
         dmtColor: "#607D8B",
         vitaminDColor: "#FBC02D",
         otherMedsColor: "#D8DFE2"
     },
     edss: {
-        positionTop: 180,
+        positionTop: 300,
         chartHeight: 210,
         maxValueY: 9,
         color: "#EA700D"
