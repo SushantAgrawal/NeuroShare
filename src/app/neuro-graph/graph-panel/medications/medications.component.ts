@@ -4,8 +4,7 @@ import { BrokerService } from '../../../broker/broker.service';
 import { allMessages, allHttpMessages, medication } from '../../neuro-graph.config';
 import { searchObject } from '../../neuro-graph.helper';
 import { GRAPH_SETTINGS } from '../../neuro-graph.config';
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
+import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: '[app-medications]',
@@ -19,8 +18,8 @@ export class MedicationsComponent implements OnInit {
   @ViewChild('otherMedsSecondLevelTemplate') private otherMedsSecondLevelTemplate: TemplateRef<any>;
   @Input() private chartState: any;
 
+  dialogRef: MdDialogRef<any>;
   medSecondLayerModel: any;
-  modalRef: BsModalRef;
   subscriptions: any;
   dmtArray: Array<any> = [];
   vitaminDArray: Array<any> = [];
@@ -36,8 +35,8 @@ export class MedicationsComponent implements OnInit {
     vitaminD: 'vitaminD'
   };
 
- 
-  constructor(private brokerService: BrokerService, private modalService: BsModalService) { }
+
+  constructor(private brokerService: BrokerService, private dialog: MdDialog) { }
 
   ngOnInit() {
     this.subscriptions = this
@@ -150,28 +149,28 @@ export class MedicationsComponent implements OnInit {
   }
 
   drawDmt() {
-    let config = { backdrop: false, class: 'dmtSecondLevel' };
+    let config = { hasBackdrop: true, panelClass: 'dmtSecondLevel', width: '600px' };
     let openSecondLayer = (data) => {
       this.medSecondLayerModel = this.getSecondLayerModel(data, this.medType.dmt);
-      this.modalRef = this.modalService.show(this.dmtSecondLevelTemplate, config)
+      this.dialogRef = this.dialog.open(this.dmtSecondLevelTemplate, config);
     };
     this.drawChart(this.dmtArray, this.medType.dmt, GRAPH_SETTINGS.medications.dmtColor, openSecondLayer);
   }
 
   drawVitaminD() {
-    let config = { backdrop: false, class: 'vitaminDSecondLevel' };
+    let config = { hasBackdrop: true, panelClass: 'vitaminDSecondLevel', width: '600px' };
     let openSecondLayer = (data) => {
-      this.medSecondLayerModel = data;
-      this.modalRef = this.modalService.show(this.vitaminDSecondLevelTemplate)
+      this.medSecondLayerModel = this.getSecondLayerModel(data, this.medType.vitaminD);
+      this.dialogRef = this.dialog.open(this.vitaminDSecondLevelTemplate, config);
     };
     this.drawChart(this.vitaminDArray, this.medType.vitaminD, GRAPH_SETTINGS.medications.vitaminDColor, openSecondLayer);
   }
 
   drawOtherMeds() {
-    let config = { backdrop: false, class: 'otherMedsSecondLevel' };
+    let config = { hasBackdrop: true, panelClass: 'otherMedsSecondLevel', width: '600px' };
     let openSecondLayer = (data) => {
-      this.medSecondLayerModel = data;
-      this.modalRef = this.modalService.show(this.otherMedsSecondLevelTemplate)
+      this.medSecondLayerModel = this.getSecondLayerModel(data, this.medType.otherMeds);
+      let dialogRef = this.dialog.open(this.otherMedsSecondLevelTemplate, config);
     };
     this.drawChart(this.otherMedsArray, this.medType.otherMeds, GRAPH_SETTINGS.medications.otherMedsColor, openSecondLayer);
   }
