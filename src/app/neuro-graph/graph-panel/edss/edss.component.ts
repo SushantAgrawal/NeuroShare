@@ -3,8 +3,8 @@ import * as d3 from 'd3';
 import { BrokerService } from '../../../broker/broker.service';
 import { allMessages, allHttpMessages, medication } from '../../neuro-graph.config';
 import { GRAPH_SETTINGS } from '../../neuro-graph.config';
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
+import { MdDialog, MdDialogRef } from '@angular/material';
+
 
 @Component({
   selector: '[app-edss]',
@@ -16,14 +16,14 @@ import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 export class EdssComponent implements OnInit {
   @ViewChild('edssSecondLevelTemplate') private edssSecondLevelTemplate: TemplateRef<any>;
   @Input() private chartState: any;
-  private modalRef: BsModalRef;
+  dialogRef: MdDialogRef<any>;
   private edssScoreDetail: any;
   private subscriptions: any;
   private yScale: any;
   private yDomain: Array<number> = [0, GRAPH_SETTINGS.edss.maxValueY];
   private edssData: Array<any>;
 
-  constructor(private brokerService: BrokerService, private modalService: BsModalService) { }
+  constructor(private brokerService: BrokerService, private dialog: MdDialog) { }
 
   ngOnInit() {
     this.subscriptions = this
@@ -75,9 +75,9 @@ export class EdssComponent implements OnInit {
   }
 
   showSecondLevel(data) {
-    let config = { backdrop: false, class: 'otherMedsSecondLevel' };
+    let config = { hasBackdrop: true, panelClass: 'edssSecondLevel', width: '600px' };
     this.edssScoreDetail = data;
-    this.modalRef = this.modalService.show(this.edssSecondLevelTemplate)
+    this.dialogRef = this.dialog.open(this.edssSecondLevelTemplate, config);
   }
 
   drawChart() {
