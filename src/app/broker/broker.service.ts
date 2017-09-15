@@ -90,7 +90,8 @@ export class BrokerService {
           .subject
           .next({id: id, error: messages.idNotMappedToUrl})
       }
-      //this.httpGetMany("test",[{urlId:"test",queryParams:null,headers:[{name:"",value:""}]}])
+      //this.httpGetMany("test",[{urlId:"test",queryParams:null,headers:[{name:"",valu
+      //e:""}]}])
     } catch (err) {
       this
         .subject
@@ -98,9 +99,25 @@ export class BrokerService {
     }
   };
 
-  httpGetMany(messsageId : string, queries : [{urlId:string,queryParams?:[{name:string,value:string}],headers?:[{name:string,value:string}]}], carryBag?: any) {
+  httpGetMany(messsageId : string, queries : [
+    {
+      urlId: string,
+      queryParams?: [
+        {
+          name: string,
+          value: string
+        }
+      ],
+      headers?: [
+        {
+          name: string,
+          value: string
+        }
+      ]
+    }
+  ], carryBag?: any) {
     try {
-            
+
       let temp = queries.map(t => {
         let url = this.urlMaps[t.urlId];
         let myParams = new URLSearchParams();
@@ -133,6 +150,12 @@ export class BrokerService {
       Observable
         .forkJoin(forks)
         .subscribe(d => {
+          d = d.map((x, i) => {
+            let urlId = queries[i].urlId;
+            let y = {};
+            y[urlId] = x;
+            return (y);
+          });
           this
             .subject
             .next({id: messsageId, data: d, carryBag: carryBag});

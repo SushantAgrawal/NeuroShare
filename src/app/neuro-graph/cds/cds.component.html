@@ -8,8 +8,9 @@
       <label><input type="checkbox" [(ngModel)]='cdsState.relapses.checked' /> Review relapses </label>
     </div>
 
-    <div class="cds-items-info">  
-        <input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('book')" [popover]="cdsState.relapses.info" [popoverTitle]="cdsState.relapses.title" triggers="focus" placement="left" container="body" width="20px" height="20px">      
+    <div class="cds-items-info">
+      <input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('book')" [popover]="cdsState.relapses.info"
+        [popoverTitle]="cdsState.relapses.title" outsideClick="true" triggers="focus" placement="left" container="body" width="20px" height="20px">
     </div>
   </div>
 
@@ -19,7 +20,7 @@
     </div>
 
     <div class="cds-items-info">
-        <input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoMri')" width="20px" height="20px">
+      <input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoMri')" width="20px" height="20px">
     </div>
   </div>
 
