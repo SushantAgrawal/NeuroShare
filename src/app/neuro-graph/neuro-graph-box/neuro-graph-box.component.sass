@@ -3,7 +3,7 @@
 
 //Variables
 $font-Loto : 'Lato', sans-serif
-$full-graph-width : 1366px
+$full-graph-maxwidth : 1316px
 $background : #F2F2F2
 $panel-background : #FFFFFF
 $buttonBorder : #F15A24
@@ -60,9 +60,12 @@ label
     -webkit-box-shadow: 2px 2px 2px 1px #9c9c9c
     box-shadow: 2px 2px 2px 1px #9c9c9c
 
+.graph-container
+    overflow: hidden
+    
 .neuro-graph
-    width: $full-graph-width
     margin-left: 50px
+    width: $full-graph-maxwidth
 
 .neuro-related
     @extend .left-float
