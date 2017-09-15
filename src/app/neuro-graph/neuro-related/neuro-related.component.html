@@ -2,78 +2,67 @@
   <span class="header-text">Neuro Related</span>
 </div>
 <!-- <button (click)="testMany()">Test Many</button> -->
-<table class="grouping-checkboxes">
-  <tr>
-    <td class="rotate-text"></td>
-    <td><label><input type="checkbox" [checked]="true" (change)='changed($event,"dmt")' /> DMT </label></td>
-  </tr>
-  <tr>
-    <td class="rotate-text"></td>
-    <td><label><input type="checkbox" (change)='changed($event,"otherMeds")' /> Other Meds </label></td>
-  </tr>
-  <tr>
-    <td class="rotate-text"></td>
-    <td><label><input type="checkbox" (change)='changed($event,"vitaminD")' /> Vitamin D </label></td>
-  </tr>
-  <tr>
-    <td rowspan="4" class="rotate-text">TREATMENTS</td>
-    <td><label><input type="checkbox" (change)='changed($event,"referrals")' /> Referrals </label></td>
-  </tr>
-</table>
+<div class="ms-related-panel">
+  <div class="related-panel">
+    <div class="related-panel-row">
+      <div class="related-panel-cell">
+        <div class="related-rotate-text col1">TREATMENTS</div>
+      </div>
+      <div class="related-items">
+        <ul>
+          <li><label><input type="checkbox" [checked]="true" (change)='changed($event,"dmt")' /> DMT </label></li>
+          <li><label><input type="checkbox" (change)='changed($event,"otherMeds")' /> Other Meds </label></li>
+          <li><label><input type="checkbox" (change)='changed($event,"vitaminD")' /> Vitamin D </label></li>
+          <li><label><input type="checkbox" (change)='changed($event,"referrals")' /> Referrals </label></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="related-panel">
+    <div class="related-panel-row">
+      <div class="related-panel-cell">
+        <div class="related-rotate-text col2">OUTCOMES</div>
+      </div>
+      <div class="related-items">
+        <ul>
+          <li><label><input type="checkbox" [checked]="true" (change)='changed($event,"edss")' /> EDSS </label><a><img src="../../../assets/images/plus.png" width="10px" height="10px"/></a></li>
+          <li><label><input type="checkbox" (change)='changed($event,"walk25Feet")' /> 25' Walk </label><a><img src="../../../assets/images/plus.png" width="10px" height="10px"/></a></li>
+          <li><label><input type="checkbox" (change)='changed($event,"relapses")' /> Relapses </label><a><img src="../../../assets/images/plus.png" width="10px" height="10px"/></a></li>
+          <li><label><input type="checkbox" (change)='changed($event,"imaging")' /> Imaging </label></li>
+          <li><label><input type="checkbox" (change)='changed($event,"symptoms")' /> Symptoms </label></li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
-<table class="grouping-checkboxes">
-  <tr>
-    <td class="rotate-text"></td>
-    <td><label><input type="checkbox" [checked]="true" (change)='changed($event,"edss")' /> EDSS </label></td>
-    <td><a><img src="../../../assets/images/plus.png" width="10px" height="10px"/></a></td>
-  </tr>
-  <tr>
-    <td class="rotate-text"></td>
-    <td><label><input type="checkbox" (change)='changed($event,"walk25Feet")' /> 25' Walk </label></td>
-    <td><a><img src="../../../assets/images/plus.png" width="10px" height="10px"/></a></td>
-  </tr>
-  <tr>
-    <td class="rotate-text"></td>
-    <td><label><input type="checkbox" (change)='changed($event,"relapses")' /> Relapses </label></td>
-    <td><a><img src="../../../assets/images/plus.png" width="10px" height="10px"/></a></td>
-  </tr>
-  <tr>
-    <td class="rotate-text"></td>
-    <td><label><input type="checkbox" (change)='changed($event,"imaging")' /> Imaging </label></td>
-  </tr>
-  <tr>
-    <td rowspan="5" class="rotate-text">OUTCOMES</td>
-    <td><label><input type="checkbox" (change)='changed($event,"symptoms")' /> Symptoms </label></td>
-  </tr>
-</table>
+  <div class="related-panel">
+    <div class="related-panel-row">
+      <div class="related-panel-cell">
+        <div class="related-rotate-text col3">MONITORING</div>
+      </div>
+      <div class="related-items">
+        <ul>
+          <li><label><input type="checkbox" [checked]="true" (change)='changed($event,"labs")' /> Labs </label></li>
+          <li><label><input type="checkbox" (change)='changed($event,"vaccinations")' /> Vaccinations </label></li>
+          <li><label><input type="checkbox" (change)='changed($event,"dme")' /> DME </label><a><img src="../../../assets/images/plus.png" width="10px" height="10px"/></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
-<table class="grouping-checkboxes">
-  <tr>
-    <td class="rotate-text"></td>
-    <td><label><input type="checkbox" [checked]="true" (change)='changed($event,"labs")' /> Labs </label></td>
-  </tr>
-  <tr>
-    <td class="rotate-text"></td>
-    <td><label><input type="checkbox" (change)='changed($event,"vaccinations")' /> Vaccinations </label></td>
-  </tr>
-  <tr>
-    <td rowspan="3" class="rotate-text">MONITORING</td>
-    <td><label><input type="checkbox" (change)='changed($event,"dme")' /> DME </label></td>
-    <td><a><img src="../../../assets/images/plus.png" width="10px" height="10px"/></a></td>
-  </tr>
-</table>
+  <div class="related-panel">
+    <div class="related-panel-row">
+      <div class="related-panel-cell">
+        <div class="related-rotate-text col4">ENCOUNTERS</div>
+      </div>
+      <div class="related-items">
+        <ul>
+          <li><label><input type="checkbox" (change)='changed($event,"office")' /> Office </label></li>
+          <li><label><input type="checkbox" (change)='changed($event,"mho")' /> MHO </label></li>
+          <li><label><input type="checkbox" (change)='changed($event,"phone")' /> Phone </label></li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
-<table class="grouping-checkboxes">
-  <tr>
-    <td class="rotate-text"></td>
-    <td><label><input type="checkbox" (change)='changed($event,"office")' /> Office </label></td>
-  </tr>
-  <tr>
-    <td class="rotate-text"></td>
-    <td><label><input type="checkbox" (change)='changed($event,"mho")' /> MHO </label></td>
-  </tr>
-  <tr>
-    <td rowspan="3" class="rotate-text">ENCOUNTERS</td>
-    <td><label><input type="checkbox" (change)='changed($event,"phone")' /> Phone </label></td>
-  </tr>
-</table>
+</div>

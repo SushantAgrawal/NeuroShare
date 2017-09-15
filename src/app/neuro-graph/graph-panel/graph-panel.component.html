@@ -1,12 +1,11 @@
-<div class="header-wrapper">
-    <div class="left-content" *ngIf="isEdssSelected">
+<div class="header-area">
+    <div class="header-text" *ngIf="isEdssSelected">
         <button class="header-button">Add Virtual Caseload</button>
-        <input class="header-info-button" type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoMri')"
-            width="20px" height="20px">
+        <input class="header-info-button" type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoMri')">
     </div>
-    <div class="right-content">
-        <a><img src="../../assets/images/nav-up-avs.PNG" width="50px" height="40px"></a>
-        <a><img src="../../assets/images/nav-up-second.PNG" width="50px" height="40px"></a>
+    <div class="right-float">
+        <div class="action-buttons selected"><span class="icon-file-empty"></span></div>
+        <div class="action-buttons"><span class="icon-files-empty"></span></div>
     </div>
 </div>
 <!-- <div>
