@@ -4,7 +4,7 @@ import { BrokerService } from '../../../broker/broker.service';
 import { allMessages, allHttpMessages, medication } from '../../neuro-graph.config';
 import { searchObject } from '../../neuro-graph.helper';
 import { GRAPH_SETTINGS } from '../../neuro-graph.config';
-import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+import { MdDialog, MdDialogRef } from '@angular/material';
 
 @Component({
   selector: '[app-medications]',
@@ -170,7 +170,7 @@ export class MedicationsComponent implements OnInit {
     let config = { hasBackdrop: true, panelClass: 'otherMedsSecondLevel', width: '600px' };
     let openSecondLayer = (data) => {
       this.medSecondLayerModel = this.getSecondLayerModel(data, this.medType.otherMeds);
-      let dialogRef = this.dialog.open(this.otherMedsSecondLevelTemplate, config);
+      this.dialogRef = this.dialog.open(this.otherMedsSecondLevelTemplate, config);
     };
     this.drawChart(this.otherMedsArray, this.medType.otherMeds, GRAPH_SETTINGS.medications.otherMedsColor, openSecondLayer);
   }
