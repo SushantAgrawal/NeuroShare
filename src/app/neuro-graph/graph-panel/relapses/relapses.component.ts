@@ -21,42 +21,8 @@ export class RelapsesComponent implements OnInit {
   private width: number;
   private height: number;
   private yScale: any;
- 
-  // private months = [
-  //   {value: 'Jan', viewValue: 'Jan'},
-  //   {value: 'Feb', viewValue: 'Feb'},
-  //   {value: 'Mar', viewValue: 'Mar'},
-  //   {value: 'Jan', viewValue: 'Apr'},
-  //   {value: 'Feb', viewValue: 'May'},
-  //   {value: 'Mar', viewValue: 'Jun'},
-  //   {value: 'Jan', viewValue: 'Jul'},
-  //   {value: 'Feb', viewValue: 'Aug'},
-  //   {value: 'Mar', viewValue: 'Sep'},
-  //   {value: 'Jan', viewValue: 'Oct'},
-  //   {value: 'Feb', viewValue: 'Nov'},
-  //   {value: 'Mar', viewValue: 'Dec'}
-  // ];
-
-  // private years = [
-  //   {value: '2017', viewValue: '2017'},
-  //   {value: '2016', viewValue: '2016'},
-  //   {value: '2015', viewValue: '2015'},
-  //   {value: '2014', viewValue: '2014'},
-  //   {value: '2013', viewValue: '2013'},
-  //   {value: '2012', viewValue: '2012'},
-  //   {value: '2011', viewValue: '2011'},
-  //   {value: '2010', viewValue: '2010'},
-  //   {value: '2009', viewValue: '2009'},
-  //   {value: '2008', viewValue: '2008'},
-  //   {value: '2007', viewValue: '2007'},
-  //   {value: '2006', viewValue: '2006'}
-  // ];
-  // private years =  Array.apply(2017, {length: 100}).map(function(value, index){
-  //   return index - 1;
-    private years = [];//Array().fill(1917,100,2017);//Array.apply(2017, Array(100)).map(function(value, index) { return index - 1; })
-  //[2017,1917];
+  private years = [];
   private months = ['Jan', 'Feb', 'Mar', 'Apr','May', 'Jun', 'Jul', 'Aug','Sep', 'Oct', 'Nov', 'Dec'];
-  //private modalRef: BsModalRef;
   private relapsesDetail: any;
   private subscriptions: any;
   private datasetA: Array<any> =[
@@ -178,19 +144,22 @@ export class RelapsesComponent implements OnInit {
    
   else{
   
-    let dialogRef = this.dialog.open(this.relapsesEditSecondLevelTemplate,{width:"425px"});
+    let dialogRef = this.dialog.open(this.relapsesEditSecondLevelTemplate,{width:"620px"});
   }
     
   }
-  checkChge(obj){
-    //debugger;
+  
+  checkChge(){
+ 
     if(this.relapsesDetail.confirm ==1)
-    {
-      this.relapsesDetail.confirm =0;
-    }
-    else{
-      this.relapsesDetail.confirm =1;
-    }
+      {
+        this.relapsesDetail.confirm =0;
+      }
+      else 
+        {
+        this.relapsesDetail.confirm =1;
+      }
+  
   }
   createChart() {
     let dataset = this.relapsesData.map(d => {
@@ -209,8 +178,7 @@ export class RelapsesComponent implements OnInit {
         scoreValue: parseFloat(d.score),
         confirm: parseInt(d.clinician_confirm),
         month:moment(d.last_updated_instant).format('MMM'),
-        year:moment(d.last_updated_instant).format('YYYY'),
-        noconfirm: !parseInt(d.clinician_confirm)
+        year:moment(d.last_updated_instant).format('YYYY')
        
       }
     }).sort((a, b) => a.lastUpdatedDate - b.lastUpdatedDate);

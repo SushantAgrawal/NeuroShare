@@ -6,7 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 //UI Frameworks
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { MdDialogModule, MdSelectModule, MdCheckboxModule } from '@angular/material';
+import { MdDialogModule, MdSelectModule, MdCheckboxModule,MdButtonModule,MdIconModule } from '@angular/material';
 //Custom Components, Services etc
 import { GraphPanelComponent } from './graph-panel/graph-panel.component';
 import { NeuroRelatedComponent } from './neuro-related/neuro-related.component';
@@ -30,7 +30,9 @@ export const ROUTES: Routes = [];
     ModalModule.forRoot(),
     MdSelectModule,
     MdCheckboxModule,
-    MdDialogModule
+    MdDialogModule,
+    MdButtonModule,
+    MdIconModule
   ],
   declarations: [
     GraphPanelComponent,
