@@ -100,9 +100,6 @@ export class CdsComponent implements OnInit {
       .add(sub1);
   }
 
-  // buttonClicked(item) {   this.display=true;   this.header = item; }
-  // ngAfterViewInit(){ }
-
   ngOnDestroy() {
     this
       .subscriptions

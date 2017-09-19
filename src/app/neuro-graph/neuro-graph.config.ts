@@ -246,3 +246,24 @@ export const GRAPH_SETTINGS = {
         color: "#EA700D"
     }
 }
+
+export const edssPopup = [{ score: '0.0', title: 'Normal neurological exam.' }
+      , { score: '1.0', title: 'No Disability, minimal signs in one FS.' }
+      , { score: '1.5', title: 'No disability, minimal signs in more than one FS.' }
+      , { score: '2.0', title: 'Minimal disability in one FS.' }
+      , { score: '2.5', title: 'Mild disability in one FS or minimal disability in two FS.'}
+      , { score: '3.0', title: 'Moderate disability in on FS, or mild disability in three or four FS. No impairment to walking.'}
+      , { score: '3.5', title: 'Moderate disability in one FS and more than minimal disability in several others. No impairment to walking.'}
+      , { score: '4.0', title: 'Significant disability but self-sufficient and up and about some 12 hours a day. Able to walk without aid or rest for 500m.'}
+      , { score: '4.5', title: 'Significant disability but up and about much of the day, able to work a full day, may otherwise have some limitation of full activity or require minimal assistance. Able to walk without aid or rest for 300m.'}
+      , { score: '5.0', title: 'Disability severe enough to impair full daily activities and ability to work a full day without special provisions. Able to walk without aid or ret for 200m.'}
+      , { score: '5.5', title: 'Disability severe enough to preclude full daily activities. Able to walk without aid or rest for 100m.'}
+      , { score: '6.0', title: 'Requires a walking aid, cane, crutch, etc – to walk about 100m with our without resting.'}
+      , { score: '6.5', title: 'Requires two walking aids – pair of canes, crutches, etc – to walk about 20m without resting.'}
+      , { score: '7.0', title: 'Unable to walk beyond approximately 5m even with aid. Essentially restricted to wheelchair, though wheels self in standard wheelchair and transfers alone. UP and about in wheelchair some 12 hours a day.'}
+      , { score: '7.5', title: 'Unable to take more than a few steps. Restricted to wheelchair and may need aid in transferring. Can wheel self but cannot carry on in a standard wheelchair for a full day and may require a motorized wheelchair.'}
+      , { score: '8.0', title: 'Essentially restricted to bed or chair or pushed in wheelchair. May be out of bed itself much of the day. Retains many self-care functions. Generally has effective use of arms.'}
+      , { score: '8.5', title: 'Essentially restricted to bed most of the day. Has some effective use of arms retains some self-care functions.'}
+      , { score: '9.0', title: 'Confined to bed. Can still communicate and eat.'}
+      , { score: '9.5', title: 'Confined to bed and totally dependent. Unable to communicate effectively or eat/swallow.'}
+      , { score: '10', title: 'Death due to MS.'}];
