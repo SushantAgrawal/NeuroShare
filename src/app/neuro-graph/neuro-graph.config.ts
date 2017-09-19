@@ -9,7 +9,8 @@ export const allMessages = {
 };
 
 export const manyHttpMessages={
-    'httpGetTestMany':'http:get:test:many'
+    'httpGetTestMany':'http:get:test:many',
+    'httpGetInitialApiCall':'http:get:initial:api:call'
 };
 export const allHttpMessages = {
     'httpGetMedications': 'http:get:medications',
