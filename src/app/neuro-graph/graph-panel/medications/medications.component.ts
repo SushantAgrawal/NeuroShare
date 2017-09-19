@@ -43,19 +43,17 @@ export class MedicationsComponent implements OnInit {
       .brokerService
       .filterOn(allHttpMessages.httpGetMedications)
       .subscribe(d => {
-        d.error
-          ? console.log(d.error)
-          : (() => {
-            this.prepareMedications(d.data);
-            if (this.selectedMed[this.medType.dmt]) {
-              this.drawDmt();
-            }
-            if (this.selectedMed[this.medType.vitaminD]) {
-              this.drawVitaminD();
-            } if (this.selectedMed[this.medType.otherMeds]) {
-              this.drawOtherMeds();
-            }
-          })();
+        d.error ? console.log(d.error) : (() => {
+          this.prepareMedications(d.data);
+          if (this.selectedMed[this.medType.dmt]) {
+            this.drawDmt();
+          }
+          if (this.selectedMed[this.medType.vitaminD]) {
+            this.drawVitaminD();
+          } if (this.selectedMed[this.medType.otherMeds]) {
+            this.drawOtherMeds();
+          }
+        })();
       });
     let neuroRelated = this
       .brokerService
@@ -150,9 +148,17 @@ export class MedicationsComponent implements OnInit {
 
   drawDmt() {
     let config = { hasBackdrop: true, panelClass: 'dmtSecondLevel', width: '600px' };
-    let openSecondLayer = (data) => {
-      this.medSecondLayerModel = this.getSecondLayerModel(data, this.medType.dmt);
-      this.dialogRef = this.dialog.open(this.dmtSecondLevelTemplate, config);
+    let openSecondLayer = (selectedData) => {
+      let dmtSubscription: any;
+      this.brokerService.httpGet(allHttpMessages.httpGetDmt);
+      dmtSubscription = this.brokerService.filterOn(allHttpMessages.httpGetDmt).subscribe(d => {
+        d.error ? console.log(d) : (() => {
+          let dmt = d.data.DMTs.find(x => x.dmt_order_id === selectedData.orderIdentifier.toString());
+          this.medSecondLayerModel = this.getSecondLayerModel(selectedData, this.medType.dmt);
+          this.dialogRef = this.dialog.open(this.dmtSecondLevelTemplate, config);
+          dmtSubscription && dmtSubscription.unsubscribe();
+        })();
+      });
     };
     this.drawChart(this.dmtArray, this.medType.dmt, GRAPH_SETTINGS.medications.dmtColor, openSecondLayer);
   }
