@@ -127,6 +127,12 @@ export class RelapsesComponent implements OnInit {
       .add(sub1)
       .add(sub2);
   }
+  updateChart(){
+    //alert("hi");
+    //debugger;
+    var objIndex = this.datasetA.findIndex((obj => obj.score_id == this.relapsesDetail.score_id));
+    this.datasetA[objIndex].last_updated_instant = new Date(this.relapsesDetail.month + "/15/" + this.relapsesDetail.year);
+  }
   removeChart() {
     d3.select('#relapses').selectAll("*").remove();
   }
