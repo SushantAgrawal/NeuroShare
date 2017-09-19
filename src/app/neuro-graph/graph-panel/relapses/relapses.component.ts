@@ -154,6 +154,7 @@ export class RelapsesComponent implements OnInit {
     var objIndex = this.datasetA.findIndex((obj => obj.score_id == this.relapsesDetail.score_id));
     this.datasetA[objIndex].last_updated_instant = (new Date(this.relapsesDetail.month + "/15/" + this.relapsesDetail.year).getMonth() + 1).toString() + "/15/" + this.relapsesDetail.year;
     this.datasetA[objIndex].clinician_confirm = this.relapsesDetail.confirm;
+    this.datasetA[objIndex].relapse_cnt = this.relapsesDetail.relapse_cnt;
     this.removeChart();
     this.createChart();
 
