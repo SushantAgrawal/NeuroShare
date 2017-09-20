@@ -9,8 +9,9 @@
     </div>
 
     <div class="cds-items-info">
-      <input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('book')" [popover]="cdsState.relapses.info"
-        [popoverTitle]="cdsState.relapses.title" outsideClick="true" triggers="focus" placement="left" container="body" width="20px" height="20px">
+      <input type="image" src="../../assets/images/information-icon.png" (click)="buttonClicked('review_relapses')" [popover]="cdsTemplate"
+        [popoverTitle]="getCdsTitle()" outsideClick="true" triggers="focus" placement="left" container="body" width="20px"
+        height="20px">
     </div>
   </div>
 
@@ -20,7 +21,9 @@
     </div>
 
     <div class="cds-items-info">
-      <input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoMri')" width="20px" height="20px">
+      <input type="image" src="../../assets/images/information-icon.png" (click)="buttonClicked('review_mri_images')" [popover]="cdsTemplate"
+        [popoverTitle]="selectedCdsInfo.title" outsideClick="true" triggers="focus" placement="left" container="body" width="20px"
+        height="20px">
     </div>
   </div>
 
@@ -29,7 +32,8 @@
       <label><input type="checkbox" [(ngModel)]='cdsState.symptomStatus.checked' /> Review symptom status </label>
     </div>
     <div class="cds-items-info">
-      <input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoSymptom')" width="20px" height="20px">
+      <input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('review_symptom_status')" [popover]="cdsTemplate"
+        [popoverTitle]="selectedCdsInfo.title" width="20px" height="20px">
     </div>
   </div>
 
@@ -78,17 +82,6 @@
         height="20px">
     </div>
   </div>
-
-  <div class="cds-items">
-    <div class="cds-items-checkbox">
-      <label><input type="checkbox" [(ngModel)]='cdsState.otherMeds.checked'  /> Review other related meds </label>
-    </div>
-    <div class="cds-items-info">
-      <input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoOtherMeds')" width="20px"
-        height="20px">
-    </div>
-  </div>
-
   <div class="cds-items">
     <div class="cds-items-checkbox">
       <label><input type="checkbox" [(ngModel)]='cdsState.referrals.checked' /> Review symptoms referrals </label>
@@ -107,3 +100,8 @@
     </div>
   </div>
 </div>
+<template #cdsTemplate>
+  <div [innerHtml]="selectedCdsInfo && selectedCdsInfo.info && selectedCdsInfo.info[0]"></div>
+</template>>
+
+<!-- </template> -->

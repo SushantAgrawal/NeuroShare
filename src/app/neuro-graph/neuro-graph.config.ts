@@ -10,9 +10,9 @@ export const allMessages = {
     'invokeAddEdss' : 'invoke:add:edss'
 };
 
-export const manyHttpMessages={
-    'httpGetTestMany':'http:get:test:many',
-    'httpGetInitialApiCall':'http:get:initial:api:call'
+export const manyHttpMessages = {
+    'httpGetTestMany': 'http:get:test:many',
+    'httpGetInitialApiCall': 'http:get:initial:api:call'
 };
 export const allHttpMessages = {
     'httpGetMedications': 'http:get:medications',
