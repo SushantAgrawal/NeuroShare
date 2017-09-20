@@ -148,7 +148,7 @@ export class RelapsesComponent implements OnInit {
     var objIndex = this.relapsesData.findIndex((obj => obj.relapse_id == this.relapsesDetail.relapse_id));
     this.relapsesData[objIndex].last_updated_instant = (new Date(this.relapsesDetail.month + "/15/" + this.relapsesDetail.year).getMonth() + 1).toString() + "/15/" + this.relapsesDetail.year;
     this.relapsesData[objIndex].clinician_confirmed = this.relapsesDetail.confirm;
-    this.relapsesData[objIndex].relapse_cnt = this.relapsesDetail.relapse_cnt;
+    //this.relapsesData[objIndex].relapse_cnt = this.relapsesDetail.relapse_cnt;
     this.relapsesData[objIndex].relapse_month = this.relapsesDetail.month,
     this.relapsesData[objIndex].relapse_year = this.relapsesDetail.year,
     this.removeChart();
@@ -185,8 +185,8 @@ export class RelapsesComponent implements OnInit {
       "patient_reported": true,
       "qx_id": "",
       "clinician_confirmed": true,
-      "relapseaxis": "2.0",
-      "relapse_cnt":""
+      "relapseaxis": "2.0"
+      //"relapse_cnt":""
     }
     
     this.relapsesData.push(obj);
