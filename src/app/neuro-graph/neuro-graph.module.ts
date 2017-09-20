@@ -6,7 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 //UI Frameworks
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { MdDialogModule, MdSelectModule, MdCheckboxModule,MdButtonModule,MdIconModule } from '@angular/material';
+import {MaterialModule} from '@angular/material';
 //Custom Components, Services etc
 import { GraphPanelComponent } from './graph-panel/graph-panel.component';
 import { NeuroRelatedComponent } from './neuro-related/neuro-related.component';
@@ -19,6 +19,7 @@ import { CdsComponent } from './cds/cds.component';
 import { SharedGridComponent } from './graph-panel/shared-grid/shared-grid.component';
 import { EdssComponent } from './graph-panel/edss/edss.component';
 import { RelapsesComponent } from './graph-panel/relapses/relapses.component';
+import { EdssPopupComponent } from './neuro-related/edss-popup/edss-popup.component';
 
 export const ROUTES: Routes = [];
 @NgModule({
@@ -28,11 +29,7 @@ export const ROUTES: Routes = [];
     RouterModule.forRoot(ROUTES),
     PopoverModule.forRoot(),
     ModalModule.forRoot(),
-    MdSelectModule,
-    MdCheckboxModule,
-    MdDialogModule,
-    MdButtonModule,
-    MdIconModule
+    MaterialModule
   ],
   declarations: [
     GraphPanelComponent,
@@ -43,9 +40,11 @@ export const ROUTES: Routes = [];
     CdsComponent,
     EdssComponent,
     SharedGridComponent,
-    RelapsesComponent
+    RelapsesComponent,
+    EdssPopupComponent
   ],
   exports: [NeuroGraphBoxComponent],
-  providers: [BrokerService, NeuroGraphService]
+  providers: [BrokerService, NeuroGraphService],
+  bootstrap: [EdssPopupComponent]
 })
 export class NeuroGraphModule { }
