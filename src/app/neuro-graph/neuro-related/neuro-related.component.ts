@@ -47,14 +47,14 @@ export class NeuroRelatedComponent implements OnInit {
       ]);
   }
 
-  openDialog(): void {
-    let dialogRef = this.dialog.open(EdssPopupComponent, {
-      width: '583px',
-      height: '662px',
-      data: { type: "Add", score: '' }
-    });
-  }
-  openDialogs(type) {
+  // openDialog(): void {
+  //   let dialogRef = this.dialog.open(EdssPopupComponent, {
+  //     width: '583px',
+  //     height: '662px',
+  //     data: { type: "Add", score: '' }
+  //   });
+  // }
+  openDialog(type) {
     switch (type) {
       case 'relapses':
         this
