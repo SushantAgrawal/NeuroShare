@@ -1,8 +1,10 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {BrokerService} from '../../broker/broker.service';
-import {allMessages, allHttpMessages, manyHttpMessages} from '../neuro-graph.config';
-import {MdDialog} from '@angular/material';
-import {EdssPopupComponent} from './edss-popup/edss-popup.component';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { BrokerService } from '../../broker/broker.service';
+import { allMessages, allHttpMessages, manyHttpMessages } from '../neuro-graph.config';
+import { MdDialog } from '@angular/material';
+import { EdssPopupComponent } from './edss-popup/edss-popup.component';
+import { RelapsesComponent } from '../graph-panel/relapses/relapses.component';
+
 
 @Component({
   selector: 'app-neuro-related',
@@ -11,8 +13,8 @@ import {EdssPopupComponent} from './edss-popup/edss-popup.component';
   encapsulation: ViewEncapsulation.None
 })
 export class NeuroRelatedComponent implements OnInit {
-  display : Boolean = false;
-  constructor(private brokerService : BrokerService, public dialog: MdDialog) {}
+  display: Boolean = false;
+  constructor(private brokerService: BrokerService, public dialog: MdDialog) { }
 
   ngOnInit() {
     console.log('neuro-related ngOnInit');
@@ -49,7 +51,27 @@ export class NeuroRelatedComponent implements OnInit {
     let dialogRef = this.dialog.open(EdssPopupComponent, {
       width: '583px',
       height: '662px',
-      data: { type:"Add", score:'' }
+      data: { type: "Add", score: '' }
     });
+  }
+  openDialogs(type) {
+    switch (type) {
+      case 'relapses':
+        this
+          .brokerService
+          .emit(allMessages.invokeAddRelapses, {
+
+          });
+        break;
+      case 'edss':
+        this
+          .brokerService
+          .emit(allMessages.invokeAddEdss, {
+
+          });
+        break;
+      default:
+
+    }
   }
 }

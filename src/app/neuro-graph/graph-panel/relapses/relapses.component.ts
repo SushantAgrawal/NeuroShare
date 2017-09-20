@@ -5,6 +5,7 @@ import { BrokerService } from '../../../broker/broker.service';
 import { allMessages, allHttpMessages, medication } from '../../neuro-graph.config';
 import * as moment from 'moment';
 import {MdDialog,MdDialogRef,MD_DIALOG_DATA} from '@angular/material';
+import {NeuroGraphService} from '../../neuro-graph.service';
 
 @Component({
   selector: '[app-relapses]',
@@ -15,10 +16,10 @@ import {MdDialog,MdDialogRef,MD_DIALOG_DATA} from '@angular/material';
 export class RelapsesComponent implements OnInit {
   @ViewChild('relapsesSecondLevelTemplate') private relapsesSecondLevelTemplate: TemplateRef<any>;
   @ViewChild('relapsesEditSecondLevelTemplate') private relapsesEditSecondLevelTemplate: TemplateRef<any>;
-  @ViewChild('relapsesAddSecondLevelTemplate') private relapsesAddSecondLevelTemplate: TemplateRef<any>;
+  @ViewChild('relapsesAddSecondLevelTemplate')  private relapsesAddSecondLevelTemplate: TemplateRef<any>;
 
   @Input() private chartState: any;
-  private yDomain: Array<number> = [0, GRAPH_SETTINGS.edss.maxValueY];
+  private yDomain: Array<number> = [0, GRAPH_SETTINGS.relapse.maxValueY];
   private width: number;
   private height: number;
   private yScale: any;
@@ -29,64 +30,14 @@ export class RelapsesComponent implements OnInit {
   private pathUpdate: any;
   private lineA: any;
   private chart:any;
+  private paramData:any;
   private datasetB: Array<any>;
   private dialogRef: any;
-  private datasetA: Array<any> =[
-    // {
-    //   "score_id": "1",
-    //   "score": "2.0",
-    //   "last_updated_provider_id": "G00123",
-    //   "last_updated_instant": "01/01/2015 10:41:05",
-    //   "save_csn": "865482572",
-    //   "save_csn_status": "New",
-    //   "clinician_confirm":"1",
-    //   "relapse_cnt":"2"
-    // },
-    {
-      "score_id": "2",
-      "score": "2.0",
-      "last_updated_provider_id": "G00123",
-      "last_updated_instant": "08/31/2017 10:41:05",
-      "save_csn": "865482572",
-      "save_csn_status": "Open",
-      "clinician_confirm":"1",
-      "relapse_cnt":"2"
-    },
-    {
-      "score_id": "3",
-      "score": "2.0",
-      "last_updated_provider_id": "G00123",
-      "last_updated_instant": "02/21/2017 10:41:05",
-      "save_csn": "710119378",
-      "save_csn_status": "Closed",
-      "clinician_confirm":"0",
-      "relapse_cnt":""
-    },
-    {
-      "score_id": "4",
-      "score": "2.0",
-      "last_updated_provider_id": "G00123",
-      "last_updated_instant": "08/12/2016 10:41:05",
-      "save_csn": "642945505",
-      "save_csn_status": "Open",
-      "clinician_confirm":"0",
-      "relapse_cnt":"2"
-    },
-    {
-      "score_id": "5",
-      "score": "2.0",
-      "last_updated_provider_id": "G00123",
-      "last_updated_instant": "01/05/2016 10:41:05",
-      "save_csn": "584384988",
-      "save_csn_status": "Closed",
-      "clinician_confirm":"1",
-      "relapse_cnt":"1"
-    }
-  ];
+  private datasetA: Array<any>;
   private relapsesData: Array<any>;
-    constructor(private brokerService: BrokerService,public dialog: MdDialog)
+    constructor(private brokerService: BrokerService,public dialog: MdDialog, private neuroGraphService : NeuroGraphService)
     {
-     
+      this.paramData = this.neuroGraphService.get('queryParams')
      }
   ngOnInit() {
     for(var i=2017;i>=1917;i--)
@@ -96,19 +47,45 @@ export class RelapsesComponent implements OnInit {
     console.log('relapses ngOnInit');
     this.subscriptions = this
       .brokerService
-      .filterOn(allHttpMessages.httpGetEdss)
+      .filterOn(allHttpMessages.httpGetRelapse)
       .subscribe(d => {
         d.error
           ? console.log(d.error)
           : (() => {
-            this.relapsesData = d.data.edss_scores;
-           
+            this.relapsesData = d.data.relapses;
+            this.createChart();
           })();
       })
     let relapses = this
       .brokerService
       .filterOn(allMessages.neuroRelated)
       .filter(t => (t.data.artifact == 'relapses'));
+
+    let modal = this
+      .brokerService
+      .filterOn(allMessages.invokeAddRelapses)
+
+    let putRelapse = this
+    .brokerService
+    .filterOn(allHttpMessages.httpPutRelapse)
+    .subscribe(d => {
+      d.error
+        ? console.log(d.error)
+        : (() => {
+         
+        })();
+    })
+
+    let postRelapse = this
+    .brokerService
+    .filterOn(allHttpMessages.httpPostRelapse)
+    .subscribe(d => {
+      d.error
+        ? console.log(d.error)
+        : (() => {
+         
+        })();
+    })
 
     let sub1 = relapses
       .filter(t => t.data.checked)
@@ -117,11 +94,12 @@ export class RelapsesComponent implements OnInit {
           ? console.log(d.error)
           : (() => {
             console.log(d.data);
-            this.createChart();
             //make api call
             this
-              .brokerService
-              .httpGet(allHttpMessages.httpGetEdss);
+            .brokerService
+            .httpGet(allHttpMessages.httpGetRelapse);
+           
+           
           })();
       });
     let sub2 = relapses
@@ -134,65 +112,109 @@ export class RelapsesComponent implements OnInit {
             this.removeChart();
           })();
       })
+      let sub3 = modal
+      .subscribe(d => {
+        d.error
+          ? console.log(d.error)
+          : (() => {
+            console.log(d.data);
+            this.relapsesDetail =this.datasetA[0];
+            this.relapsesDetail.month="Jan";
+            this.relapsesDetail.year=new Date().getFullYear().toString();
+            this.dialogRef = this.dialog.open(this.relapsesAddSecondLevelTemplate,{width:"450px"});
+          })();
+      })
+     
     this
       .subscriptions
       .add(sub1)
-      .add(sub2);
+      .add(sub2)
+      .add(sub3)
+      .add(putRelapse)
+      .add(postRelapse);
   }
   deleteChart(){
     this.dialogRef.close();
-    var objIndex = this.datasetA.findIndex((obj => obj.score_id == this.relapsesDetail.score_id));
+    var objIndex = this.relapsesData.findIndex((obj => obj.relapse_id == this.relapsesDetail.relapse_id));
     if (objIndex > -1) {
-      this.datasetA.splice(objIndex, 1);
+      this.relapsesData.splice(objIndex, 1);
    }
    this.removeChart();
    this.createChart();
   }
   updateChart(){
-    
+    //debugger;
     this.dialogRef.close();
-    var objIndex = this.datasetA.findIndex((obj => obj.score_id == this.relapsesDetail.score_id));
-    this.datasetA[objIndex].last_updated_instant = (new Date(this.relapsesDetail.month + "/15/" + this.relapsesDetail.year).getMonth() + 1).toString() + "/15/" + this.relapsesDetail.year;
-    this.datasetA[objIndex].clinician_confirm = this.relapsesDetail.confirm;
-    this.datasetA[objIndex].relapse_cnt = this.relapsesDetail.relapse_cnt;
+    var objIndex = this.relapsesData.findIndex((obj => obj.relapse_id == this.relapsesDetail.relapse_id));
+    this.relapsesData[objIndex].last_updated_instant = (new Date(this.relapsesDetail.month + "/15/" + this.relapsesDetail.year).getMonth() + 1).toString() + "/15/" + this.relapsesDetail.year;
+    this.relapsesData[objIndex].clinician_confirmed = this.relapsesDetail.confirm;
+    this.relapsesData[objIndex].relapse_cnt = this.relapsesDetail.relapse_cnt;
+    this.relapsesData[objIndex].relapse_month = this.relapsesDetail.month,
+    this.relapsesData[objIndex].relapse_year = this.relapsesDetail.year,
     this.removeChart();
     this.createChart();
 
+    let obj ={
+      "pom_id": this.paramData.pom_id,
+      "relapse_id": this.relapsesData[objIndex].relapse_id,
+      "provider_id": this.relapsesData[objIndex].last_updated_provider_id,
+      "encounter_csn": this.paramData.csn,
+      "updated_instant": (new Date(this.relapsesDetail.month + "/15/" + this.relapsesDetail.year).getMonth() + 1).toString() + "/15/" + this.relapsesDetail.year,
+      "clinician_confirmed": this.relapsesData[objIndex].clinician_confirmed
+    };
+    // this
+    // .brokerService
+    // .httpPut(allHttpMessages.httpPutRelapse, JSON.stringify(obj));
   
   }
   removeChart() {
     d3.select('#relapses').selectAll("*").remove();
   }
   addChart(){
+    //debugger;
     this.dialogRef.close();
+   
     var obj = {
-      "score_id": this.datasetA.length,
-      "score": "2.0",
-      "last_updated_provider_id": "G00123",
+      "relapse_id": this.relapsesData.length.toString(),
+      "relapse_month": (new Date(this.relapsesDetail.month + "/15/" + this.relapsesDetail.year).getMonth() + 1).toString(),
+      "relapse_year": this.relapsesDetail.year,
+      "last_updated_provider_id": "",
+      "save_csn": this.paramData.csn,
+      "save_csn_status": this.paramData.encounter_status,
       "last_updated_instant": (new Date(this.relapsesDetail.month + "/15/" + this.relapsesDetail.year).getMonth() + 1).toString() + "/15/" + this.relapsesDetail.year,
-      "save_csn": "584384988",
-      "save_csn_status": "Open",
-      "clinician_confirm":"1",
+      "patient_reported": true,
+      "qx_id": "",
+      "clinician_confirmed": true,
+      "relapseaxis": "2.0",
       "relapse_cnt":""
-    };
-    this.datasetA.push(obj);
+    }
+    
+    this.relapsesData.push(obj);
     this.removeChart();
     this.createChart();
+
+    let objSave = {
+      "pom_id": this.paramData.pom_id,
+      "relapse_month": moment(obj.last_updated_instant).format('MMMM'),
+      "relapse_year": this.relapsesDetail.year,
+      "provider_id":"",
+      "encounter_csn": this.paramData.csn,
+      "updated_instant": (new Date(this.relapsesDetail.month + "/15/" + this.relapsesDetail.year).getMonth() + 1).toString() + "/15/" + this.relapsesDetail.year
+    }
+
+    // this
+    // .brokerService
+    // .httpPost(allHttpMessages.httpPostRelapse, JSON.stringify(objSave));
   }
   showSecondLevel(data) {
     console.log(data);
     
-    let config = { backdrop: false, class: 'otherMedsSecondLevel' };
+    //let config = { backdrop: false, class: 'otherMedsSecondLevel' };
     this.relapsesDetail = data;
     if(data.save_csn_status =="Open")
     {
       this.dialogRef = this.dialog.open(this.relapsesSecondLevelTemplate);
     }
-    else if(data.save_csn_status =="New")
-      {
-        this.dialogRef = this.dialog.open(this.relapsesAddSecondLevelTemplate,{width:"450px"});
-      }
-   
   else{
   
     this.dialogRef = this.dialog.open(this.relapsesEditSecondLevelTemplate,{width:"620px"});
@@ -202,22 +224,22 @@ export class RelapsesComponent implements OnInit {
   
   checkChge(){
  
-    if(this.relapsesDetail.confirm ==1)
+    if(this.relapsesDetail.confirm ==true)
       {
-        this.relapsesDetail.confirm =0;
+        this.relapsesDetail.confirm =false;
       }
       else 
         {
-        this.relapsesDetail.confirm =1;
+        this.relapsesDetail.confirm =true;
       }
   
   }
   createChart() {
-    let dataset = this.relapsesData.map(d => {
+    this.datasetA = this.relapsesData.map(d => {
       return {
         ...d,
-        lastUpdatedDate: Date.parse(d.last_updated_instant),
-        scoreValue: parseFloat(d.score)
+        lastUpdatedDate:  new Date(d.relapse_month + "/15/" + d.relapse_year),//Date.parse(d.last_updated_instant),
+        relapseaxis: parseFloat("2.0")
         
       }
     }).sort((a, b) => a.lastUpdatedDate - b.lastUpdatedDate);
@@ -225,9 +247,9 @@ export class RelapsesComponent implements OnInit {
     this.datasetB = this.datasetA.map(d => {
       return {
         ...d,
-        lastUpdatedDate: Date.parse(d.last_updated_instant),
-        scoreValue: parseFloat(d.score),
-        confirm: parseInt(d.clinician_confirm),
+        lastUpdatedDate: new Date(d.relapse_month + "/15/" + d.relapse_year),
+        relapseaxis: parseFloat(d.relapseaxis),
+        confirm: d.clinician_confirmed,
         month:moment(d.last_updated_instant).format('MMM'),
         year:moment(d.last_updated_instant).format('YYYY')
        
@@ -241,11 +263,11 @@ export class RelapsesComponent implements OnInit {
     this.yScale = d3
     .scaleLinear()
     .domain(this.yDomain)
-    .range([GRAPH_SETTINGS.edss.chartHeight - 20, 0]);
+    .range([GRAPH_SETTINGS.relapse.chartHeight - 20, 0]);
 
     this.lineA = d3.line<any>()
       .x((d: any) => this.chartState.xScale(d.lastUpdatedDate))
-      .y((d: any) => this.yScale(d.scoreValue));
+      .y((d: any) => this.yScale(d.relapseaxis));
       
      
 
@@ -257,8 +279,8 @@ export class RelapsesComponent implements OnInit {
 
     this.pathUpdate = this.chart.append("path")
       .datum([
-        { "lastUpdatedDate": this.chartState.xDomain.defaultMinValue, "scoreValue": 2.0 },
-        { "lastUpdatedDate": this.chartState.xDomain.defaultMaxValue, "scoreValue": 2.0 }
+        { "lastUpdatedDate": this.chartState.xDomain.defaultMinValue, "relapseaxis": 2.0 },
+        { "lastUpdatedDate": this.chartState.xDomain.defaultMaxValue, "relapseaxis": 2.0 }
       ])
       .attr("class", "lineA")
       .attr("d", this.lineA)
@@ -273,12 +295,12 @@ export class RelapsesComponent implements OnInit {
       .attr('d', arc)
       .attr("class", "dotA")
       .attr('transform', d => {
-        return `translate(${(this.chartState.xScale(d.lastUpdatedDate))},${(this.yScale(d.scoreValue))}) rotate(180)`;
+        return `translate(${(this.chartState.xScale(d.lastUpdatedDate))},${(this.yScale(d.relapseaxis))}) rotate(180)`;
       })
 
       .attr('class', 'x-axis-arrow')
       .style("stroke", "red")
-      .style("fill", d => {return d.save_csn_status=="New"?"blue" : d.confirm?'red':'#fff';
+      .style("fill", d => {return d.confirm?'red':'#fff';
         
       })
       .on('click', d => {

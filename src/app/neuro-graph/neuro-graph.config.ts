@@ -5,7 +5,9 @@ consumers: neuro-related-cares, graph-panel
 */
 
 export const allMessages = {
-    'neuroRelated': 'neuro:related'
+    'neuroRelated': 'neuro:related',
+    'invokeAddRelapses' : 'invoke:add:relapses',
+    'invokeAddEdss' : 'invoke:add:edss'
 };
 
 export const manyHttpMessages={
@@ -19,7 +21,11 @@ export const allHttpMessages = {
     'httpGetCdsUserData': 'http:get:cds:user:data',
     'httpPutCdsUserData': 'http:put:cds:user:data',
     'httpPostCdsUserData': 'http:post:cds:user:data',
-    'httpGetDmt': 'http:get:dmt'
+    'httpGetDmt': 'http:get:dmt',
+    'httpGetRelapse': 'http:get:relapse',
+    'httpPutRelapse': 'http:put:relapse',
+    'httpPostRelapse': 'http:post:relapse',
+    'httpDeleteRelapse': 'http:delete:relapse'
 };
 export const urlMaps = {
     "http:get:medications": "https://private-242c4d-ehrmedicationorders.apiary-mock.com/maestro/api/ehr/medications-orders/?pom_id=82043",
@@ -28,7 +34,11 @@ export const urlMaps = {
     "http:get:cds:user:data": "https://private-anon-293c93a712-neuroshareapis.apiary-mock.com/neuroshare/api/ms/cds/?pom_id=82043",
     "http:put:cds:user:data": "https://private-anon-293c93a712-neuroshareapis.apiary-mock.com/neuroshare/api/ms/cds/",
     "http:post:cds:user:data": "https://private-anon-293c93a712-neuroshareapis.apiary-mock.com/neuroshare/api/ms/cds/",
-    "http:get:dmt": "https://private-anon-a39e22dbbe-neuroshareapis.apiary-mock.com/neuroshare/api/ms/dmt/?pom_id=82043"
+    "http:get:dmt": "https://private-anon-a39e22dbbe-neuroshareapis.apiary-mock.com/neuroshare/api/ms/dmt/?pom_id=82043",
+    "http:get:relapse": "https://private-anon-221223bd22-neuroshareapis.apiary-mock.com/neuroshare/api/ms/relapses/?pom_id=82043",
+    "http:put:relapse":"https://private-anon-221223bd22-neuroshareapis.apiary-mock.com/neuroshare/api/ms/relapse",
+    "http:post:relapse":"https://private-anon-221223bd22-neuroshareapis.apiary-mock.com/neuroshare/api/ms/relapses",
+    "http:delete:relapse":"https://private-anon-221223bd22-neuroshareapis.apiary-mock.com/neuroshare/api/ms/relapse"
 };
 
 export const cds = {
@@ -244,6 +254,12 @@ export const GRAPH_SETTINGS = {
         chartHeight: 210,
         maxValueY: 9,
         color: "#EA700D"
+    },
+    relapse: {
+        positionTop: 300,
+        chartHeight: 210,
+        maxValueY: 9,
+        color: "red"
     }
 }
 

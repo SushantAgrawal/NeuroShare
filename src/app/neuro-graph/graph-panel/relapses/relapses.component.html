@@ -81,11 +81,11 @@
             <div class="col-xs-3">Reported Relapse</div>
             <div class="col-xs-9">
                 <span>
-                <md-select  placeholder="monthSel" [(ngModel)]="relapsesDetail.month" style="padding-top:0px !important;margin-top:-15px !important;" floatPlaceholder="never">
+                <md-select  placeholder="" [(ngModel)]="relapsesDetail.month" style="padding-top:0px !important;margin-top:-15px !important;" floatPlaceholder="never">
                     <md-option  *ngFor="let month of months" [value]="month">{{month}}</md-option>
                   </md-select></span>
                   <span>
-                  <md-select placeholder="yearSel" [(ngModel)]="relapsesDetail.year" style="padding-top:0px !important;margin-top:-15px !important;" floatPlaceholder="never">
+                  <md-select placeholder="" [(ngModel)]="relapsesDetail.year" style="padding-top:0px !important;margin-top:-15px !important;" floatPlaceholder="never">
                         <md-option *ngFor="let year of years" [value]="year">{{year}}</md-option>
                       </md-select></span>
             </div>
