@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
 import { BrokerService } from '../../../broker/broker.service';
-import { allMessages, allHttpMessages, medication } from '../../neuro-graph.config';
+import { allMessages, allHttpMessages, manyHttpMessages, medication } from '../../neuro-graph.config';
 import { searchObject } from '../../neuro-graph.helper';
 import { GRAPH_SETTINGS } from '../../neuro-graph.config';
 import { MdDialog, MdDialogRef } from '@angular/material';
@@ -134,11 +134,6 @@ export class MedicationsComponent implements OnInit {
       .sort((a, b) => Date.parse(b.date.medStart) - Date.parse(a.date.medStart));;
   }
 
-  testChange(){
-    debugger;
-    let x = this.medSecondLayerModel.reasonStopped;
-  };
-
   getSecondLayerModel(data, medType, secondLayerData) {
     let model: any = {
       name: data.name,
@@ -171,16 +166,35 @@ export class MedicationsComponent implements OnInit {
     let config = { hasBackdrop: true, panelClass: 'dmtSecondLevel', width: '700px' };
     let openSecondLayer = (selectedData) => {
       let dmtSubscription: any;
-      this.brokerService.httpGet(allHttpMessages.httpGetDmt);
-      dmtSubscription = this.brokerService.filterOn(allHttpMessages.httpGetDmt).subscribe(d => {
+      // this.brokerService.httpGet(allHttpMessages.httpGetDmt);
+      // dmtSubscription = this.brokerService.filterOn(allHttpMessages.httpGetDmt).subscribe(d => {
+      //   d.error ? console.log(d) : (() => {
+      //     let dmt = d.data.DMTs.find(x => x.dmt_order_id === selectedData.orderIdentifier.toString());
+      //     this.medSecondLayerModel = this.getSecondLayerModel(selectedData, this.medType.dmt, dmt);
+      //     console.log(this.medSecondLayerModel);
+      //     this.dialogRef = this.dialog.open(this.dmtSecondLevelTemplate, config);
+      //     dmtSubscription && dmtSubscription.unsubscribe();
+      //   })();
+      // });
+      this.brokerService.httpGetMany(manyHttpMessages.httpGetInitialApiCall, [
+        { urlId: allHttpMessages.httpGetDmt },
+        //{ urlId: allHttpMessages.httpGetAllQuestionnaire }
+      ]);
+      dmtSubscription = this.brokerService.filterOn(manyHttpMessages.httpGetInitialApiCall).subscribe(d => {
         d.error ? console.log(d) : (() => {
-          let dmt = d.data.DMTs.find(x => x.dmt_order_id === selectedData.orderIdentifier.toString());
+          let dmtResponse = d.data[0][allHttpMessages.httpGetDmt];
+          //let quesResponse = d.data[1][allHttpMessages.httpGetAllQuestionnaire];
+
+          //console.log(quesResponse);
+          let dmt = dmtResponse.DMTs.find(x => x.dmt_order_id === selectedData.orderIdentifier.toString());
           this.medSecondLayerModel = this.getSecondLayerModel(selectedData, this.medType.dmt, dmt);
           console.log(this.medSecondLayerModel);
           this.dialogRef = this.dialog.open(this.dmtSecondLevelTemplate, config);
           dmtSubscription && dmtSubscription.unsubscribe();
+          debugger;
         })();
       });
+
     };
     this.drawChart(this.dmtArray, this.medType.dmt, GRAPH_SETTINGS.medications.dmtColor, openSecondLayer);
   }
