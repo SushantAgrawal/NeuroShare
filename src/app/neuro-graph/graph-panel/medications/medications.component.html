@@ -12,22 +12,26 @@
     </div>
     <div class="modal-body">
         <div class="row">
-            <div class="col-xs-6">Generic Name :</div>
-            <div class="col-xs-6">{{medSecondLayerModel.medication.simple_generic_name}}</div>
+            <div class="col-xs-5">Generic Name :</div>
+            <div class="col-xs-7">{{medSecondLayerModel.simpleGenericName}}</div>
         </div>
         <div class="row">
-            <div class="col-xs-6">Ordered :</div>
-            <div class="col-xs-6">{{medSecondLayerModel.date.orderDate}}</div>
+            <div class="col-xs-5">Ordered :</div>
+            <div class="col-xs-7">{{medSecondLayerModel.orderDate}}</div>
         </div>
         <div class="row">
-            <div class="col-xs-6">End :</div>
-            <div class="col-xs-6">{{medSecondLayerModel.date.medEnd}}</div>
+            <div class="col-xs-5">End :</div>
+            <div class="col-xs-7">{{medSecondLayerModel.medEnd}}</div>
         </div>
         <div class="row">
-            <div class="col-xs-6">Patient Reported Start :</div>
-            <div class="col-xs-6">
+            <div class="col-xs-5">Patient Reported Start :</div>
+            <div class="col-xs-7">
                 <span>
-                    <md-select style="padding-top:0" placeholder="Month" floatPlaceholder="never" [ngModel]="medSecondLayerModel.patientReportedStartDateMonth" [disabled]="medSecondLayerModel.encounterStatus==='close'">
+                    <md-select placeholder="Month" 
+                        floatPlaceholder="never" 
+                        [ngModel]="medSecondLayerModel.patientReportedStartDateMonth" 
+                        [disabled]="medSecondLayerModel.encounterStatus==='close'"
+                        [ngClass]="{'fake-disabled': !medSecondLayerModel.allowEdit }">
                             <md-option [value]="1">Janaury</md-option>
                             <md-option [value]="2">February</md-option>
                             <md-option [value]="3">March</md-option>
@@ -43,39 +47,56 @@
                     </md-select>
                 </span>
                 <span>
-                     <md-select style="padding-top:0" placeholder="Year" floatPlaceholder="never" [ngModel]="medSecondLayerModel.patientReportedStartDateYear" [disabled]="medSecondLayerModel.encounterStatus==='close'">
+                     <md-select placeholder="Year" 
+                        floatPlaceholder="never" 
+                        [ngModel]="medSecondLayerModel.patientReportedStartDateYear" 
+                        [disabled]="medSecondLayerModel.encounterStatus==='close'"
+                        [ngClass]="{'fake-disabled': !medSecondLayerModel.allowEdit }">
                         <md-option *ngFor="let item of medSecondLayerModel.allYears" [value]="item">{{item}}</md-option>
                     </md-select>
                 </span>
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-6">Quantity :</div>
-            <div class="col-xs-6">{{medSecondLayerModel.medQuantity}}</div>
+            <div class="col-xs-5">Quantity :</div>
+            <div class="col-xs-7">{{medSecondLayerModel.medQuantity}}</div>
         </div>
         <div class="row">
-            <div class="col-xs-6">Frequency :</div>
-            <div class="col-xs-6">{{medSecondLayerModel.frequency}}</div>
+            <div class="col-xs-5">Frequency :</div>
+            <div class="col-xs-7">{{medSecondLayerModel.frequency}}</div>
         </div>
         <div class="row">
-            <div class="col-xs-6"># of Refills (Ordered/Remaining) :</div>
-            <div class="col-xs-6">{{medSecondLayerModel.refillCount || '...'}} / {{medSecondLayerModel.refillRemain || '...'}}</div>
+            <div class="col-xs-5"># of Refills (Ordered/Remaining) :</div>
+            <div class="col-xs-7">{{medSecondLayerModel.refillCount || '...'}} / {{medSecondLayerModel.refillRemain || '...'}}</div>
         </div>
         <div class="row">
-            <div class="col-xs-6"># of Relapses :</div>
-            <div class="col-xs-6"></div>
+            <div class="col-xs-5"># of Relapses :</div>
+            <div class="col-xs-7"></div>
         </div>
         <div class="row">
-            <div class="col-xs-6">Reason Stopped :</div>
-            <div class="col-xs-6">
-                <md-select style="padding-top:0" placeholder="Select" floatPlaceholder="never" [ngModel]="medSecondLayerModel.reasonStopped" [disabled]="medSecondLayerModel.encounterStatus==='close'">
-                    <md-option value="Side effects">Side effects </md-option>
-                    <md-option value="Insurance">Insurance</md-option>
-                    <md-option value="Cost">Cost</md-option>
-                    <md-option value="Logistics">Logistics</md-option>
-                    <md-option value="Needle fatigue">Needle fatigue</md-option>
-                    <md-option value="Other">Other</md-option>
-                </md-select>
+            <div class="col-xs-5">Reason Stopped :</div>
+            <div class="col-xs-7">
+                <span>
+                    <md-select placeholder="Select" floatPlaceholder="never" [ngClass]="{'fake-disabled': !medSecondLayerModel.allowEdit }" [(ngModel)]="medSecondLayerModel.reasonStopped"
+                        [disabled]="medSecondLayerModel.encounterStatus==='close'">
+                        <md-option value="Side effects">Side effects </md-option>
+                        <md-option value="Insurance">Insurance</md-option>
+                        <md-option value="Cost">Cost</md-option>
+                        <md-option value="Logistics">Logistics</md-option>
+                        <md-option value="Needle fatigue">Needle fatigue</md-option>
+                        <md-option value="Other">Other</md-option>
+                    </md-select>
+                </span>
+                <span *ngIf="medSecondLayerModel.reasonStopped === 'Other' || medSecondLayerModel.reasonStopped === 'Side effects'">
+                    <md-form-field floatPlaceholder="never" [ngClass]="{'fake-disabled': !medSecondLayerModel.allowEdit }">
+                        <input mdInput placeholder="Specify" [ngModel]="medSecondLayerModel.otherReason" />
+                    </md-form-field>
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <button md-raised-button>Update</button>
             </div>
         </div>
     </div>

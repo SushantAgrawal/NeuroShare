@@ -134,27 +134,49 @@ export class MedicationsComponent implements OnInit {
       .sort((a, b) => Date.parse(b.date.medStart) - Date.parse(a.date.medStart));;
   }
 
-  getSecondLayerModel(data, medType) {
-    return {
-      ...data,
-      medType: medType,
-      allYears: Array.from(new Array(100), (val, index) => (new Date()).getFullYear() - index),
-      patientReportedStartDateMonth: 0,
-      patientReportedStartDateYear: 0,
-      encounterStatus: 'open',
-      reasonStopped: ''
+  testChange(){
+    debugger;
+    let x = this.medSecondLayerModel.reasonStopped;
+  };
+
+  getSecondLayerModel(data, medType, secondLayerData) {
+    let model: any = {
+      name: data.name,
+      simpleGenericName: data.medication.simple_generic_name,
+      orderDate: data.date.orderDate,
+      medEnd: data.date.medEnd,
+      medQuantity: data.medQuantity,
+      frequency: data.frequency,
+      refillCount: data.refillCount,
+      refillRemain: data.refillRemain,
+      allYears: Array.from(new Array(100), (val, index) => (new Date()).getFullYear() - index)
     };
+    if (secondLayerData) {
+      model.allowEdit = secondLayerData.save_csn_status !== 'Closed';
+      model.reasonStopped = secondLayerData.reason_stopped;
+      let dtParts = secondLayerData.patient_reported_start.split('/');
+      if (dtParts.length == 2) {
+        model.patientReportedStartDateMonth = parseInt(dtParts[0]);
+        model.patientReportedStartDateYear = parseInt(dtParts[1]);
+      }
+    }
+    else {
+      model.allowEdit = true;
+    }
+
+    return model;
   }
 
   drawDmt() {
-    let config = { hasBackdrop: true, panelClass: 'dmtSecondLevel', width: '600px' };
+    let config = { hasBackdrop: true, panelClass: 'dmtSecondLevel', width: '700px' };
     let openSecondLayer = (selectedData) => {
       let dmtSubscription: any;
       this.brokerService.httpGet(allHttpMessages.httpGetDmt);
       dmtSubscription = this.brokerService.filterOn(allHttpMessages.httpGetDmt).subscribe(d => {
         d.error ? console.log(d) : (() => {
           let dmt = d.data.DMTs.find(x => x.dmt_order_id === selectedData.orderIdentifier.toString());
-          this.medSecondLayerModel = this.getSecondLayerModel(selectedData, this.medType.dmt);
+          this.medSecondLayerModel = this.getSecondLayerModel(selectedData, this.medType.dmt, dmt);
+          console.log(this.medSecondLayerModel);
           this.dialogRef = this.dialog.open(this.dmtSecondLevelTemplate, config);
           dmtSubscription && dmtSubscription.unsubscribe();
         })();
@@ -166,7 +188,7 @@ export class MedicationsComponent implements OnInit {
   drawVitaminD() {
     let config = { hasBackdrop: true, panelClass: 'vitaminDSecondLevel', width: '600px' };
     let openSecondLayer = (data) => {
-      this.medSecondLayerModel = this.getSecondLayerModel(data, this.medType.vitaminD);
+      this.medSecondLayerModel = this.getSecondLayerModel(data, this.medType.vitaminD, {});
       this.dialogRef = this.dialog.open(this.vitaminDSecondLevelTemplate, config);
     };
     this.drawChart(this.vitaminDArray, this.medType.vitaminD, GRAPH_SETTINGS.medications.vitaminDColor, openSecondLayer);
@@ -175,7 +197,7 @@ export class MedicationsComponent implements OnInit {
   drawOtherMeds() {
     let config = { hasBackdrop: true, panelClass: 'otherMedsSecondLevel', width: '600px' };
     let openSecondLayer = (data) => {
-      this.medSecondLayerModel = this.getSecondLayerModel(data, this.medType.otherMeds);
+      this.medSecondLayerModel = this.getSecondLayerModel(data, this.medType.otherMeds, {});
       this.dialogRef = this.dialog.open(this.otherMedsSecondLevelTemplate, config);
     };
     this.drawChart(this.otherMedsArray, this.medType.otherMeds, GRAPH_SETTINGS.medications.otherMedsColor, openSecondLayer);
