@@ -1,18 +1,26 @@
 import {Component, OnInit, ChangeDetectorRef, ViewEncapsulation} from '@angular/core';
 import {BrokerService} from '../../broker/broker.service';
+import {NeuroGraphService} from '../neuro-graph.service';
+import * as _ from 'lodash';
 import {cds, allMessages, manyHttpMessages, allHttpMessages} from '../neuro-graph.config';
 
 @Component({selector: 'app-cds', templateUrl: './cds.component.html', styleUrls: ['./cds.component.sass'], encapsulation: ViewEncapsulation.None})
 export class CdsComponent implements OnInit {
+  // test='<a>Hello world</a>';
+  selectedCdsInfo:any={};
   subscriptions : any;
+  encounterStatusOpen : boolean
   cdsInfo : any;
   cdsUserData : any;
   cdsState : Object = {};
-  constructor(private brokerService : BrokerService, private changeDetector : ChangeDetectorRef) {
+  test(){
+    return('<a>hello world</a>');
+  }
+  constructor(private brokerService : BrokerService, private changeDetector : ChangeDetectorRef, private neuroGraphService : NeuroGraphService) {
     this.cdsState = {
       relapses: {
         checked: false,
-        info: "Lorem ipsum dolor sit amet, maecenas parturient ac urna sed mi, dui nibh sed orc" +
+        info: "Lorem <a>ipsum dolor</a> sit amet, maecenas parturient ac urna sed mi, dui nibh sed orc" +
             "i, convallis ligula ultricies a, mauris risus quisque ornare, malesuada nulla in" +
             " ut aliquet. Sem consequat fermentum in elit,",
         title: "Review relapses"
@@ -66,6 +74,10 @@ export class CdsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.encounterStatusOpen = this
+      .neuroGraphService
+      .get("queryParams")
+      .encounter_status === "Open";
     this.subscriptions = this
       .brokerService
       .filterOn(allMessages.neuroRelated)
@@ -88,7 +100,8 @@ export class CdsComponent implements OnInit {
             this.cdsInfo = d
               .data
               .find(x => x[allHttpMessages.httpGetCdsInfo]);
-              this.cdsInfo=this.cdsInfo && this.cdsInfo[allHttpMessages.httpGetCdsInfo].cds;
+            this.cdsInfo = this.cdsInfo && this.cdsInfo[allHttpMessages.httpGetCdsInfo].cds;
+            // let xTest = _.findKey(cdsMapping,(x)=>x=="review_relapses");
             this.cdsUserData = d
               .data
               .find(x => x[allHttpMessages.httpGetCdsUserData]);
@@ -100,8 +113,12 @@ export class CdsComponent implements OnInit {
       .add(sub1);
   }
 
-  // buttonClicked(item) {   this.display=true;   this.header = item; }
-  // ngAfterViewInit(){ }
+  buttonClicked(item) {
+    this.selectedCdsInfo=this.cdsInfo.find(x=>x.label==item);
+  }
+  getCdsTitle(){
+    return(this.selectedCdsInfo.title);
+  }
 
   ngOnDestroy() {
     this

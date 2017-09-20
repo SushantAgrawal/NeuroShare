@@ -8,9 +8,9 @@ export const allMessages = {
     'neuroRelated': 'neuro:related'
 };
 
-export const manyHttpMessages={
-    'httpGetTestMany':'http:get:test:many',
-    'httpGetInitialApiCall':'http:get:initial:api:call'
+export const manyHttpMessages = {
+    'httpGetTestMany': 'http:get:test:many',
+    'httpGetInitialApiCall': 'http:get:initial:api:call'
 };
 export const allHttpMessages = {
     'httpGetMedications': 'http:get:medications',
@@ -22,13 +22,20 @@ export const allHttpMessages = {
     'httpGetDmt': 'http:get:dmt'
 };
 export const urlMaps = {
-    "http:get:medications": "https://private-242c4d-ehrmedicationorders.apiary-mock.com/maestro/api/ehr/medications-orders/?pom_id=82043",
-    "http:get:edss": "https://private-anon-517d57d1fe-neuroshareapis.apiary-mock.com/neuroshare/api/ms/edss-score/?pom_id=82043",
-    "http:get:cds:info": "http://private-anon-293c93a712-neuroshareapis.apiary-mock.com/neuroshare/api/ms/cds-info/",
-    "http:get:cds:user:data": "https://private-anon-293c93a712-neuroshareapis.apiary-mock.com/neuroshare/api/ms/cds/?pom_id=82043",
-    "http:put:cds:user:data": "https://private-anon-293c93a712-neuroshareapis.apiary-mock.com/neuroshare/api/ms/cds/",
-    "http:post:cds:user:data": "https://private-anon-293c93a712-neuroshareapis.apiary-mock.com/neuroshare/api/ms/cds/",
-    "http:get:dmt": "https://private-anon-a39e22dbbe-neuroshareapis.apiary-mock.com/neuroshare/api/ms/dmt/?pom_id=82043"
+    "http:get:medications": "https://private-242c4d-ehrmedicationorders.apiary-mock.com/maestro/api/ehr/medic" +
+            "ations-orders/?pom_id=82043",
+    "http:get:edss": "https://private-anon-517d57d1fe-neuroshareapis.apiary-mock.com/neuroshare/api/ms" +
+            "/edss-score/?pom_id=82043",
+    "http:get:cds:info": "http://private-anon-293c93a712-neuroshareapis.apiary-mock.com/neuroshare/api/ms/" +
+            "cds-info/",
+    "http:get:cds:user:data": "https://private-anon-293c93a712-neuroshareapis.apiary-mock.com/neuroshare/api/ms" +
+            "/cds/?pom_id=82043",
+    "http:put:cds:user:data": "https://private-anon-293c93a712-neuroshareapis.apiary-mock.com/neuroshare/api/ms" +
+            "/cds/",
+    "http:post:cds:user:data": "https://private-anon-293c93a712-neuroshareapis.apiary-mock.com/neuroshare/api/ms" +
+            "/cds/",
+    "http:get:dmt": "https://private-anon-a39e22dbbe-neuroshareapis.apiary-mock.com/neuroshare/api/ms" +
+            "/dmt/?pom_id=82043"
 };
 
 export const cds = {
