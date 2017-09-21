@@ -1,68 +1,67 @@
 <div class="header-area">
   <span class="header-text">Neuro Related</span>
 </div>
-<button (click)="testMany()">Test Many</button>
+<!-- <button (click)="testMany()">Test Many</button> -->
 <div class="ms-related-panel">
   <div class="related-panel">
-    <div class="related-panel-row">
-      <div class="related-panel-cell">
-        <div class="related-rotate-text col1">TREATMENTS</div>
+      <div class="related-treatments">
+        <div class="related-rotate-text">TREATMENTS</div>
       </div>
       <div class="related-items">
-        <ul>
+        <ul class="related-items-ul">
           <li><label><input type="checkbox" [checked]="true" (change)='changed($event,"dmt")' /> DMT </label></li>
           <li><label><input type="checkbox" (change)='changed($event,"otherMeds")' /> Other Meds </label></li>
           <li><label><input type="checkbox" (change)='changed($event,"vitaminD")' /> Vitamin D </label></li>
           <li><label><input type="checkbox" (change)='changed($event,"referrals")' /> Referrals </label></li>
         </ul>
       </div>
-    </div>
+  
   </div>
   <div class="related-panel">
-    <div class="related-panel-row">
-      <div class="related-panel-cell">
-        <div class="related-rotate-text col2">OUTCOMES</div>
+
+      <div class="related-outcomes">
+        <div class="related-rotate-text">OUTCOMES</div>
       </div>
       <div class="related-items">
-        <ul>
-          <li><label><input type="checkbox" [checked]="true" (change)='changed($event,"edss")' /> EDSS </label><a (click)="openDialog('edss')"><img src="../../../assets/images/plus.png" width="10px" height="10px"/></a></li>
-          <li><label><input type="checkbox" (change)='changed($event,"walk25Feet")' /> 25' Walk </label><a><img src="../../../assets/images/plus.png" width="10px" height="10px"/></a></li>
-          <li><label><input type="checkbox" (change)='changed($event,"relapses")' /> Relapses </label><a (click)="openDialog('relapses')"><img src="../../../assets/images/plus.png" width="10px" height="10px"/></a></li>
+        <ul class="related-items-ul">
+          <li><label><input type="checkbox" [checked]="true" (change)='changed($event,"edss")' /> EDSS </label><span (click)="openDialog('edss')">+</span></li>
+          <li><label><input type="checkbox" (change)='changed($event,"walk25Feet")' /> 25' Walk </label><span>+</span></li>
+          <li><label><input type="checkbox" (change)='changed($event,"relapses")' /> Relapses </label><span (click)="openDialog('relapses')">+</span></li>
           <li><label><input type="checkbox" (change)='changed($event,"imaging")' /> Imaging </label></li>
           <li><label><input type="checkbox" (change)='changed($event,"symptoms")' /> Symptoms </label></li>
         </ul>
       </div>
-    </div>
+
   </div>
 
   <div class="related-panel">
-    <div class="related-panel-row">
-      <div class="related-panel-cell">
-        <div class="related-rotate-text col3">MONITORING</div>
+
+      <div class="related-monitoring">
+        <div class="related-rotate-text">MONITORING</div>
       </div>
       <div class="related-items">
-        <ul>
+        <ul class="related-items-ul">
           <li><label><input type="checkbox" [checked]="true" (change)='changed($event,"labs")' /> Labs </label></li>
           <li><label><input type="checkbox" (change)='changed($event,"vaccinations")' /> Vaccinations </label></li>
-          <li><label><input type="checkbox" (change)='changed($event,"dme")' /> DME </label><a><img src="../../../assets/images/plus.png" width="10px" height="10px"/></a></li>
+          <li><label><input type="checkbox" (change)='changed($event,"dme")' /> DME </label><span>+</span></li>
         </ul>
       </div>
-    </div>
+
   </div>
 
   <div class="related-panel">
-    <div class="related-panel-row">
-      <div class="related-panel-cell">
-        <div class="related-rotate-text col4">ENCOUNTERS</div>
+
+      <div class="related-encounters">
+        <div class="related-rotate-text">ENCOUNTERS</div>
       </div>
       <div class="related-items">
-        <ul>
+        <ul class="related-items-ul">
           <li><label><input type="checkbox" (change)='changed($event,"office")' /> Office </label></li>
           <li><label><input type="checkbox" (change)='changed($event,"mho")' /> MHO </label></li>
           <li><label><input type="checkbox" (change)='changed($event,"phone")' /> Phone </label></li>
         </ul>
       </div>
-    </div>
+
   </div>
 
 </div>

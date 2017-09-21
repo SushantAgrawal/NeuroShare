@@ -38,6 +38,11 @@ label
 .right-float
     float: right
 
+.clearBoth
+    clear: both
+    content: ''
+    display: block
+
 .action-buttons
     +border-radius(5px)
     font-size: 16pt
@@ -109,9 +114,23 @@ label
         @extend .left-float
   
 .header-area:after
-    clear: both
-    content: ' '
-    display: block
+    @extend .clearBoth
+
+.mat-dialog-container
+    padding: 0px !important
+    border: solid 1px #EA700D
+
+.modal-header
+    padding: 2px 15px!important
+    .modal-title
+        font-size: 10pt
+        font-weight: 700
+        color: #EA700D
+
+.modal-body
+    font-size: 10pt
+    .row
+        margin-bottom: 5px
 
 
 /*------------ Neuro Related Care ---------------------*/
@@ -122,9 +141,7 @@ label
     margin-bottom: 1px
 
 .cds-items:after
-    display: block
-    clear: both
-    content: ''
+    @extend .clearBoth
 
 .cds-items-checkbox
     @extend .left-float
@@ -151,48 +168,18 @@ label
 	padding: 15px
 
 .related-panel
-    display: table
     margin-bottom: 20px
-
-.related-panel-row
-    display: table-row
     
-.related-panel-cell
-    display: table-cell
+.related-label
     background-color: $background
-    width: 20px
+    float: left
     border: solid 1px #e9e9e9
-    position: relative
+    margin-right: 15px
 
-.related-items
-    display: table-cell
-    padding: 10px
-    width: 150px
-
-.related-items ul
-	padding : 0px 
-	margin : 0px
-	list-style-type : none
-
-.related-items li
-    margin-bottom: 5px
-
-.related-items li:after
-    clear:both
-    content: ''
-    display:block
-
-.related-items li a
-    float: right
-
-
-
-.related-rotate-text
-    position: absolute
+.related-text-rotate
     font-size: 12pt
-    writing-mode: horizontal-tb
-    top: 50%
-    margin-top: -10px
+    text-align: center
+    width: 20px
     -ms-transform: rotate(270deg)
     -moz-transform: rotate(270deg)
     -webkit-transform: rotate(270deg)
@@ -201,22 +188,69 @@ label
     -moz-transform-origin: top middle 0
     -webkit-transform-origin: top middle 0
     transform-origin: top middle 0
-    text-transform: uppercase
-    
-.col1
-    margin-left: -43px
 
-.col2
-    margin-left: -36px
+.related-items
+    padding: 10px 0px
 
-.col3
-    margin-left: -43px
+.related-items-ul
+	padding : 0px 
+	margin : 0px
+	list-style-type : none
 
-.col4
-    margin-left: -44px
+.related-items-ul
+    span
+        display: block
+        cursor: pointer
+        width: 10px
+        height: 10px
+        float: right
 
+.mat-select-trigger
+    background-color: #ececec
+    .mat-select-underline
+        background-color: #ea700d
+    .mat-select-arrow
+        color: #ea700d
 
-/*------------  Neuro Graph ---------------------*/
+/*===========TREATMENTS=============*/
+.related-treatments
+    @extend .related-label
+    height: 128px
+    .related-rotate-text
+         @extend .related-text-rotate
+         margin-top: 91px
+
+/*===========OUTCOMES=============*/
+.related-outcomes
+    @extend .related-label
+    height: 151px
+    .related-rotate-text
+         @extend .related-text-rotate
+         margin-top: 99px
+
+/*===========MONITORING=============*/
+.related-monitoring
+    @extend .related-label
+    height: 119px
+    .related-rotate-text
+         @extend .related-text-rotate
+         margin-top: 91px
+
+/*===========ENCOUNTERS=============*/
+.related-encounters
+    @extend .related-label
+    height: 130px
+    .related-rotate-text
+         @extend .related-text-rotate
+         margin-top: 97px
+
+.related-items li a
+    float: right
+
+.related-panel:after
+    @extend .clearBoth
+
+/*-------------------  Neuro Graph ---------------------*/
 
 .fake-disabled
   pointer-events: none
