@@ -138,6 +138,53 @@ export class EdssComponent implements OnInit {
       }
     }).sort((a, b) => a.lastUpdatedDate - b.lastUpdatedDate);
 
+    //temporary hard-coded data for area and mean
+    let datasetArea1 = [
+      {"xDate":Date.parse("01/01/2015"),
+        "q2":1,
+        "q3":2.5},
+      {"xDate":Date.parse("06/30/2015"),
+      "q2":1,
+      "q3":2.5},
+      {"xDate":Date.parse("06/30/2016"),
+      "q2":2,
+      "q3":5},
+      {"xDate":Date.parse("06/30/2017"),
+      "q2":1.8,
+      "q3":3.5},
+      {"xDate":Date.parse("12/31/2017"),
+      "q2":1.8,
+      "q3":3.5}
+    ];
+  
+      let datasetArea2 = [
+      {"xDate":Date.parse("01/01/2015"),
+      "q1":0,
+      "q4":5},
+      {"xDate":Date.parse("06/30/2015"),
+      "q1":0,
+      "q4":5},
+      {"xDate":Date.parse("06/30/2016"),
+      "q1":1.2,
+      "q4":7.5},
+      {"xDate":Date.parse("06/30/2017"),
+      "q1":1,
+      "q4":6},
+      {"xDate":Date.parse("12/31/2017"),
+      "q1":1,
+      "q4":6}
+    ];
+  
+  let datasetMean=[
+    {"xDate":Date.parse("06/30/2015"),
+    "m":2},
+    {"xDate":Date.parse("06/30/2016"),
+    "m":3.2},
+    {"xDate":Date.parse("06/30/2017"),
+    "m":2.2}
+  ];
+
+
     this.yScale = d3
       .scaleLinear()
       .domain(this.yDomain)
@@ -147,6 +194,20 @@ export class EdssComponent implements OnInit {
       .x((d: any) => this.chartState.xScale(d.lastUpdatedDate))
       .y((d: any) => this.yScale(d.scoreValue));
 
+      let lineMean = d3.line<any>()
+      .x((d: any) => this.chartState.xScale(d.xDate))
+      .y((d: any) => this.yScale(d.m));
+
+      var area1 = d3.area()
+      .x((d: any) => this.chartState.xScale(d.xDate))
+      .y0((d: any) => this.yScale(d.q2))
+      .y1((d: any) => this.yScale(d.q3));
+
+      var area2 = d3.area()
+      .x((d: any) => this.chartState.xScale(d.xDate))
+      .y0((d: any) => this.yScale(d.q1))
+      .y1((d: any) => this.yScale(d.q4));
+ 
     let svg = d3
       .select('#edss')
       .attr('class', 'edss-elements-wrapper')
@@ -166,6 +227,16 @@ export class EdssComponent implements OnInit {
           .style('font-weight', 'bold');
       });
 
+    svg.append("path")
+    .datum(datasetArea2)
+    .attr("fill", "lightgrey")
+    .attr("d", area2);
+
+    svg.append("path")
+    .datum(datasetArea1)
+    .attr("fill", "darkgrey")
+    .attr("d", area1);
+
     svg.append('path')
       .datum(dataset)
       .attr('class', 'line')
@@ -173,6 +244,14 @@ export class EdssComponent implements OnInit {
       .style('stroke', GRAPH_SETTINGS.edss.color)
       .style('stroke-width', '1')
       .attr('d', line);
+
+      svg.append('path')
+      .datum(datasetMean)
+      .attr('class', 'line')
+      .style('fill', 'none')
+      .style('stroke', "white")
+      .style('stroke-width', '1')
+      .attr('d', lineMean);
 
     svg.selectAll('.dot')
       .data(dataset)
