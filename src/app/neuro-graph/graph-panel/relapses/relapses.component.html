@@ -12,11 +12,11 @@
           <div class="col-xs-1">{{relapsesDetail.month}}</div>
           <div class="col-xs-3">{{relapsesDetail.year}}</div>
       </div>
-      <div class="row" style="margin-top:3px;">
+      <!-- <div class="row" style="margin-top:3px;">
           <div class="col-xs-6"># of Relapses</div>
           <div class="col-xs-6">{{relapsesDetail.relapse_cnt}}</div>
           
-      </div>
+      </div> -->
       <div class="row" style="margin-top:3px;">
           <div class="col-xs-6">Clinician Confirmed</div>
           <div class="col-xs-1" > Y <md-checkbox disabled  [checked]="relapsesDetail.confirm" ></md-checkbox> </div>
@@ -52,12 +52,12 @@
           <div class="col-xs-2"><button md-button class="btnCss" (click)="updateChart()">Update</button></div>
          
       </div>
-      <div class="row" style="margin-top:6px;">
+      <!-- <div class="row" style="margin-top:6px;">
           <div class="col-xs-1"></div>
           <div class="col-xs-4" ># of Relapses</div>
           <div class="col-xs-5"> <input mdInput class="inputCss" [(ngModel)]="relapsesDetail.relapse_cnt" type="number" min="0" value="{{relapsesDetail.relapse_cnt}}"></div>
           
-      </div>
+      </div> -->
       <div class="row" style="margin-top:6px;">
           <div class="col-xs-1"></div>
           <div class="col-xs-6">Clinician Confirmed</div>
@@ -81,11 +81,11 @@
             <div class="col-xs-3">Reported Relapse</div>
             <div class="col-xs-9">
                 <span>
-                <md-select  placeholder="monthSel" [(ngModel)]="relapsesDetail.month" style="padding-top:0px !important;margin-top:-15px !important;" floatPlaceholder="never">
+                <md-select  placeholder="" [(ngModel)]="relapsesDetail.month" style="padding-top:0px !important;margin-top:-15px !important;" floatPlaceholder="never">
                     <md-option  *ngFor="let month of months" [value]="month">{{month}}</md-option>
                   </md-select></span>
                   <span>
-                  <md-select placeholder="yearSel" [(ngModel)]="relapsesDetail.year" style="padding-top:0px !important;margin-top:-15px !important;" floatPlaceholder="never">
+                  <md-select placeholder="" [(ngModel)]="relapsesDetail.year" style="padding-top:0px !important;margin-top:-15px !important;" floatPlaceholder="never">
                         <md-option *ngFor="let year of years" [value]="year">{{year}}</md-option>
                       </md-select></span>
             </div>

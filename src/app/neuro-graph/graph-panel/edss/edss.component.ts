@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, ViewChild, TemplateRef, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, TemplateRef, Inject,ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
 import { BrokerService } from '../../../broker/broker.service';
 import { allMessages, allHttpMessages, medication } from '../../neuro-graph.config';
 import { GRAPH_SETTINGS } from '../../neuro-graph.config';
-import { MdDialog, MdDialogRef } from '@angular/material';
-
+import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+import {edssPopup} from '../../neuro-graph.config'
 
 @Component({
   selector: '[app-edss]',
@@ -15,6 +15,7 @@ import { MdDialog, MdDialogRef } from '@angular/material';
 
 export class EdssComponent implements OnInit {
   @ViewChild('edssSecondLevelTemplate') private edssSecondLevelTemplate: TemplateRef<any>;
+  @ViewChild('edssSecondLevelAddTemplate')  private edssSecondLevelAddTemplate: TemplateRef<any>;
   @Input() private chartState: any;
   dialogRef: MdDialogRef<any>;
   private edssScoreDetail: any;
@@ -22,10 +23,31 @@ export class EdssComponent implements OnInit {
   private yScale: any;
   private yDomain: Array<number> = [0, GRAPH_SETTINGS.edss.maxValueY];
   private edssData: Array<any>;
+  private edssPopupQuestions: any = [] ;
+  private type: any;
+  private score: any;
 
-  constructor(private brokerService: BrokerService, private dialog: MdDialog) { }
-
+  constructor(private brokerService: BrokerService, private dialog: MdDialog){}
+    onNoClick(): void {
+      this.dialogRef.close();
+    }
+    submit()
+    {
+     
+    
+      var selectedValue = this.edssPopupQuestions.find(x=>x.checked == true);
+      if(this.type == 'Add')
+        {
+          //Call Add API
+        }
+      else
+        {
+          //Call Update API
+        }
+        this.dialogRef.close();
+    }
   ngOnInit() {
+    this.type="Add";
     this.subscriptions = this
       .brokerService
       .filterOn(allHttpMessages.httpGetEdss)
@@ -41,6 +63,10 @@ export class EdssComponent implements OnInit {
       .brokerService
       .filterOn(allMessages.neuroRelated)
       .filter(t => (t.data.artifact == 'edss'));
+
+    let modal = this
+    .brokerService
+    .filterOn(allMessages.invokeAddEdss)
 
     let sub1 = edss
       .filter(t => t.data.checked)
@@ -64,10 +90,32 @@ export class EdssComponent implements OnInit {
             this.removeChart();
           })();
       })
+      let sub3 = modal
+      .subscribe(d => {
+        d.error
+          ? console.log(d.error)
+          : (() => {
+            console.log(d.data);
+            this.dialogRef = this.dialog.open(this.edssSecondLevelAddTemplate, {
+              width: '583px',
+              height: '662px'//,
+              //data: { type: "Add", score: '' }
+            });
+            
+          })();
+      })
     this
       .subscriptions
       .add(sub1)
-      .add(sub2);
+      .add(sub2)
+      .add(sub3);
+
+      this.edssPopupQuestions = edssPopup;
+      this.edssPopupQuestions.map(x=>x.checked = false);
+      if(this.score!='')
+      {
+        this.edssPopupQuestions.forEach(x => { if (x.score==this.score)x.checked =true});
+      }
   }
 
   ngOnDestroy() {

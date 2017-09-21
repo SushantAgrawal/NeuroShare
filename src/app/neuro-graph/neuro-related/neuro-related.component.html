@@ -25,9 +25,9 @@
       </div>
       <div class="related-items">
         <ul>
-          <li><label><input type="checkbox" [checked]="true" (change)='changed($event,"edss")' /> EDSS </label><a (click)="openDialog()"><img src="../../../assets/images/plus.png" width="10px" height="10px"/></a></li>
+          <li><label><input type="checkbox" [checked]="true" (change)='changed($event,"edss")' /> EDSS </label><a (click)="openDialog('edss')"><img src="../../../assets/images/plus.png" width="10px" height="10px"/></a></li>
           <li><label><input type="checkbox" (change)='changed($event,"walk25Feet")' /> 25' Walk </label><a><img src="../../../assets/images/plus.png" width="10px" height="10px"/></a></li>
-          <li><label><input type="checkbox" (change)='changed($event,"relapses")' /> Relapses </label><a><img src="../../../assets/images/plus.png" width="10px" height="10px"/></a></li>
+          <li><label><input type="checkbox" (change)='changed($event,"relapses")' /> Relapses </label><a (click)="openDialog('relapses')"><img src="../../../assets/images/plus.png" width="10px" height="10px"/></a></li>
           <li><label><input type="checkbox" (change)='changed($event,"imaging")' /> Imaging </label></li>
           <li><label><input type="checkbox" (change)='changed($event,"symptoms")' /> Symptoms </label></li>
         </ul>

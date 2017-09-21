@@ -20,3 +20,19 @@
         </div>
     </div>
 </template>
+<template #edssSecondLevelAddTemplate>
+    <div class="header">
+        Select EDSS Score
+      </div>
+      <table class="questionContainer">
+        <tr *ngFor="let question of edssPopupQuestions">
+          <td><input type="radio" name="edssPopupGroup" [checked]="question.checked"></td>
+          <td>{{question.score}}</td>
+          <td>{{question.title}}</td>
+        </tr>
+      </table>
+      <div class="buttonContainer">
+        <button class="roundButton" *ngIf="type=='Add'" (click)="submit()">Add</button>
+        <button class="roundButton" *ngIf="type=='Update'" (click)="submit()">Update</button>
+      </div>
+</template>
