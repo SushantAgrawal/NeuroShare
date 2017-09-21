@@ -24,7 +24,7 @@
       </div>
       <div class="related-items">
         <ul class="related-items-ul">
-          <li><label><input type="checkbox" [checked]="true" (change)='changed($event,"edss")' /> EDSS </label><span (click)="openDialog()">+</span></li>
+          <li><label><input type="checkbox" [checked]="true" (change)='changed($event,"edss")' /> EDSS </label><span (click)="openDialog('edss')">+</span></li>
           <li><label><input type="checkbox" (change)='changed($event,"walk25Feet")' /> 25' Walk </label><span>+</span></li>
           <li><label><input type="checkbox" (change)='changed($event,"relapses")' /> Relapses </label><span (click)="openDialog('relapses')">+</span></li>
           <li><label><input type="checkbox" (change)='changed($event,"imaging")' /> Imaging </label></li>
