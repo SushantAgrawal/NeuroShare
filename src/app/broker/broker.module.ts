@@ -7,6 +7,7 @@ import {BrokerService} from './broker.service';
     CommonModule,HttpModule
   ],
   declarations: [],
-  exports:[BrokerService]
+  providers:[BrokerService]//,
+  // exports:[BrokerService]
 })
 export class BrokerModule { }

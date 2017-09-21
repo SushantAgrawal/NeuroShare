@@ -1,89 +1,60 @@
 import {Component, OnInit, ChangeDetectorRef, ViewEncapsulation} from '@angular/core';
 import {BrokerService} from '../../broker/broker.service';
 import {NeuroGraphService} from '../neuro-graph.service';
-import * as _ from 'lodash';
-import {cds, allMessages, manyHttpMessages, allHttpMessages} from '../neuro-graph.config';
+import {Observable} from 'rxjs/Observable';
+// import * as _ from 'lodash';
+import {cdsMap, allMessages, manyHttpMessages, allHttpMessages} from '../neuro-graph.config';
 
 @Component({selector: 'app-cds', templateUrl: './cds.component.html', styleUrls: ['./cds.component.sass'], encapsulation: ViewEncapsulation.None})
 export class CdsComponent implements OnInit {
-  // test='<a>Hello world</a>';
-  selectedCdsInfo:any={};
+  selectedCdsInfo : any = {};
   subscriptions : any;
-  encounterStatusOpen : boolean
   cdsInfo : any;
   cdsUserData : any;
   cdsState : Object = {};
-  test(){
-    return('<a>hello world</a>');
-  }
+  csnState : any = {};
   constructor(private brokerService : BrokerService, private changeDetector : ChangeDetectorRef, private neuroGraphService : NeuroGraphService) {
     this.cdsState = {
-      relapses: {
-        checked: false,
-        info: "Lorem <a>ipsum dolor</a> sit amet, maecenas parturient ac urna sed mi, dui nibh sed orc" +
-            "i, convallis ligula ultricies a, mauris risus quisque ornare, malesuada nulla in" +
-            " ut aliquet. Sem consequat fermentum in elit,",
-        title: "Review relapses"
+      review_relapses: {
+        checked: false
       },
-      imaging: {
-        checked: false,
-        info: "",
-        title: ""
+      review_mri_images: {
+        checked: false
       },
-      symptomStatus: {
-        checked: false,
-        info: "",
-        title: ""
+      review_symptom_status: {
+        checked: false
       },
-      typeStatus: {
-        checked: false,
-        info: "",
-        title: ""
+      review_ms_type_status: {
+        checked: false
       },
-      dmt: {
-        checked: false,
-        info: "",
-        title: ""
+      review_dmts: {
+        checked: false
       },
-      labs: {
-        checked: false,
-        info: "",
-        title: ""
+      review_monitoring_labs: {
+        checked: false
       },
-      vitaminD: {
-        checked: false,
-        info: "",
-        title: ""
+      review_vitamin_d: {
+        checked: false
       },
-      otherMeds: {
-        checked: false,
-        info: "",
-        title: ""
+      review_other_meds: {
+        checked: false
       },
-      referrals: {
-        checked: false,
-        info: "",
-        title: ""
+      review_symptoms_referrals: {
+        checked: false
       },
-      vaccinations: {
-        checked: false,
-        info: "",
-        title: ""
+      review_vaccinations: {
+        checked: false
       }
     }
   }
 
   ngOnInit() {
-    this.encounterStatusOpen = this
-      .neuroGraphService
-      .get("queryParams")
-      .encounter_status === "Open";
     this.subscriptions = this
       .brokerService
       .filterOn(allMessages.neuroRelated)
       .subscribe(d => {
         let cdsSource = d.data.artifact;
-        let cdsTarget : [any] = cds[cdsSource];
+        let cdsTarget : [any] = cdsMap[cdsSource];
         let checked = d.data.checked;
         checked && (cdsTarget && cdsTarget.forEach(x => this.cdsState[x].checked = true));
         this
@@ -101,11 +72,20 @@ export class CdsComponent implements OnInit {
               .data
               .find(x => x[allHttpMessages.httpGetCdsInfo]);
             this.cdsInfo = this.cdsInfo && this.cdsInfo[allHttpMessages.httpGetCdsInfo].cds;
-            // let xTest = _.findKey(cdsMapping,(x)=>x=="review_relapses");
             this.cdsUserData = d
               .data
               .find(x => x[allHttpMessages.httpGetCdsUserData]);
-            this.cdsUserData = this.cdsUserData && this.cdsUserData[allHttpMessages.httpGetCdsUserData].cds;
+            let cdsUserData = this.cdsUserData && this.cdsUserData[allHttpMessages.httpGetCdsUserData].cds;
+            this.csnState.csn = this
+              .neuroGraphService
+              .get('queryParams')
+              .csn;
+            this.csnState.encounterStatus = this
+              .neuroGraphService
+              .get('queryParams')
+              .encounter_status;
+            this.cdsUserData = cdsUserData.find(x => x.save_csn == this.csnState.csn);
+            this.setChkBoxes()
           })();
       });
     this
@@ -113,11 +93,28 @@ export class CdsComponent implements OnInit {
       .add(sub1);
   }
 
-  buttonClicked(item) {
-    this.selectedCdsInfo=this.cdsInfo.find(x=>x.label==item);
+  setChkBoxes() {
+    Object
+      .keys(this.cdsUserData)
+      .map(x => {
+        this.cdsState[x] && (this.cdsState[x].checked = ((this.cdsUserData[x] == 'Yes') || (this.cdsState[x].checked))
+          ? true
+          : false);
+      });
+    this
+      .changeDetector
+      .detectChanges();
   }
-  getCdsTitle(){
-    return(this.selectedCdsInfo.title);
+
+  changed(event, item) {}
+  buttonClicked(item) {
+    this.selectedCdsInfo = this
+      .cdsInfo
+      .find(x => x.label == item);
+  }
+  
+  getCdsTitle() {
+    return (this.selectedCdsInfo.title);
   }
 
   ngOnDestroy() {
@@ -125,5 +122,4 @@ export class CdsComponent implements OnInit {
       .subscriptions
       .unsubscribe();
   }
-
 }
