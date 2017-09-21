@@ -144,33 +144,34 @@
     </div>
     <div class="modal-body">
         <div class="row">
-            <div class="col-xs-6">Generic Name :</div>
-            <div class="col-xs-6">{{medSecondLayerModel.medication.simple_generic_name}}</div>
+            <div class="col-xs-5">Generic Name :</div>
+            <div class="col-xs-7">{{medSecondLayerModel.simpleGenericName}}</div>
         </div>
         <div class="row">
-            <div class="col-xs-6">Ordered :</div>
-            <div class="col-xs-6">{{medSecondLayerModel.date.orderDate}}</div>
+            <div class="col-xs-5">Ordered :</div>
+            <div class="col-xs-7">{{medSecondLayerModel.orderDate}}</div>
         </div>
         <div class="row">
-            <div class="col-xs-6">End :</div>
-            <div class="col-xs-6">{{medSecondLayerModel.date.medEnd}}</div>
+            <div class="col-xs-5">End :</div>
+            <div class="col-xs-7">{{medSecondLayerModel.medEnd}}</div>
         </div>
         <div class="row">
-            <div class="col-xs-6">Quantity :</div>
-            <div class="col-xs-6">{{medSecondLayerModel.medQuantity}}</div>
+            <div class="col-xs-5">Quantity :</div>
+            <div class="col-xs-7">{{medSecondLayerModel.medQuantity}}</div>
         </div>
         <div class="row">
-            <div class="col-xs-6">Frequency :</div>
-            <div class="col-xs-6">{{medSecondLayerModel.frequency}}</div>
+            <div class="col-xs-5">Frequency :</div>
+            <div class="col-xs-7">{{medSecondLayerModel.frequency}}</div>
         </div>
         <div class="row">
-            <div class="col-xs-6"># of Refills (Ordered/Remaining) :</div>
-            <div class="col-xs-6">{{medSecondLayerModel.refillCount || '...'}} / {{medSecondLayerModel.refillRemain || '...'}}</div>
+            <div class="col-xs-5"># of Refills (Ordered/Remaining) :</div>
+            <div class="col-xs-7">{{medSecondLayerModel.refillCount || '...'}} / {{medSecondLayerModel.refillRemain || '...'}}</div>
         </div>
         <div class="row">
-            <div class="col-xs-6">Reason for Med :</div>
-            <div class="col-xs-6">
-                <md-select style="padding-top:0" placeholder="Select" floatPlaceholder="never">
+            <div class="col-xs-5">Reason for Med :</div>
+            <div class="col-xs-7">
+                <md-select style="padding-top:0" placeholder="Select" floatPlaceholder="never" [ngClass]="{'fake-disabled': !medSecondLayerModel.allowEdit }"
+                    [(ngModel)]="medSecondLayerModel.reasonForMed" [disabled]="medSecondLayerModel.encounterStatus==='close'">
                     <md-option value="Thinking/Memory/Cognition">Thinking/Memory/Cognition </md-option>
                     <md-option value="Fatigue">Fatigue</md-option>
                     <md-option value="Vision">Vision</md-option>
@@ -189,6 +190,11 @@
                     <md-option value="Sleep">Sleep</md-option>
                     <md-option value="Quality of Life">Quality of Life</md-option>
                 </md-select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <button md-raised-button (click)="updateOtherMeds()">Update</button>
             </div>
         </div>
     </div>

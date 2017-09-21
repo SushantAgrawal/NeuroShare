@@ -5,7 +5,7 @@ import { allMessages, allHttpMessages, manyHttpMessages, medication } from '../.
 import { searchObject } from '../../neuro-graph.helper';
 import { GRAPH_SETTINGS } from '../../neuro-graph.config';
 import { MdDialog, MdDialogRef } from '@angular/material';
-import {NeuroGraphService} from '../../neuro-graph.service';
+import { NeuroGraphService } from '../../neuro-graph.service';
 
 
 @Component({
@@ -37,8 +37,9 @@ export class MedicationsComponent implements OnInit {
     vitaminD: 'vitaminD'
   };
   dmtSecondLayerLocalData: Array<any>;
+  otherMedsSecondLayerLocalData: Array<any>;
 
-  constructor(private brokerService: BrokerService, private dialog: MdDialog,  private neuroGraphService : NeuroGraphService) { }
+  constructor(private brokerService: BrokerService, private dialog: MdDialog, private neuroGraphService: NeuroGraphService) { }
 
   ngOnInit() {
     //This 'setSecondLayerData' is temporary and used to set a local data source.  Will be removed once apis are ready.
@@ -141,6 +142,7 @@ export class MedicationsComponent implements OnInit {
   }
 
   getSecondLayerModel(data, medType, secondLayerData) {
+    debugger;
     let model: any = {
       orderIdentifier: data.orderIdentifier,
       name: data.name,
@@ -155,12 +157,17 @@ export class MedicationsComponent implements OnInit {
     };
     if (secondLayerData) {
       model.allowEdit = secondLayerData.save_csn_status !== 'Closed';
-      model.reasonStopped = secondLayerData.reason_stopped;
-      model.otherReason = secondLayerData.otherReason;
-      let dtParts = secondLayerData.patient_reported_start.split('/');
-      if (dtParts.length == 2) {
-        model.patientReportedStartDateMonth = parseInt(dtParts[0]);
-        model.patientReportedStartDateYear = parseInt(dtParts[1]);
+      if (medType == this.medType.dmt) {
+        model.reasonStopped = secondLayerData.reason_stopped;
+        model.otherReason = secondLayerData.otherReason;
+        let dtParts = secondLayerData.patient_reported_start.split('/');
+        if (dtParts.length == 2) {
+          model.patientReportedStartDateMonth = parseInt(dtParts[0]);
+          model.patientReportedStartDateYear = parseInt(dtParts[1]);
+        }
+      }
+      if (medType == this.medType.otherMeds) {
+        model.reasonForMed = secondLayerData.reason_for_med;
       }
     }
     else {
@@ -174,11 +181,14 @@ export class MedicationsComponent implements OnInit {
     let secondLayerApiCallSub: any;
     this.brokerService.httpGetMany(manyHttpMessages.httpGetInitialApiCall, [
       { urlId: allHttpMessages.httpGetDmt },
+      { urlId: allHttpMessages.httpGetOtherMeds }
     ]);
     secondLayerApiCallSub = this.brokerService.filterOn(manyHttpMessages.httpGetInitialApiCall).subscribe(d => {
       d.error ? console.log(d) : (() => {
         let dmtResponse = d.data[0][allHttpMessages.httpGetDmt];
+        let otherMedsResponse = d.data[1][allHttpMessages.httpGetOtherMeds];
         this.dmtSecondLayerLocalData = dmtResponse.DMTs;
+        this.otherMedsSecondLayerLocalData = dmtResponse.Other_Meds;
         secondLayerApiCallSub && secondLayerApiCallSub.unsubscribe();
       })();
     });
@@ -205,26 +215,44 @@ export class MedicationsComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  updateOtherMeds() {
+    let othreMeds = this.otherMedsSecondLayerLocalData.find(x => x.other_med_order_id === this.medSecondLayerModel.orderIdentifier.toString());
+    if (othreMeds) {
+      othreMeds.reason_for_med = this.medSecondLayerModel.reasonForMed;
+    }
+    else {
+      this.otherMedsSecondLayerLocalData.push({
+        other_med_order_id: this.medSecondLayerModel.orderIdentifier.toString(),
+        reason_for_med : this.medSecondLayerModel.reasonForMed,
+        last_updated_provider_id: "G00123",
+        last_updated_instant: "09/30/2017 10:41:05",
+        save_csn: this.neuroGraphService.get("queryParams").csn,
+        save_csn_status: this.neuroGraphService.get("queryParams").encounter_status
+      });
+    }
+    this.dialogRef.close();
+  }
+
   drawDmt() {
     let config = { hasBackdrop: true, panelClass: 'dmtSecondLevel', width: '700px' };
     let openSecondLayer = (selectedData) => {
 
-      //This is temp code. Pulls data set from api first time and stores locally.
+      //This is temp  & redundant code. Pulls data set from api first time and stores locally.
       if (this.dmtSecondLayerLocalData) {
         let dmt = this.dmtSecondLayerLocalData.find(x => x.dmt_order_id === selectedData.orderIdentifier.toString());
         this.medSecondLayerModel = this.getSecondLayerModel(selectedData, this.medType.dmt, dmt);
         this.dialogRef = this.dialog.open(this.dmtSecondLevelTemplate, config);
       }
       else {
-        let dmtSubscription: any;
+        let subsc: any;
         this.brokerService.httpGet(allHttpMessages.httpGetDmt);
-        dmtSubscription = this.brokerService.filterOn(allHttpMessages.httpGetDmt).subscribe(d => {
+        subsc = this.brokerService.filterOn(allHttpMessages.httpGetDmt).subscribe(d => {
           d.error ? console.log(d) : (() => {
             this.dmtSecondLayerLocalData = d.data.DMTs;
             let dmt = this.dmtSecondLayerLocalData.find(x => x.dmt_order_id === selectedData.orderIdentifier.toString());
             this.medSecondLayerModel = this.getSecondLayerModel(selectedData, this.medType.dmt, dmt);
             this.dialogRef = this.dialog.open(this.dmtSecondLevelTemplate, config);
-            dmtSubscription && dmtSubscription.unsubscribe();
+            subsc && subsc.unsubscribe();
           })();
         });
       }
@@ -254,8 +282,8 @@ export class MedicationsComponent implements OnInit {
 
   drawVitaminD() {
     let config = { hasBackdrop: true, panelClass: 'vitaminDSecondLevel', width: '600px' };
-    let openSecondLayer = (data) => {
-      this.medSecondLayerModel = this.getSecondLayerModel(data, this.medType.vitaminD, {});
+    let openSecondLayer = (selectedData) => {
+      this.medSecondLayerModel = this.getSecondLayerModel(selectedData, this.medType.vitaminD, false);
       this.dialogRef = this.dialog.open(this.vitaminDSecondLevelTemplate, config);
     };
     this.drawChart(this.vitaminDArray, this.medType.vitaminD, GRAPH_SETTINGS.medications.vitaminDColor, openSecondLayer);
@@ -263,9 +291,26 @@ export class MedicationsComponent implements OnInit {
 
   drawOtherMeds() {
     let config = { hasBackdrop: true, panelClass: 'otherMedsSecondLevel', width: '600px' };
-    let openSecondLayer = (data) => {
-      this.medSecondLayerModel = this.getSecondLayerModel(data, this.medType.otherMeds, {});
-      this.dialogRef = this.dialog.open(this.otherMedsSecondLevelTemplate, config);
+    let openSecondLayer = (selectedData) => {
+      //This is temp & redundant code. Pulls data set from api first time and stores locally.
+      if (this.otherMedsSecondLayerLocalData) {
+        let otherMeds = this.otherMedsSecondLayerLocalData.find(x => x.other_med_order_id === selectedData.orderIdentifier.toString());
+        this.medSecondLayerModel = this.getSecondLayerModel(selectedData, this.medType.otherMeds, otherMeds);
+        this.dialogRef = this.dialog.open(this.otherMedsSecondLevelTemplate, config);
+      }
+      else {
+        let subsc: any;
+        this.brokerService.httpGet(allHttpMessages.httpGetOtherMeds);
+        subsc = this.brokerService.filterOn(allHttpMessages.httpGetOtherMeds).subscribe(d => {
+          d.error ? console.log(d) : (() => {
+            this.otherMedsSecondLayerLocalData = d.data.Other_Meds;
+            let otherMeds = this.otherMedsSecondLayerLocalData.find(x => x.other_med_order_id === selectedData.orderIdentifier.toString());
+            this.medSecondLayerModel = this.getSecondLayerModel(selectedData, this.medType.otherMeds, otherMeds);
+            this.dialogRef = this.dialog.open(this.otherMedsSecondLevelTemplate, config);
+            subsc && subsc.unsubscribe();
+          })();
+        });
+      }
     };
     this.drawChart(this.otherMedsArray, this.medType.otherMeds, GRAPH_SETTINGS.medications.otherMedsColor, openSecondLayer);
   }

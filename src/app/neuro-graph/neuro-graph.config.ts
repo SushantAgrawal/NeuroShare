@@ -27,7 +27,8 @@ export const allHttpMessages = {
     'httpPutRelapse': 'http:put:relapse',
     'httpPostRelapse': 'http:post:relapse',
     'httpDeleteRelapse': 'http:delete:relapse',
-    'httpGetAllQuestionnaire': 'http:get:all:questionnaire'
+    'httpGetAllQuestionnaire': 'http:get:all:questionnaire',
+    'httpGetOtherMeds': 'http:get:otherMeds'
 };
 export const urlMaps = {
     "http:get:medications": "https://private-242c4d-ehrmedicationorders.apiary-mock.com/maestro/api/ehr/medications-orders/?pom_id=82043",
@@ -41,7 +42,8 @@ export const urlMaps = {
     "http:put:relapse": "https://private-anon-221223bd22-neuroshareapis.apiary-mock.com/neuroshare/api/ms/relapse",
     "http:post:relapse": "https://private-anon-221223bd22-neuroshareapis.apiary-mock.com/neuroshare/api/ms/relapses",
     "http:delete:relapse": "https://private-anon-221223bd22-neuroshareapis.apiary-mock.com/neuroshare/api/ms/relapse",
-    "http:get:all:questionnaire": "https://private-anon-a39e22dbbe-neuroshareapis.apiary-mock.com/neuroshare/api/all-questionnaire-responses/?pom_id=82043"
+    "http:get:all:questionnaire": "https://private-anon-a39e22dbbe-neuroshareapis.apiary-mock.com/neuroshare/api/all-questionnaire-responses/?pom_id=82043",
+    "http:get:otherMeds": "https://private-anon-a39e22dbbe-neuroshareapis.apiary-mock.com/neuroshare/api/ms/other-meds/?pom_id=82043"
 };
 
 export const cds = {
