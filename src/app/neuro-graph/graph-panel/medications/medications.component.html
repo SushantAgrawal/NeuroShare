@@ -29,7 +29,7 @@
                 <span>
                     <md-select placeholder="Month" 
                         floatPlaceholder="never" 
-                        [ngModel]="medSecondLayerModel.patientReportedStartDateMonth" 
+                        [(ngModel)]="medSecondLayerModel.patientReportedStartDateMonth" 
                         [disabled]="medSecondLayerModel.encounterStatus==='close'"
                         [ngClass]="{'fake-disabled': !medSecondLayerModel.allowEdit }">
                             <md-option [value]="1">Janaury</md-option>
@@ -49,7 +49,7 @@
                 <span>
                      <md-select placeholder="Year" 
                         floatPlaceholder="never" 
-                        [ngModel]="medSecondLayerModel.patientReportedStartDateYear" 
+                        [(ngModel)]="medSecondLayerModel.patientReportedStartDateYear" 
                         [disabled]="medSecondLayerModel.encounterStatus==='close'"
                         [ngClass]="{'fake-disabled': !medSecondLayerModel.allowEdit }">
                         <md-option *ngFor="let item of medSecondLayerModel.allYears" [value]="item">{{item}}</md-option>
@@ -89,14 +89,14 @@
                 </span>
                 <span *ngIf="medSecondLayerModel.reasonStopped === 'Other' || medSecondLayerModel.reasonStopped === 'Side effects'">
                     <md-form-field floatPlaceholder="never" [ngClass]="{'fake-disabled': !medSecondLayerModel.allowEdit }">
-                        <input mdInput placeholder="Specify" [ngModel]="medSecondLayerModel.otherReason" />
+                        <input mdInput placeholder="Specify" [(ngModel)]="medSecondLayerModel.otherReason" />
                     </md-form-field>
                 </span>
             </div>
         </div>
         <div class="row">
             <div class="col-xs-12">
-                <button md-raised-button>Update</button>
+                <button md-raised-button (click)="updateDmt()">Update</button>
             </div>
         </div>
     </div>

@@ -5,6 +5,8 @@ import { allMessages, allHttpMessages, manyHttpMessages, medication } from '../.
 import { searchObject } from '../../neuro-graph.helper';
 import { GRAPH_SETTINGS } from '../../neuro-graph.config';
 import { MdDialog, MdDialogRef } from '@angular/material';
+import {NeuroGraphService} from '../../neuro-graph.service';
+
 
 @Component({
   selector: '[app-medications]',
@@ -34,11 +36,15 @@ export class MedicationsComponent implements OnInit {
     otherMeds: 'otherMeds',
     vitaminD: 'vitaminD'
   };
+  dmtSecondLayerLocalData: Array<any>;
 
-
-  constructor(private brokerService: BrokerService, private dialog: MdDialog) { }
+  constructor(private brokerService: BrokerService, private dialog: MdDialog,  private neuroGraphService : NeuroGraphService) { }
 
   ngOnInit() {
+    //This 'setSecondLayerData' is temporary and used to set a local data source.  Will be removed once apis are ready.
+    this.setSecondLayerData();
+    //-------------------------//
+
     this.subscriptions = this
       .brokerService
       .filterOn(allHttpMessages.httpGetMedications)
@@ -136,6 +142,7 @@ export class MedicationsComponent implements OnInit {
 
   getSecondLayerModel(data, medType, secondLayerData) {
     let model: any = {
+      orderIdentifier: data.orderIdentifier,
       name: data.name,
       simpleGenericName: data.medication.simple_generic_name,
       orderDate: data.date.orderDate,
@@ -149,6 +156,7 @@ export class MedicationsComponent implements OnInit {
     if (secondLayerData) {
       model.allowEdit = secondLayerData.save_csn_status !== 'Closed';
       model.reasonStopped = secondLayerData.reason_stopped;
+      model.otherReason = secondLayerData.otherReason;
       let dtParts = secondLayerData.patient_reported_start.split('/');
       if (dtParts.length == 2) {
         model.patientReportedStartDateMonth = parseInt(dtParts[0]);
@@ -162,38 +170,83 @@ export class MedicationsComponent implements OnInit {
     return model;
   }
 
+  setSecondLayerData() {
+    let secondLayerApiCallSub: any;
+    this.brokerService.httpGetMany(manyHttpMessages.httpGetInitialApiCall, [
+      { urlId: allHttpMessages.httpGetDmt },
+    ]);
+    secondLayerApiCallSub = this.brokerService.filterOn(manyHttpMessages.httpGetInitialApiCall).subscribe(d => {
+      d.error ? console.log(d) : (() => {
+        let dmtResponse = d.data[0][allHttpMessages.httpGetDmt];
+        this.dmtSecondLayerLocalData = dmtResponse.DMTs;
+        secondLayerApiCallSub && secondLayerApiCallSub.unsubscribe();
+      })();
+    });
+  }
+
+  updateDmt() {
+    let dmt = this.dmtSecondLayerLocalData.find(x => x.dmt_order_id === this.medSecondLayerModel.orderIdentifier.toString());
+    if (dmt) {
+      dmt.patient_reported_start = `${this.medSecondLayerModel.patientReportedStartDateMonth}/${this.medSecondLayerModel.patientReportedStartDateYear}`;
+      dmt.reason_stopped = this.medSecondLayerModel.reasonStopped;
+      dmt.otherReason = this.medSecondLayerModel.otherReason;
+    }
+    else {
+      this.dmtSecondLayerLocalData.push({
+        dmt_order_id: this.medSecondLayerModel.orderIdentifier.toString(),
+        patient_reported_start: `${this.medSecondLayerModel.patientReportedStartDateMonth}/${this.medSecondLayerModel.patientReportedStartDateYear}`,
+        reason_stopped: this.medSecondLayerModel.reasonStopped,
+        last_updated_provider_id: "G00123",
+        last_updated_instant: "09/30/2017 10:41:05",
+        save_csn: this.neuroGraphService.get("queryParams").csn,
+        save_csn_status: this.neuroGraphService.get("queryParams").encounter_status
+      });
+    }
+    this.dialogRef.close();
+  }
+
   drawDmt() {
     let config = { hasBackdrop: true, panelClass: 'dmtSecondLevel', width: '700px' };
     let openSecondLayer = (selectedData) => {
-      let dmtSubscription: any;
-      // this.brokerService.httpGet(allHttpMessages.httpGetDmt);
-      // dmtSubscription = this.brokerService.filterOn(allHttpMessages.httpGetDmt).subscribe(d => {
+
+      //This is temp code. Pulls data set from api first time and stores locally.
+      if (this.dmtSecondLayerLocalData) {
+        let dmt = this.dmtSecondLayerLocalData.find(x => x.dmt_order_id === selectedData.orderIdentifier.toString());
+        this.medSecondLayerModel = this.getSecondLayerModel(selectedData, this.medType.dmt, dmt);
+        this.dialogRef = this.dialog.open(this.dmtSecondLevelTemplate, config);
+      }
+      else {
+        let dmtSubscription: any;
+        this.brokerService.httpGet(allHttpMessages.httpGetDmt);
+        dmtSubscription = this.brokerService.filterOn(allHttpMessages.httpGetDmt).subscribe(d => {
+          d.error ? console.log(d) : (() => {
+            this.dmtSecondLayerLocalData = d.data.DMTs;
+            let dmt = this.dmtSecondLayerLocalData.find(x => x.dmt_order_id === selectedData.orderIdentifier.toString());
+            this.medSecondLayerModel = this.getSecondLayerModel(selectedData, this.medType.dmt, dmt);
+            this.dialogRef = this.dialog.open(this.dmtSecondLevelTemplate, config);
+            dmtSubscription && dmtSubscription.unsubscribe();
+          })();
+        });
+      }
+
+
+      // this.brokerService.httpGetMany(manyHttpMessages.httpGetInitialApiCall, [
+      //   { urlId: allHttpMessages.httpGetDmt },
+      //   { urlId: allHttpMessages.httpGetAllQuestionnaire }
+      // ]);
+      // dmtSubscription = this.brokerService.filterOn(manyHttpMessages.httpGetInitialApiCall).subscribe(d => {
       //   d.error ? console.log(d) : (() => {
-      //     let dmt = d.data.DMTs.find(x => x.dmt_order_id === selectedData.orderIdentifier.toString());
+      //     let dmtResponse = d.data[0][allHttpMessages.httpGetDmt];
+      //     let quesResponse = d.data[1][allHttpMessages.httpGetAllQuestionnaire];
+      //     //console.log(quesResponse);
+      //     let dmt = dmtResponse.DMTs.find(x => x.dmt_order_id === selectedData.orderIdentifier.toString());
       //     this.medSecondLayerModel = this.getSecondLayerModel(selectedData, this.medType.dmt, dmt);
       //     console.log(this.medSecondLayerModel);
       //     this.dialogRef = this.dialog.open(this.dmtSecondLevelTemplate, config);
       //     dmtSubscription && dmtSubscription.unsubscribe();
+      //     debugger;
       //   })();
       // });
-      this.brokerService.httpGetMany(manyHttpMessages.httpGetInitialApiCall, [
-        { urlId: allHttpMessages.httpGetDmt },
-        //{ urlId: allHttpMessages.httpGetAllQuestionnaire }
-      ]);
-      dmtSubscription = this.brokerService.filterOn(manyHttpMessages.httpGetInitialApiCall).subscribe(d => {
-        d.error ? console.log(d) : (() => {
-          let dmtResponse = d.data[0][allHttpMessages.httpGetDmt];
-          //let quesResponse = d.data[1][allHttpMessages.httpGetAllQuestionnaire];
-
-          //console.log(quesResponse);
-          let dmt = dmtResponse.DMTs.find(x => x.dmt_order_id === selectedData.orderIdentifier.toString());
-          this.medSecondLayerModel = this.getSecondLayerModel(selectedData, this.medType.dmt, dmt);
-          console.log(this.medSecondLayerModel);
-          this.dialogRef = this.dialog.open(this.dmtSecondLevelTemplate, config);
-          dmtSubscription && dmtSubscription.unsubscribe();
-          debugger;
-        })();
-      });
 
     };
     this.drawChart(this.dmtArray, this.medType.dmt, GRAPH_SETTINGS.medications.dmtColor, openSecondLayer);
