@@ -179,11 +179,11 @@ export class MedicationsComponent implements OnInit {
 
   setSecondLayerData() {
     let secondLayerApiCallSub: any;
-    this.brokerService.httpGetMany(manyHttpMessages.httpGetInitialApiCall, [
+    this.brokerService.httpGetMany(manyHttpMessages.httpGetMedicationSecondLayerApiCall, [
       { urlId: allHttpMessages.httpGetDmt },
       { urlId: allHttpMessages.httpGetOtherMeds }
     ]);
-    secondLayerApiCallSub = this.brokerService.filterOn(manyHttpMessages.httpGetInitialApiCall).subscribe(d => {
+    secondLayerApiCallSub = this.brokerService.filterOn(manyHttpMessages.httpGetMedicationSecondLayerApiCall).subscribe(d => {
       d.error ? console.log(d) : (() => {
         let dmtResponse = d.data[0][allHttpMessages.httpGetDmt];
         let otherMedsResponse = d.data[1][allHttpMessages.httpGetOtherMeds];
