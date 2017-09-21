@@ -46,18 +46,24 @@ export const urlMaps = {
     "http:get:otherMeds": "https://private-anon-a39e22dbbe-neuroshareapis.apiary-mock.com/neuroshare/api/ms/other-meds/?pom_id=82043"
 };
 
-export const cds = {
-    dmt: ['dmt'],
-    otherMeds: ['otherMeds'],
-    vitaminD: ['vitaminD'],
-    referrals: ['referrals'],
-    edss: ['symptomStatus'],
-    walk25Feet: ['symptomStatus'],
-    imaging: ['imaging'],
-    symptoms: ['symptomStatus'],
-    labs: ['labs'],
-    vaccinations: ['vaccinations'],
-    relapses: ['relapses']
+// export const cds = {     dmt: ['dmt'],     otherMeds: ['otherMeds'],
+// vitaminD: ['vitaminD'],     referrals: ['referrals'],     edss:
+// ['symptomStatus'],     walk25Feet: ['symptomStatus'],     imaging:
+// ['imaging'],     symptoms: ['symptomStatus'],     labs: ['labs'],
+// vaccinations: ['vaccinations'],     relapses: ['relapses'] };
+
+export const cdsMap = {
+    dmt: ['review_dmts'],
+    otherMeds: ['review_other_meds'],
+    vitaminD: ['review_vitamin_d'],
+    referrals: ['review_symptoms_referrals'],
+    edss: ['review_symptom_status'],
+    walk25Feet: ['review_symptom_status'],
+    imaging: ['review_mri_images'],
+    symptoms: ['review_symptom_status'],
+    labs: ['review_monitoring_labs'],
+    vaccinations: ['review_vaccinations'],
+    relapses: ['review_relapses']
 };
 
 export const medication = {
