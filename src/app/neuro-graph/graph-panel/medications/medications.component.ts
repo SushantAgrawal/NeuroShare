@@ -42,10 +42,6 @@ export class MedicationsComponent implements OnInit {
   constructor(private brokerService: BrokerService, private dialog: MdDialog, private neuroGraphService: NeuroGraphService) { }
 
   ngOnInit() {
-    //This 'setSecondLayerData' is temporary and used to set a local data source.  Will be removed once apis are ready.
-    this.setSecondLayerData();
-    //-------------------------//
-
     this.subscriptions = this
       .brokerService
       .filterOn(allHttpMessages.httpGetMedications)
@@ -68,6 +64,10 @@ export class MedicationsComponent implements OnInit {
     this.processMedication(neuroRelated, this.medType.dmt);
     this.processMedication(neuroRelated, this.medType.vitaminD);
     this.processMedication(neuroRelated, this.medType.otherMeds);
+
+    //This 'setSecondLayerData' is temporary and used to set a local data source.  Will be removed once apis are ready.
+    this.setSecondLayerData();
+    //-------------------------//
   }
 
   ngOnDestroy() {
@@ -178,20 +178,19 @@ export class MedicationsComponent implements OnInit {
   }
 
   setSecondLayerData() {
-    let secondLayerApiCallSub: any;
     this.brokerService.httpGetMany(manyHttpMessages.httpGetMedicationSecondLayerApiCall, [
       { urlId: allHttpMessages.httpGetDmt },
       { urlId: allHttpMessages.httpGetOtherMeds }
     ]);
-    secondLayerApiCallSub = this.brokerService.filterOn(manyHttpMessages.httpGetMedicationSecondLayerApiCall).subscribe(d => {
+    let secondLayerApiCallSub = this.brokerService.filterOn(manyHttpMessages.httpGetMedicationSecondLayerApiCall).subscribe(d => {
       d.error ? console.log(d) : (() => {
         let dmtResponse = d.data[0][allHttpMessages.httpGetDmt];
         let otherMedsResponse = d.data[1][allHttpMessages.httpGetOtherMeds];
         this.dmtSecondLayerLocalData = dmtResponse.DMTs;
         this.otherMedsSecondLayerLocalData = dmtResponse.Other_Meds;
-        secondLayerApiCallSub && secondLayerApiCallSub.unsubscribe();
       })();
     });
+    this.subscriptions.add(secondLayerApiCallSub);
   }
 
   updateDmt() {
@@ -223,7 +222,7 @@ export class MedicationsComponent implements OnInit {
     else {
       this.otherMedsSecondLayerLocalData.push({
         other_med_order_id: this.medSecondLayerModel.orderIdentifier.toString(),
-        reason_for_med : this.medSecondLayerModel.reasonForMed,
+        reason_for_med: this.medSecondLayerModel.reasonForMed,
         last_updated_provider_id: "G00123",
         last_updated_instant: "09/30/2017 10:41:05",
         save_csn: this.neuroGraphService.get("queryParams").csn,
