@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { GRAPH_SETTINGS } from '../neuro-graph.config';
 import * as d3 from 'd3';
+import { BrokerService } from '../../broker/broker.service';
+import { allMessages} from '../neuro-graph.config';
 
 @Component({
   selector: 'app-graph-panel',
@@ -10,14 +12,42 @@ import * as d3 from 'd3';
 })
 export class GraphPanelComponent implements OnInit {
   isEdssSelected: boolean = false;
+  toggleVirtualCaseLoad: string="Add Virtual Caseload";
   private state: any;
   private graphSetting = GRAPH_SETTINGS;
 
-  constructor() { }
+  constructor(private brokerService: BrokerService){ }
 
   ngOnInit() {
     console.log('graph-panel ngOnInit');
     this.state = this.getDefaultState();
+
+    let edss = this
+    .brokerService
+    .filterOn(allMessages.neuroRelated)
+    .filter(t => (t.data.artifact == 'edss'));
+
+    edss
+    .filter(t => t.data.checked)
+    .subscribe(d => {
+      d.error
+        ? console.log(d.error)
+        : (() => {
+          console.log(d.data);
+          this.isEdssSelected =true;
+          this.toggleVirtualCaseLoad="Add Virtual Caseload";
+        })();
+    });
+
+    edss
+    .filter(t => !t.data.checked)
+    .subscribe(d => {
+      d.error
+        ? console.log(d.error)
+        : (() => {
+          this.isEdssSelected =false;
+        })();
+    })
   }
 
   getXDomain(zoomOption) {
@@ -52,5 +82,25 @@ export class GraphPanelComponent implements OnInit {
     state.xDomain = this.getXDomain(null);
     state.xScale = this.getXScale(state.canvasDimension, state.xDomain);
     return state;
+  }
+  addArea()
+  {
+    let value ="";
+    if(this.toggleVirtualCaseLoad=="Add Virtual Caseload")
+      {
+      this.toggleVirtualCaseLoad="Remove Virtual Caseload"
+       value = "add";
+      }
+    else
+      {
+        this.toggleVirtualCaseLoad="Add Virtual Caseload"
+        value = "remove";
+      }
+      
+    this
+    .brokerService
+    .emit(allMessages.virtualCaseload, {
+      artifact: value
+    });
   }
 }

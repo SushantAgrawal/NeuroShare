@@ -7,7 +7,8 @@ consumers: neuro-related-cares, graph-panel
 export const allMessages = {
     'neuroRelated': 'neuro:related',
     'invokeAddRelapses': 'invoke:add:relapses',
-    'invokeAddEdss': 'invoke:add:edss'
+    'invokeAddEdss': 'invoke:add:edss',
+    'virtualCaseload': 'virtual:Caseload'
 };
 
 export const manyHttpMessages = {

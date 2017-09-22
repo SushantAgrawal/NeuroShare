@@ -118,10 +118,14 @@ export class RelapsesComponent implements OnInit {
           ? console.log(d.error)
           : (() => {
             console.log(d.data);
-            this.relapsesDetail =this.datasetA[0];
-            this.relapsesDetail.month="Jan";
-            this.relapsesDetail.year=new Date().getFullYear().toString();
-            this.dialogRef = this.dialog.open(this.relapsesAddSecondLevelTemplate,{width:"450px"});
+            if(typeof this.relapsesData!="undefined" && this.relapsesData!=null)
+              {
+                this.relapsesDetail =this.relapsesData[0];
+                this.relapsesDetail.month="Jan";
+                this.relapsesDetail.year=new Date().getFullYear().toString();
+                this.dialogRef = this.dialog.open(this.relapsesAddSecondLevelTemplate,{width:"450px"});
+              }
+            
           })();
       })
      
@@ -208,17 +212,18 @@ export class RelapsesComponent implements OnInit {
   }
   showSecondLevel(data) {
     console.log(data);
-    
+    //debugger;
     //let config = { backdrop: false, class: 'otherMedsSecondLevel' };
     this.relapsesDetail = data;
     if(data.save_csn_status =="Open")
     {
-      this.dialogRef = this.dialog.open(this.relapsesSecondLevelTemplate);
+      this.dialogRef = this.dialog.open(this.relapsesEditSecondLevelTemplate,{width:"620px"});
+     
     }
   else{
-  
-    this.dialogRef = this.dialog.open(this.relapsesEditSecondLevelTemplate,{width:"620px"});
-  }
+      this.dialogRef = this.dialog.open(this.relapsesSecondLevelTemplate);
+   
+    }
     
   }
   
@@ -247,11 +252,13 @@ export class RelapsesComponent implements OnInit {
     this.datasetB = this.datasetA.map(d => {
       return {
         ...d,
+        last_updated_instant:d.relapse_month + "/15/" + d.relapse_year,
         lastUpdatedDate: new Date(d.relapse_month + "/15/" + d.relapse_year),
         relapseaxis: parseFloat(d.relapseaxis),
         confirm: d.clinician_confirmed,
-        month:moment(d.last_updated_instant).format('MMM'),
-        year:moment(d.last_updated_instant).format('YYYY')
+        month:moment(d.relapse_month + "/15/" + d.relapse_year).format('MMM'),
+        year:moment(d.relapse_month + "/15/" + d.relapse_year).format('YYYY')
+       
        
       }
     }).sort((a, b) => a.lastUpdatedDate - b.lastUpdatedDate);

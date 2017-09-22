@@ -68,6 +68,10 @@ export class EdssComponent implements OnInit {
     .brokerService
     .filterOn(allMessages.invokeAddEdss)
 
+    let virtualCaseLoad = this
+    .brokerService
+    .filterOn(allMessages.virtualCaseload)
+
     let sub1 = edss
       .filter(t => t.data.checked)
       .subscribe(d => {
@@ -104,6 +108,25 @@ export class EdssComponent implements OnInit {
             
           })();
       })
+      let sub4 = virtualCaseLoad
+      .subscribe(d => {
+        d.error
+          ? console.log(d.error)
+          : (() => {
+            console.log(d.data);
+            if(d.data.artifact == "add")
+              {
+                this.removeChart();
+                this.redrawChart();
+              }
+              else{
+                this.removeChart();
+                this.drawChart();
+              }
+          
+            
+          })();
+      })
     this
       .subscriptions
       .add(sub1)
@@ -127,8 +150,7 @@ export class EdssComponent implements OnInit {
     this.edssScoreDetail = data;
     this.dialogRef = this.dialog.open(this.edssSecondLevelTemplate, config);
   }
-
-  drawChart() {
+  redrawChart() {
     //data preparation
     let dataset = this.edssData.map(d => {
       return {
@@ -252,6 +274,88 @@ export class EdssComponent implements OnInit {
       .style('stroke', "white")
       .style('stroke-width', '1')
       .attr('d', lineMean);
+
+    svg.selectAll('.dot')
+      .data(dataset)
+      .enter()
+      .append('circle')
+      .attr('class', 'dot')
+      .attr('cx', d => this.chartState.xScale(d.lastUpdatedDate))
+      .attr('cy', d => this.yScale(d.scoreValue))
+      .attr('r', 7)
+      .style('fill', GRAPH_SETTINGS.edss.color)
+      .style('stroke', '#FFFFFF')
+      .style('cursor', 'pointer')
+      .on('mouseover', d => {
+        d3.select(d3.event.currentTarget)
+          .style('stroke', '#000000');
+      })
+      .on('mouseout', d => {
+        d3.select(d3.event.currentTarget)
+          .style('stroke', '#FFFFFF');
+      })
+      .on('click', d => {
+        this.showSecondLevel(d);
+      })
+
+    svg.selectAll('.label')
+      .data(dataset)
+      .enter()
+      .append('text')
+      .attr('class', 'label')
+      .style('font-size', '0.8em')
+      .attr('x', d => this.chartState.xScale(d.lastUpdatedDate) - 5)
+      .attr('y', d => this.yScale(d.scoreValue) - 10)
+      .text(d => d.scoreValue);
+
+  }
+
+  drawChart() {
+    //data preparation
+    let dataset = this.edssData.map(d => {
+      return {
+        ...d,
+        lastUpdatedDate: Date.parse(d.last_updated_instant),
+        scoreValue: parseFloat(d.score)
+      }
+    }).sort((a, b) => a.lastUpdatedDate - b.lastUpdatedDate);
+
+    this.yScale = d3
+      .scaleLinear()
+      .domain(this.yDomain)
+      .range([GRAPH_SETTINGS.edss.chartHeight - 20, 0]);
+
+    let line = d3.line<any>()
+      .x((d: any) => this.chartState.xScale(d.lastUpdatedDate))
+      .y((d: any) => this.yScale(d.scoreValue));
+
+ 
+    let svg = d3
+      .select('#edss')
+      .attr('class', 'edss-elements-wrapper')
+      .attr('transform', `translate(${GRAPH_SETTINGS.panel.marginLeft},${GRAPH_SETTINGS.edss.positionTop})`)
+
+    svg.append('g')
+      .attr('class', 'edss-y-axis')
+      .call(g => {
+        let yAxis = g.call(d3.axisLeft(this.yScale).tickFormat(d3.format('.1f')));
+        g.select('.domain').remove();
+        yAxis.selectAll('line')
+          .style('display', 'none');
+        yAxis.selectAll('text')
+          .attr('x', '-5')
+          .attr('fill', GRAPH_SETTINGS.edss.color)
+          .style('font-size', '1.2em')
+          .style('font-weight', 'bold');
+      });
+   
+    svg.append('path')
+      .datum(dataset)
+      .attr('class', 'line')
+      .style('fill', 'none')
+      .style('stroke', GRAPH_SETTINGS.edss.color)
+      .style('stroke-width', '1')
+      .attr('d', line);  
 
     svg.selectAll('.dot')
       .data(dataset)
