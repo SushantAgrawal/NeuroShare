@@ -68,6 +68,10 @@ export class EdssComponent implements OnInit {
     .brokerService
     .filterOn(allMessages.invokeAddEdss)
 
+    let virtualCaseLoad = this
+    .brokerService
+    .filterOn(allMessages.virtualCaseload)
+
     let sub1 = edss
       .filter(t => t.data.checked)
       .subscribe(d => {
@@ -104,6 +108,25 @@ export class EdssComponent implements OnInit {
             
           })();
       })
+      let sub4 = virtualCaseLoad
+      .subscribe(d => {
+        d.error
+          ? console.log(d.error)
+          : (() => {
+            console.log(d.data);
+            if(d.data.artifact == "add")
+              {
+                this.removeChart();
+                this.redrawChart();
+              }
+              else{
+                this.removeChart();
+                this.drawChart();
+              }
+          
+            
+          })();
+      })
     this
       .subscriptions
       .add(sub1)
@@ -127,6 +150,165 @@ export class EdssComponent implements OnInit {
     this.edssScoreDetail = data;
     this.dialogRef = this.dialog.open(this.edssSecondLevelTemplate, config);
   }
+  redrawChart() {
+    //data preparation
+    let dataset = this.edssData.map(d => {
+      return {
+        ...d,
+        lastUpdatedDate: Date.parse(d.last_updated_instant),
+        scoreValue: parseFloat(d.score)
+      }
+    }).sort((a, b) => a.lastUpdatedDate - b.lastUpdatedDate);
+
+    //temporary hard-coded data for area and mean
+    let datasetArea1 = [
+      {"xDate":Date.parse("01/01/2015"),
+        "q2":1,
+        "q3":2.5},
+      {"xDate":Date.parse("06/30/2015"),
+      "q2":1,
+      "q3":2.5},
+      {"xDate":Date.parse("06/30/2016"),
+      "q2":2,
+      "q3":5},
+      {"xDate":Date.parse("06/30/2017"),
+      "q2":1.8,
+      "q3":3.5},
+      {"xDate":Date.parse("12/31/2017"),
+      "q2":1.8,
+      "q3":3.5}
+    ];
+  
+      let datasetArea2 = [
+      {"xDate":Date.parse("01/01/2015"),
+      "q1":0,
+      "q4":5},
+      {"xDate":Date.parse("06/30/2015"),
+      "q1":0,
+      "q4":5},
+      {"xDate":Date.parse("06/30/2016"),
+      "q1":1.2,
+      "q4":7.5},
+      {"xDate":Date.parse("06/30/2017"),
+      "q1":1,
+      "q4":6},
+      {"xDate":Date.parse("12/31/2017"),
+      "q1":1,
+      "q4":6}
+    ];
+  
+  let datasetMean=[
+    {"xDate":Date.parse("06/30/2015"),
+    "m":2},
+    {"xDate":Date.parse("06/30/2016"),
+    "m":3.2},
+    {"xDate":Date.parse("06/30/2017"),
+    "m":2.2}
+  ];
+
+
+    this.yScale = d3
+      .scaleLinear()
+      .domain(this.yDomain)
+      .range([GRAPH_SETTINGS.edss.chartHeight - 20, 0]);
+
+    let line = d3.line<any>()
+      .x((d: any) => this.chartState.xScale(d.lastUpdatedDate))
+      .y((d: any) => this.yScale(d.scoreValue));
+
+      let lineMean = d3.line<any>()
+      .x((d: any) => this.chartState.xScale(d.xDate))
+      .y((d: any) => this.yScale(d.m));
+
+      var area1 = d3.area()
+      .x((d: any) => this.chartState.xScale(d.xDate))
+      .y0((d: any) => this.yScale(d.q2))
+      .y1((d: any) => this.yScale(d.q3));
+
+      var area2 = d3.area()
+      .x((d: any) => this.chartState.xScale(d.xDate))
+      .y0((d: any) => this.yScale(d.q1))
+      .y1((d: any) => this.yScale(d.q4));
+ 
+    let svg = d3
+      .select('#edss')
+      .attr('class', 'edss-elements-wrapper')
+      .attr('transform', `translate(${GRAPH_SETTINGS.panel.marginLeft},${GRAPH_SETTINGS.edss.positionTop})`)
+
+    svg.append('g')
+      .attr('class', 'edss-y-axis')
+      .call(g => {
+        let yAxis = g.call(d3.axisLeft(this.yScale).tickFormat(d3.format('.1f')));
+        g.select('.domain').remove();
+        yAxis.selectAll('line')
+          .style('display', 'none');
+        yAxis.selectAll('text')
+          .attr('x', '-5')
+          .attr('fill', GRAPH_SETTINGS.edss.color)
+          .style('font-size', '1.2em')
+          .style('font-weight', 'bold');
+      });
+
+    svg.append("path")
+    .datum(datasetArea2)
+    .attr("fill", "lightgrey")
+    .attr("d", area2);
+
+    svg.append("path")
+    .datum(datasetArea1)
+    .attr("fill", "darkgrey")
+    .attr("d", area1);
+
+    svg.append('path')
+      .datum(dataset)
+      .attr('class', 'line')
+      .style('fill', 'none')
+      .style('stroke', GRAPH_SETTINGS.edss.color)
+      .style('stroke-width', '1')
+      .attr('d', line);
+
+      svg.append('path')
+      .datum(datasetMean)
+      .attr('class', 'line')
+      .style('fill', 'none')
+      .style('stroke', "white")
+      .style('stroke-width', '1')
+      .attr('d', lineMean);
+
+    svg.selectAll('.dot')
+      .data(dataset)
+      .enter()
+      .append('circle')
+      .attr('class', 'dot')
+      .attr('cx', d => this.chartState.xScale(d.lastUpdatedDate))
+      .attr('cy', d => this.yScale(d.scoreValue))
+      .attr('r', 7)
+      .style('fill', GRAPH_SETTINGS.edss.color)
+      .style('stroke', '#FFFFFF')
+      .style('cursor', 'pointer')
+      .on('mouseover', d => {
+        d3.select(d3.event.currentTarget)
+          .style('stroke', '#000000');
+      })
+      .on('mouseout', d => {
+        d3.select(d3.event.currentTarget)
+          .style('stroke', '#FFFFFF');
+      })
+      .on('click', d => {
+        this.showSecondLevel(d);
+      })
+
+    svg.selectAll('.label')
+      .data(dataset)
+      .enter()
+      .append('text')
+      .attr('class', 'label')
+      .style('font-size', '0.8em')
+      .attr('x', d => this.chartState.xScale(d.lastUpdatedDate) - 5)
+      .attr('y', d => this.yScale(d.scoreValue) - 10)
+      .text(d => d.scoreValue);
+
+  }
 
   drawChart() {
     //data preparation
@@ -147,6 +329,7 @@ export class EdssComponent implements OnInit {
       .x((d: any) => this.chartState.xScale(d.lastUpdatedDate))
       .y((d: any) => this.yScale(d.scoreValue));
 
+ 
     let svg = d3
       .select('#edss')
       .attr('class', 'edss-elements-wrapper')
@@ -165,14 +348,14 @@ export class EdssComponent implements OnInit {
           .style('font-size', '1.2em')
           .style('font-weight', 'bold');
       });
-
+   
     svg.append('path')
       .datum(dataset)
       .attr('class', 'line')
       .style('fill', 'none')
       .style('stroke', GRAPH_SETTINGS.edss.color)
       .style('stroke-width', '1')
-      .attr('d', line);
+      .attr('d', line);  
 
     svg.selectAll('.dot')
       .data(dataset)

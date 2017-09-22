@@ -1,7 +1,10 @@
 <div class="header-area">
     <div class="header-text" *ngIf="isEdssSelected">
-        <button class="header-button">Add Virtual Caseload</button>
-        <input class="header-info-button" type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoMri')">
+        <button md-button class="roundButtonCss" (click)="addArea()">{{toggleVirtualCaseLoad}}</button>
+        <!-- <div class="example-tooltip-host" mdTooltip="Tooltip!" [mdTooltipPosition]="after"> -->
+        <button md-icon-button (click)="deleteChart()">
+                <md-icon class="material-icons" style="vertical-align:middle;cursor:hand;" (click)="buttonclicked('infoMri')">info</md-icon>
+            </button>
     </div>
     <div class="right-float">
         <div class="action-buttons selected"><span class="icon-file-empty"></span></div>

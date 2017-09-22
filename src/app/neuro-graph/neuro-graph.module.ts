@@ -7,15 +7,13 @@ import {RouterModule, Routes} from '@angular/router';
 import {PopoverModule} from 'ngx-bootstrap/popover';
 import {ModalModule} from 'ngx-bootstrap/modal';
 //import { MaterialModule} from '@angular/material';
-import {MdButtonModule, MdCheckboxModule, MdSelectModule, MdInputModule, MdDialogModule} from '@angular/material';
+import {MdButtonModule, MdCheckboxModule, MdSelectModule, MdInputModule, MdDialogModule,MdTooltipModule} from '@angular/material';
 //Custom Components, Services etc
 import {GraphPanelComponent} from './graph-panel/graph-panel.component';
 import {NeuroRelatedComponent} from './neuro-related/neuro-related.component';
 import {PatientConcernsComponent} from './patient-concerns/patient-concerns.component';
 import {NeuroGraphBoxComponent} from './neuro-graph-box/neuro-graph-box.component';
 import {BrokerModule} from "./broker/broker.module";
-// import {BrokerModule} from 'broker';
-
 // import { BrokerService } from '../broker/broker.service';
 import {NeuroGraphService} from './neuro-graph.service';
 import {MedicationsComponent} from './graph-panel/medications/medications.component';
@@ -34,13 +32,11 @@ export const ROUTES : Routes = [];
     CommonModule, FormsModule, RouterModule.forRoot(ROUTES),
     PopoverModule.forRoot(),
     ModalModule.forRoot(),
-    //MaterialModule,
     MdButtonModule, 
     MdCheckboxModule, 
     MdSelectModule, 
     MdInputModule, 
     MdDialogModule
-    //,ZingModule
   ],
   declarations: [
     GraphPanelComponent,
