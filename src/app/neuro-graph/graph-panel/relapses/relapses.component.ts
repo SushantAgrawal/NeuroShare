@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ViewEncapsulation,ViewChild,TemplateRef,Injec
 import * as d3 from 'd3';
 import { GRAPH_SETTINGS } from '../../neuro-graph.config';
 import { BrokerService } from '../../broker/broker.service';
-import { allMessages, allHttpMessages, medication, months } from '../../neuro-graph.config';
+import { allMessages, allHttpMessages, medication } from '../../neuro-graph.config';
 //import * as moment from 'moment';
 import {MdDialog,MdDialogRef,MD_DIALOG_DATA} from '@angular/material';
 import {NeuroGraphService} from '../../neuro-graph.service';
@@ -35,6 +35,7 @@ export class RelapsesComponent implements OnInit {
   private dialogRef: any;
   private datasetA: Array<any>;
   private relapsesData: Array<any>;
+  private isEditSelected:boolean = false;
     constructor(private brokerService: BrokerService,public dialog: MdDialog, private neuroGraphService : NeuroGraphService)
     {
       this.paramData = this.neuroGraphService.get('queryParams')
@@ -199,7 +200,7 @@ export class RelapsesComponent implements OnInit {
 
     let objSave = {
       "pom_id": this.paramData.pom_id,
-      "relapse_month": this.toCamelCase(months[new Date(obj.last_updated_instant).getMonth() + 1].toLowerCase()),
+      "relapse_month": this.month[new Date(obj.last_updated_instant).getMonth()],
       "relapse_year": this.relapsesDetail.year,
       "provider_id":"",
       "encounter_csn": this.paramData.csn,
@@ -217,6 +218,7 @@ export class RelapsesComponent implements OnInit {
     this.relapsesDetail = data;
     if(data.save_csn_status =="Open")
     {
+      this.isEditSelected = false;
       this.dialogRef = this.dialog.open(this.relapsesEditSecondLevelTemplate,{width:"620px"});
      
     }
@@ -226,12 +228,7 @@ export class RelapsesComponent implements OnInit {
     }
     
   }
-  toCamelCase = function(str) {
-    return str
-        .replace(/\s(.)/g, function($1) { return $1.toLowerCase(); })
-        .replace(/\s/g, '')
-        .replace(/^(.)/, function($1) { return $1.toUpperCase(); });
-}
+  
   checkChge(){
  
     if(this.relapsesDetail.confirm ==true)
@@ -242,7 +239,10 @@ export class RelapsesComponent implements OnInit {
         {
         this.relapsesDetail.confirm =true;
       }
-  
+      this.isEditSelected = true;
+  }
+  valChng(){
+    this.isEditSelected = true;
   }
   createChart() {
     this.datasetA = this.relapsesData.map(d => {
@@ -261,7 +261,7 @@ export class RelapsesComponent implements OnInit {
         lastUpdatedDate: new Date(d.relapse_month + "/15/" + d.relapse_year),
         relapseaxis: parseFloat(d.relapseaxis),
         confirm: d.clinician_confirmed,
-        month:this.toCamelCase(months[new Date(d.relapse_month + "/15/" + d.relapse_year).getMonth() + 1].toLowerCase()),
+        month:this.month[new Date(d.relapse_month + "/15/" + d.relapse_year).getMonth()],
         year:new Date(d.relapse_month + "/15/" + d.relapse_year).getFullYear().toString()
        
        
