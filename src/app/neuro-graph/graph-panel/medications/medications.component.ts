@@ -119,17 +119,32 @@ export class MedicationsComponent implements OnInit {
     let vitaminDIds = medication.vitaminD.ids;
     let otherMedsIds = medication.otherMeds.ids;
     let mappedCodes = medication.otherMeds.mappedCodes;
+    
+    //Commented due to limited support 
+    // medicationOrders.forEach(x => {
+    //   if (x.medication && genericNames.includes(x.medication.simple_generic_name.toLowerCase())) {
+    //     x.type = this.medType.dmt //m.medication.id
+    //   } else if (x.medication && vitaminDIds.includes(x.medication.id)) {
+    //     x.type = this.medType.vitaminD
+    //   } else if (x.medication && otherMedsIds.includes(x.medication.id)) {
+    //     x.type = this.medType.otherMeds
+    //   } else if (searchObject(x, 'mapped_code', mappedCodes).length > 0) {
+    //     x.type = this.medType.otherMeds
+    //   }
+    // });
+
     medicationOrders.forEach(x => {
-      if (x.medication && genericNames.includes(x.medication.simple_generic_name.toLowerCase())) {
-        x.type = this.medType.dmt //m.medication.id
-      } else if (x.medication && vitaminDIds.includes(x.medication.id)) {
+      if (x.medication && genericNames.find(gn => gn === x.medication.simple_generic_name.toLowerCase())) {
+        x.type = this.medType.dmt
+      } else if (x.medication && vitaminDIds.find(id => id === x.medication.id)) {
         x.type = this.medType.vitaminD
-      } else if (x.medication && otherMedsIds.includes(x.medication.id)) {
+      } else if (x.medication && otherMedsIds.find(id => id === x.medication.id)) {
         x.type = this.medType.otherMeds
       } else if (searchObject(x, 'mapped_code', mappedCodes).length > 0) {
         x.type = this.medType.otherMeds
       }
     });
+
     this.dmtArray = medicationOrders
       .filter(x => x.type == this.medType.dmt)
       .sort((a, b) => Date.parse(b.date.medStart) - Date.parse(a.date.medStart));
