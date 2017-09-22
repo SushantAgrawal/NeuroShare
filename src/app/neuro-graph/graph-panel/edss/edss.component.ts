@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, ViewChild, TemplateRef, Inject,ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, TemplateRef, Inject, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
 import { BrokerService } from '../../broker/broker.service';
 import { allMessages, allHttpMessages, medication } from '../../neuro-graph.config';
 import { GRAPH_SETTINGS } from '../../neuro-graph.config';
 import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
-import {edssPopup} from '../../neuro-graph.config'
+import { edssPopup } from '../../neuro-graph.config'
 
 @Component({
   selector: '[app-edss]',
@@ -15,7 +15,7 @@ import {edssPopup} from '../../neuro-graph.config'
 
 export class EdssComponent implements OnInit {
   @ViewChild('edssSecondLevelTemplate') private edssSecondLevelTemplate: TemplateRef<any>;
-  @ViewChild('edssSecondLevelAddTemplate')  private edssSecondLevelAddTemplate: TemplateRef<any>;
+  @ViewChild('edssSecondLevelAddTemplate') private edssSecondLevelAddTemplate: TemplateRef<any>;
   @Input() private chartState: any;
   dialogRef: MdDialogRef<any>;
   private edssScoreDetail: any;
@@ -23,31 +23,28 @@ export class EdssComponent implements OnInit {
   private yScale: any;
   private yDomain: Array<number> = [0, GRAPH_SETTINGS.edss.maxValueY];
   private edssData: Array<any>;
-  private edssPopupQuestions: any = [] ;
+  private edssPopupQuestions: any = [];
   private type: any;
   private score: any;
 
-  constructor(private brokerService: BrokerService, private dialog: MdDialog){}
-    onNoClick(): void {
-      this.dialogRef.close();
+  constructor(private brokerService: BrokerService, private dialog: MdDialog) { }
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+  submit() {
+
+
+    var selectedValue = this.edssPopupQuestions.find(x => x.checked == true);
+    if (this.type == 'Add') {
+      //Call Add API
     }
-    submit()
-    {
-     
-    
-      var selectedValue = this.edssPopupQuestions.find(x=>x.checked == true);
-      if(this.type == 'Add')
-        {
-          //Call Add API
-        }
-      else
-        {
-          //Call Update API
-        }
-        this.dialogRef.close();
+    else {
+      //Call Update API
     }
+    this.dialogRef.close();
+  }
   ngOnInit() {
-    this.type="Add";
+    this.type = "Add";
     this.subscriptions = this
       .brokerService
       .filterOn(allHttpMessages.httpGetEdss)
@@ -65,12 +62,12 @@ export class EdssComponent implements OnInit {
       .filter(t => (t.data.artifact == 'edss'));
 
     let modal = this
-    .brokerService
-    .filterOn(allMessages.invokeAddEdss)
+      .brokerService
+      .filterOn(allMessages.invokeAddEdss)
 
     let virtualCaseLoad = this
-    .brokerService
-    .filterOn(allMessages.virtualCaseload)
+      .brokerService
+      .filterOn(allMessages.virtualCaseload)
 
     let sub1 = edss
       .filter(t => t.data.checked)
@@ -94,7 +91,7 @@ export class EdssComponent implements OnInit {
             this.removeChart();
           })();
       })
-      let sub3 = modal
+    let sub3 = modal
       .subscribe(d => {
         d.error
           ? console.log(d.error)
@@ -105,26 +102,25 @@ export class EdssComponent implements OnInit {
               height: '662px'//,
               //data: { type: "Add", score: '' }
             });
-            
+
           })();
       })
-      let sub4 = virtualCaseLoad
+    let sub4 = virtualCaseLoad
       .subscribe(d => {
         d.error
           ? console.log(d.error)
           : (() => {
             console.log(d.data);
-            if(d.data.artifact == "add")
-              {
-                this.removeChart();
-                this.redrawChart();
-              }
-              else{
-                this.removeChart();
-                this.drawChart();
-              }
-          
-            
+            if (d.data.artifact == "add") {
+              this.removeChart();
+              this.redrawChart();
+            }
+            else {
+              this.removeChart();
+              this.drawChart();
+            }
+
+
           })();
       })
     this
@@ -133,12 +129,11 @@ export class EdssComponent implements OnInit {
       .add(sub2)
       .add(sub3);
 
-      this.edssPopupQuestions = edssPopup;
-      this.edssPopupQuestions.map(x=>x.checked = false);
-      if(this.score!='')
-      {
-        this.edssPopupQuestions.forEach(x => { if (x.score==this.score)x.checked =true});
-      }
+    this.edssPopupQuestions = edssPopup;
+    this.edssPopupQuestions.map(x => x.checked = false);
+    if (this.score != '') {
+      this.edssPopupQuestions.forEach(x => { if (x.score == this.score) x.checked = true });
+    }
   }
 
   ngOnDestroy() {
@@ -162,49 +157,83 @@ export class EdssComponent implements OnInit {
 
     //temporary hard-coded data for area and mean
     let datasetArea1 = [
-      {"xDate":Date.parse("01/01/2015"),
-        "q2":1,
-        "q3":2.5},
-      {"xDate":Date.parse("06/30/2015"),
-      "q2":1,
-      "q3":2.5},
-      {"xDate":Date.parse("06/30/2016"),
-      "q2":2,
-      "q3":5},
-      {"xDate":Date.parse("06/30/2017"),
-      "q2":1.8,
-      "q3":3.5},
-      {"xDate":Date.parse("12/31/2017"),
-      "q2":1.8,
-      "q3":3.5}
+      {
+        "xDate": Date.parse("01/01/2015"),
+        "q2": 1,
+        "q3": 2.5
+      },
+      {
+        "xDate": Date.parse("06/30/2015"),
+        "q2": 1,
+        "q3": 2.5
+      },
+      {
+        "xDate": Date.parse("06/30/2016"),
+        "q2": 2,
+        "q3": 5
+      },
+      {
+        "xDate": Date.parse("06/30/2017"),
+        "q2": 1.8,
+        "q3": 3.5
+      },
+      {
+        "xDate": Date.parse("12/31/2017"),
+        "q2": 1.8,
+        "q3": 3.5
+      }
     ];
-  
-      let datasetArea2 = [
-      {"xDate":Date.parse("01/01/2015"),
-      "q1":0,
-      "q4":5},
-      {"xDate":Date.parse("06/30/2015"),
-      "q1":0,
-      "q4":5},
-      {"xDate":Date.parse("06/30/2016"),
-      "q1":1.2,
-      "q4":7.5},
-      {"xDate":Date.parse("06/30/2017"),
-      "q1":1,
-      "q4":6},
-      {"xDate":Date.parse("12/31/2017"),
-      "q1":1,
-      "q4":6}
+
+    let datasetArea2 = [
+      {
+        "xDate": Date.parse("01/01/2015"),
+        "q1": 0,
+        "q4": 5
+      },
+      {
+        "xDate": Date.parse("06/30/2015"),
+        "q1": 0,
+        "q4": 5
+      },
+      {
+        "xDate": Date.parse("06/30/2016"),
+        "q1": 1.2,
+        "q4": 7.5
+      },
+      {
+        "xDate": Date.parse("06/30/2017"),
+        "q1": 1,
+        "q4": 6
+      },
+      {
+        "xDate": Date.parse("12/31/2017"),
+        "q1": 1,
+        "q4": 6
+      }
     ];
-  
-  let datasetMean=[
-    {"xDate":Date.parse("06/30/2015"),
-    "m":2},
-    {"xDate":Date.parse("06/30/2016"),
-    "m":3.2},
-    {"xDate":Date.parse("06/30/2017"),
-    "m":2.2}
-  ];
+
+    let datasetMean = [
+      {
+        "xDate": Date.parse("01/1/2015"),
+        "m": 2
+      },
+      {
+        "xDate": Date.parse("06/30/2015"),
+        "m": 2
+      },
+      {
+        "xDate": Date.parse("06/30/2016"),
+        "m": 3.2
+      },
+      {
+        "xDate": Date.parse("06/30/2017"),
+        "m": 2.2
+      },
+      {
+        "xDate": Date.parse("12/31/2017"),
+        "m": 2.2
+      }
+    ];
 
 
     this.yScale = d3
@@ -216,20 +245,20 @@ export class EdssComponent implements OnInit {
       .x((d: any) => this.chartState.xScale(d.lastUpdatedDate))
       .y((d: any) => this.yScale(d.scoreValue));
 
-      let lineMean = d3.line<any>()
+    let lineMean = d3.line<any>()
       .x((d: any) => this.chartState.xScale(d.xDate))
       .y((d: any) => this.yScale(d.m));
 
-      var area1 = d3.area()
+    var area1 = d3.area()
       .x((d: any) => this.chartState.xScale(d.xDate))
       .y0((d: any) => this.yScale(d.q2))
       .y1((d: any) => this.yScale(d.q3));
 
-      var area2 = d3.area()
+    var area2 = d3.area()
       .x((d: any) => this.chartState.xScale(d.xDate))
       .y0((d: any) => this.yScale(d.q1))
       .y1((d: any) => this.yScale(d.q4));
- 
+
     let svg = d3
       .select('#edss')
       .attr('class', 'edss-elements-wrapper')
@@ -250,14 +279,14 @@ export class EdssComponent implements OnInit {
       });
 
     svg.append("path")
-    .datum(datasetArea2)
-    .attr("fill", "lightgrey")
-    .attr("d", area2);
+      .datum(datasetArea2)
+      .attr("fill", "lightgrey")
+      .attr("d", area2);
 
     svg.append("path")
-    .datum(datasetArea1)
-    .attr("fill", "darkgrey")
-    .attr("d", area1);
+      .datum(datasetArea1)
+      .attr("fill", "darkgrey")
+      .attr("d", area1);
 
     svg.append('path')
       .datum(dataset)
@@ -267,7 +296,7 @@ export class EdssComponent implements OnInit {
       .style('stroke-width', '1')
       .attr('d', line);
 
-      svg.append('path')
+    svg.append('path')
       .datum(datasetMean)
       .attr('class', 'line')
       .style('fill', 'none')
@@ -284,16 +313,7 @@ export class EdssComponent implements OnInit {
       .attr('cy', d => this.yScale(d.scoreValue))
       .attr('r', 7)
       .style('fill', GRAPH_SETTINGS.edss.color)
-      .style('stroke', '#FFFFFF')
       .style('cursor', 'pointer')
-      .on('mouseover', d => {
-        d3.select(d3.event.currentTarget)
-          .style('stroke', '#000000');
-      })
-      .on('mouseout', d => {
-        d3.select(d3.event.currentTarget)
-          .style('stroke', '#FFFFFF');
-      })
       .on('click', d => {
         this.showSecondLevel(d);
       })
@@ -329,7 +349,7 @@ export class EdssComponent implements OnInit {
       .x((d: any) => this.chartState.xScale(d.lastUpdatedDate))
       .y((d: any) => this.yScale(d.scoreValue));
 
- 
+
     let svg = d3
       .select('#edss')
       .attr('class', 'edss-elements-wrapper')
@@ -348,14 +368,14 @@ export class EdssComponent implements OnInit {
           .style('font-size', '1.2em')
           .style('font-weight', 'bold');
       });
-   
+
     svg.append('path')
       .datum(dataset)
       .attr('class', 'line')
       .style('fill', 'none')
       .style('stroke', GRAPH_SETTINGS.edss.color)
       .style('stroke-width', '1')
-      .attr('d', line);  
+      .attr('d', line);
 
     svg.selectAll('.dot')
       .data(dataset)
@@ -366,16 +386,7 @@ export class EdssComponent implements OnInit {
       .attr('cy', d => this.yScale(d.scoreValue))
       .attr('r', 7)
       .style('fill', GRAPH_SETTINGS.edss.color)
-      .style('stroke', '#FFFFFF')
       .style('cursor', 'pointer')
-      .on('mouseover', d => {
-        d3.select(d3.event.currentTarget)
-          .style('stroke', '#000000');
-      })
-      .on('mouseout', d => {
-        d3.select(d3.event.currentTarget)
-          .style('stroke', '#FFFFFF');
-      })
       .on('click', d => {
         this.showSecondLevel(d);
       })
