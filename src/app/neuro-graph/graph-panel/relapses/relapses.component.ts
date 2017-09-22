@@ -2,8 +2,8 @@ import { Component, OnInit, Input, ViewEncapsulation,ViewChild,TemplateRef,Injec
 import * as d3 from 'd3';
 import { GRAPH_SETTINGS } from '../../neuro-graph.config';
 import { BrokerService } from '../../broker/broker.service';
-import { allMessages, allHttpMessages, medication } from '../../neuro-graph.config';
-import * as moment from 'moment';
+import { allMessages, allHttpMessages, medication, months } from '../../neuro-graph.config';
+//import * as moment from 'moment';
 import {MdDialog,MdDialogRef,MD_DIALOG_DATA} from '@angular/material';
 import {NeuroGraphService} from '../../neuro-graph.service';
 
@@ -24,7 +24,7 @@ export class RelapsesComponent implements OnInit {
   private height: number;
   private yScale: any;
   private years = [];
-  private months = ['Jan', 'Feb', 'Mar', 'Apr','May', 'Jun', 'Jul', 'Aug','Sep', 'Oct', 'Nov', 'Dec'];
+  private month = ['January', 'February', 'March', 'April','May', 'June', 'July', 'August','September', 'October', 'November', 'December'];
   private relapsesDetail: any;
   private subscriptions: any;
   private pathUpdate: any;
@@ -121,7 +121,7 @@ export class RelapsesComponent implements OnInit {
             if(typeof this.relapsesData!="undefined" && this.relapsesData!=null)
               {
                 this.relapsesDetail =this.relapsesData[0];
-                this.relapsesDetail.month="Jan";
+                this.relapsesDetail.month="January";
                 this.relapsesDetail.year=new Date().getFullYear().toString();
                 this.dialogRef = this.dialog.open(this.relapsesAddSecondLevelTemplate,{width:"450px"});
               }
@@ -199,7 +199,7 @@ export class RelapsesComponent implements OnInit {
 
     let objSave = {
       "pom_id": this.paramData.pom_id,
-      "relapse_month": moment(obj.last_updated_instant).format('MMMM'),
+      "relapse_month": this.toCamelCase(months[new Date(obj.last_updated_instant).getMonth() + 1].toLowerCase()),
       "relapse_year": this.relapsesDetail.year,
       "provider_id":"",
       "encounter_csn": this.paramData.csn,
@@ -226,7 +226,12 @@ export class RelapsesComponent implements OnInit {
     }
     
   }
-  
+  toCamelCase = function(str) {
+    return str
+        .replace(/\s(.)/g, function($1) { return $1.toLowerCase(); })
+        .replace(/\s/g, '')
+        .replace(/^(.)/, function($1) { return $1.toUpperCase(); });
+}
   checkChge(){
  
     if(this.relapsesDetail.confirm ==true)
@@ -256,8 +261,8 @@ export class RelapsesComponent implements OnInit {
         lastUpdatedDate: new Date(d.relapse_month + "/15/" + d.relapse_year),
         relapseaxis: parseFloat(d.relapseaxis),
         confirm: d.clinician_confirmed,
-        month:moment(d.relapse_month + "/15/" + d.relapse_year).format('MMM'),
-        year:moment(d.relapse_month + "/15/" + d.relapse_year).format('YYYY')
+        month:this.toCamelCase(months[new Date(d.relapse_month + "/15/" + d.relapse_year).getMonth() + 1].toLowerCase()),
+        year:new Date(d.relapse_month + "/15/" + d.relapse_year).getFullYear().toString()
        
        
       }

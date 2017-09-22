@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { GRAPH_SETTINGS } from '../neuro-graph.config';
 import * as d3 from 'd3';
-import { BrokerService } from '../../broker/broker.service';
+import { BrokerService } from '../broker/broker.service';
 import { allMessages} from '../neuro-graph.config';
 
 @Component({
@@ -11,7 +11,7 @@ import { allMessages} from '../neuro-graph.config';
   encapsulation: ViewEncapsulation.None
 })
 export class GraphPanelComponent implements OnInit {
-  isEdssSelected: boolean = false;
+  isEdssSelected: boolean = true;
   toggleVirtualCaseLoad: string="Add Virtual Caseload";
   private state: any;
   private graphSetting = GRAPH_SETTINGS;

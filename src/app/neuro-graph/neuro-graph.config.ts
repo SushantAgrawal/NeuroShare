@@ -295,3 +295,19 @@ export const edssPopup = [{ score: '0.0', title: 'Normal neurological exam.' }
     , { score: '9.0', title: 'Confined to bed. Can still communicate and eat.' }
     , { score: '9.5', title: 'Confined to bed and totally dependent. Unable to communicate effectively or eat/swallow.' }
     , { score: '10', title: 'Death due to MS.' }];
+
+
+
+export const months={1:'JANUARY',
+2:'FEBRUARY',
+3:'MARCH',
+4:'APRIL',
+5:'MAY',
+6:'JUNE',
+7:'JULY',
+8:'AUGUST',
+9:'SEPTEMBER',
+10:'OCTOBER',
+11:'NOVEMBER',
+12:'DECEMBER'
+}
