@@ -14,8 +14,6 @@ import {NeuroRelatedComponent} from './neuro-related/neuro-related.component';
 import {PatientConcernsComponent} from './patient-concerns/patient-concerns.component';
 import {NeuroGraphBoxComponent} from './neuro-graph-box/neuro-graph-box.component';
 import {BrokerModule} from "./broker/broker.module";
-// import {BrokerModule} from 'broker';
-
 // import { BrokerService } from '../broker/broker.service';
 import {NeuroGraphService} from './neuro-graph.service';
 import {MedicationsComponent} from './graph-panel/medications/medications.component';
@@ -24,7 +22,6 @@ import {SharedGridComponent} from './graph-panel/shared-grid/shared-grid.compone
 import {EdssComponent} from './graph-panel/edss/edss.component';
 import {RelapsesComponent} from './graph-panel/relapses/relapses.component';
 import {EdssPopupComponent} from './neuro-related/edss-popup/edss-popup.component';
-// import {ZingModule} from 'zing';
 
 export const ROUTES : Routes = [];
 @NgModule({
@@ -33,13 +30,11 @@ export const ROUTES : Routes = [];
     CommonModule, FormsModule, RouterModule.forRoot(ROUTES),
     PopoverModule.forRoot(),
     ModalModule.forRoot(),
-    //MaterialModule,
     MdButtonModule, 
     MdCheckboxModule, 
     MdSelectModule, 
     MdInputModule, 
     MdDialogModule
-    //,ZingModule
   ],
   declarations: [
     GraphPanelComponent,
