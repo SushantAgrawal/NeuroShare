@@ -38,6 +38,10 @@ export class MedicationsComponent implements OnInit {
   };
   dmtSecondLayerLocalData: Array<any>;
   otherMedsSecondLayerLocalData: Array<any>;
+  relapsesLocalData: Array<any>;
+  months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+
 
   constructor(private brokerService: BrokerService, private dialog: MdDialog, private neuroGraphService: NeuroGraphService) { }
 
@@ -119,7 +123,7 @@ export class MedicationsComponent implements OnInit {
     let vitaminDIds = medication.vitaminD.ids;
     let otherMedsIds = medication.otherMeds.ids;
     let mappedCodes = medication.otherMeds.mappedCodes;
-    
+
     //Commented due to limited support 
     // medicationOrders.forEach(x => {
     //   if (x.medication && genericNames.includes(x.medication.simple_generic_name.toLowerCase())) {
@@ -156,8 +160,8 @@ export class MedicationsComponent implements OnInit {
       .sort((a, b) => Date.parse(b.date.medStart) - Date.parse(a.date.medStart));;
   }
 
+  //Clean up needed
   getSecondLayerModel(data, medType, secondLayerData) {
-    debugger;
     let model: any = {
       orderIdentifier: data.orderIdentifier,
       name: data.name,
@@ -170,6 +174,7 @@ export class MedicationsComponent implements OnInit {
       refillRemain: data.refillRemain,
       allYears: Array.from(new Array(100), (val, index) => (new Date()).getFullYear() - index)
     };
+
     if (secondLayerData) {
       model.allowEdit = secondLayerData.save_csn_status !== 'Closed';
       if (medType == this.medType.dmt) {
@@ -180,6 +185,7 @@ export class MedicationsComponent implements OnInit {
           model.patientReportedStartDateMonth = parseInt(dtParts[0]);
           model.patientReportedStartDateYear = parseInt(dtParts[1]);
         }
+
       }
       if (medType == this.medType.otherMeds) {
         model.reasonForMed = secondLayerData.reason_for_med;
@@ -192,20 +198,35 @@ export class MedicationsComponent implements OnInit {
       model.allowEdit = true;
     }
 
+    if (medType == this.medType.dmt) {
+      let medOrderedDt = (new Date(data.date.orderDate));
+      medOrderedDt.setDate(1);
+      let medEndDt = (new Date(data.date.medEnd))
+      medEndDt.setDate(1);
+      model.noOfRelapses = this.relapsesLocalData.filter(r => {
+        let relapseMonthNo = this.months.indexOf(r.relapse_month);
+        let relapseYear = parseInt(r.relapse_year);
+        let relapseDate = new Date(relapseYear, relapseMonthNo, 1);
+        return relapseDate >= medOrderedDt && relapseDate <= medEndDt;
+      }).length;
+    }
     return model;
   }
 
   setSecondLayerData() {
     this.brokerService.httpGetMany(manyHttpMessages.httpGetMedicationSecondLayerApiCall, [
       { urlId: allHttpMessages.httpGetDmt },
-      { urlId: allHttpMessages.httpGetOtherMeds }
+      { urlId: allHttpMessages.httpGetOtherMeds },
+      { urlId: allHttpMessages.httpGetRelapse }
     ]);
     let secondLayerApiCallSub = this.brokerService.filterOn(manyHttpMessages.httpGetMedicationSecondLayerApiCall).subscribe(d => {
       d.error ? console.log(d) : (() => {
         let dmtResponse = d.data[0][allHttpMessages.httpGetDmt];
         let otherMedsResponse = d.data[1][allHttpMessages.httpGetOtherMeds];
+        let relapsesLocalData = d.data[2][allHttpMessages.httpGetRelapse];
         this.dmtSecondLayerLocalData = dmtResponse.DMTs;
         this.otherMedsSecondLayerLocalData = dmtResponse.Other_Meds;
+        this.relapsesLocalData = relapsesLocalData.relapses;
       })();
     });
     this.subscriptions.add(secondLayerApiCallSub);
