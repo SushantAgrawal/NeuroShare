@@ -1,5 +1,5 @@
 import {Component, OnInit, ChangeDetectorRef, ViewEncapsulation} from '@angular/core';
-import {BrokerService} from '../../broker/broker.service';
+import {BrokerService} from '../broker/broker.service';
 import {NeuroGraphService} from '../neuro-graph.service';
 import {Observable} from 'rxjs/Observable';
 // import * as _ from 'lodash';

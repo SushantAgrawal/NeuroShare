@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
-import { BrokerService } from '../../../broker/broker.service';
+import { BrokerService } from '../../broker/broker.service';
 import { allMessages, allHttpMessages, manyHttpMessages, medication } from '../../neuro-graph.config';
 import { searchObject } from '../../neuro-graph.helper';
 import { GRAPH_SETTINGS } from '../../neuro-graph.config';
@@ -119,17 +119,32 @@ export class MedicationsComponent implements OnInit {
     let vitaminDIds = medication.vitaminD.ids;
     let otherMedsIds = medication.otherMeds.ids;
     let mappedCodes = medication.otherMeds.mappedCodes;
+    
+    //Commented due to limited support 
+    // medicationOrders.forEach(x => {
+    //   if (x.medication && genericNames.includes(x.medication.simple_generic_name.toLowerCase())) {
+    //     x.type = this.medType.dmt //m.medication.id
+    //   } else if (x.medication && vitaminDIds.includes(x.medication.id)) {
+    //     x.type = this.medType.vitaminD
+    //   } else if (x.medication && otherMedsIds.includes(x.medication.id)) {
+    //     x.type = this.medType.otherMeds
+    //   } else if (searchObject(x, 'mapped_code', mappedCodes).length > 0) {
+    //     x.type = this.medType.otherMeds
+    //   }
+    // });
+
     medicationOrders.forEach(x => {
-      if (x.medication && genericNames.includes(x.medication.simple_generic_name.toLowerCase())) {
-        x.type = this.medType.dmt //m.medication.id
-      } else if (x.medication && vitaminDIds.includes(x.medication.id)) {
+      if (x.medication && genericNames.find(gn => gn === x.medication.simple_generic_name.toLowerCase())) {
+        x.type = this.medType.dmt
+      } else if (x.medication && vitaminDIds.find(id => id === x.medication.id)) {
         x.type = this.medType.vitaminD
-      } else if (x.medication && otherMedsIds.includes(x.medication.id)) {
+      } else if (x.medication && otherMedsIds.find(id => id === x.medication.id)) {
         x.type = this.medType.otherMeds
       } else if (searchObject(x, 'mapped_code', mappedCodes).length > 0) {
         x.type = this.medType.otherMeds
       }
     });
+
     this.dmtArray = medicationOrders
       .filter(x => x.type == this.medType.dmt)
       .sort((a, b) => Date.parse(b.date.medStart) - Date.parse(a.date.medStart));
@@ -168,6 +183,9 @@ export class MedicationsComponent implements OnInit {
       }
       if (medType == this.medType.otherMeds) {
         model.reasonForMed = secondLayerData.reason_for_med;
+      }
+      if (medType == this.medType.vitaminD) {
+        model.medEnded = data.date.medEnded;
       }
     }
     else {
@@ -282,6 +300,7 @@ export class MedicationsComponent implements OnInit {
   drawVitaminD() {
     let config = { hasBackdrop: true, panelClass: 'vitaminDSecondLevel', width: '600px' };
     let openSecondLayer = (selectedData) => {
+      console.log(selectedData);
       this.medSecondLayerModel = this.getSecondLayerModel(selectedData, this.medType.vitaminD, false);
       this.dialogRef = this.dialog.open(this.vitaminDSecondLevelTemplate, config);
     };
