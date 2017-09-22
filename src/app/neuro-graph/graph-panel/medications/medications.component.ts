@@ -169,6 +169,9 @@ export class MedicationsComponent implements OnInit {
       if (medType == this.medType.otherMeds) {
         model.reasonForMed = secondLayerData.reason_for_med;
       }
+      if (medType == this.medType.vitaminD) {
+        model.medEnded = data.date.medEnded;
+      }
     }
     else {
       model.allowEdit = true;
@@ -282,6 +285,7 @@ export class MedicationsComponent implements OnInit {
   drawVitaminD() {
     let config = { hasBackdrop: true, panelClass: 'vitaminDSecondLevel', width: '600px' };
     let openSecondLayer = (selectedData) => {
+      console.log(selectedData);
       this.medSecondLayerModel = this.getSecondLayerModel(selectedData, this.medType.vitaminD, false);
       this.dialogRef = this.dialog.open(this.vitaminDSecondLevelTemplate, config);
     };
