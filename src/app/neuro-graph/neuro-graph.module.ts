@@ -34,7 +34,8 @@ export const ROUTES : Routes = [];
     MdCheckboxModule, 
     MdSelectModule, 
     MdInputModule, 
-    MdDialogModule
+    MdDialogModule,
+    MdTooltipModule
   ],
   declarations: [
     GraphPanelComponent,
