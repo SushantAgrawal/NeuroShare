@@ -2,8 +2,10 @@ import {Component, OnInit, ChangeDetectorRef, ViewEncapsulation} from '@angular/
 import {BrokerService} from '../broker/broker.service';
 import {NeuroGraphService} from '../neuro-graph.service';
 import {Observable} from 'rxjs/Observable';
+import { MdDialog } from '@angular/material';
 // import * as _ from 'lodash';
 import {cdsMap, allMessages, manyHttpMessages, allHttpMessages} from '../neuro-graph.config';
+import {InfoPopupComponent} from './info-popup/info-popup.component'
 
 @Component({selector: 'app-cds', templateUrl: './cds.component.html', styleUrls: ['./cds.component.sass'], encapsulation: ViewEncapsulation.None})
 export class CdsComponent implements OnInit {
@@ -13,7 +15,7 @@ export class CdsComponent implements OnInit {
   cdsUserData : any;
   cdsState : Object = {};
   csnState : any = {};
-  constructor(private brokerService : BrokerService, private changeDetector : ChangeDetectorRef, private neuroGraphService : NeuroGraphService) {
+  constructor(private brokerService : BrokerService, private changeDetector : ChangeDetectorRef, private neuroGraphService : NeuroGraphService, public dialog: MdDialog) {
     this.cdsState = {
       review_relapses: {
         checked: false
@@ -107,15 +109,18 @@ export class CdsComponent implements OnInit {
   }
 
   changed(event, item) {}
-  buttonClicked(item) {
-    this.selectedCdsInfo = this
-      .cdsInfo
-      .find(x => x.label == item);
+
+  openDialog(e, infoTitle) {
+    let x = e.clientX;
+    let y = e.clientY;
+    console.log(x + "/" + y);
+    this.selectedCdsInfo = this.cdsInfo.find(x => x.label == infoTitle);
+    let dialogRef = this.dialog.open(InfoPopupComponent, {
+      width: '300px',
+      data: { info : this.selectedCdsInfo, x: x, y: y }
+    });
   }
   
-  getCdsTitle() {
-    return (this.selectedCdsInfo.title);
-  }
 
   ngOnDestroy() {
     this

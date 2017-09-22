@@ -1,0 +1,13 @@
+<div>
+  <div class="header">
+    {{displayInfo.title}}
+  </div>
+  <div class="content">
+    {{displayInfo.info}}
+  </div>
+  <br />
+  <div class="urlContainer">
+    <a *ngIf="displayInfo.learn_more" [href]="displayInfo.learn_more" target="_blank" class="margin"> Learn More </a>
+    <a *ngIf="displayInfo.publication" [href]="displayInfo.publication" target="_blank"> See publication </a>
+  </div>
+</div>
