@@ -24,6 +24,7 @@ import {SharedGridComponent} from './graph-panel/shared-grid/shared-grid.compone
 import {EdssComponent} from './graph-panel/edss/edss.component';
 import {RelapsesComponent} from './graph-panel/relapses/relapses.component';
 import {EdssPopupComponent} from './neuro-related/edss-popup/edss-popup.component';
+import { InfoPopupComponent } from './cds/info-popup/info-popup.component';
 // import {ZingModule} from 'zing';
 
 export const ROUTES : Routes = [];
@@ -52,10 +53,11 @@ export const ROUTES : Routes = [];
     EdssComponent,
     SharedGridComponent,
     RelapsesComponent,
-    EdssPopupComponent
+    EdssPopupComponent,
+    InfoPopupComponent
   ],
   exports: [NeuroGraphBoxComponent],
   providers: [NeuroGraphService],
-  bootstrap: [EdssPopupComponent]
+  bootstrap: [EdssPopupComponent, InfoPopupComponent]
 })
 export class NeuroGraphModule {}

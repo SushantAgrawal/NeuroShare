@@ -9,9 +9,8 @@
     </div>
 
     <div class="cds-items-info">
-      <input type="image" src="../../assets/images/information-icon.png" (click)="buttonClicked('review_relapses')" [popover]="cdsTemplate"
-        [popoverTitle]="getCdsTitle()" outsideClick="true" triggers="focus" placement="left" container="body" width="20px"
-        height="20px">
+      <input type="image" src="../../assets/images/information-icon.png" (click)="openDialog($event,'review_relapses')"
+             width="20px" height="20px">
     </div>
   </div>
 
@@ -21,9 +20,8 @@
     </div>
 
     <div class="cds-items-info">
-      <input type="image" src="../../assets/images/information-icon.png" (click)="buttonClicked('review_mri_images')" [popover]="cdsTemplate"
-        [popoverTitle]="selectedCdsInfo.title" outsideClick="true" triggers="focus" placement="left" container="body" width="20px"
-        height="20px">
+      <input type="image" src="../../assets/images/information-icon.png" (click)="openDialog($event,'review_mri_images')"
+             width="20px" height="20px">
     </div>
   </div>
 
@@ -32,8 +30,8 @@
       <label><input type="checkbox" (change)='changed($event,"review_symptom_status")' [(ngModel)]='cdsState.review_symptom_status.checked' /> Review symptom status </label>
     </div>
     <div class="cds-items-info">
-      <input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('review_symptom_status')" [popover]="cdsTemplate"
-        [popoverTitle]="selectedCdsInfo.title" width="20px" height="20px">
+      <input type="image" src="../../assets/images/information-icon.png" (click)="openDialog($event,'review_symptom_status')"
+             width="20px" height="20px">
     </div>
   </div>
 
@@ -44,16 +42,19 @@
     </div>
 
     <div class="cds-items-info">
-      <input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoMsType')" width="20px" height="20px">
+      <input type="image" src="../../assets/images/information-icon.png" (click)="openDialog($event,'review_ms_type_status')" 
+             width="20px" height="20px">
     </div>
   </div>
+
   <div class="cds-items">
     <div class="cds-items-checkbox">
       <label><input type="checkbox" (change)='changed($event,"review_dmts")' [(ngModel)]='cdsState.review_dmts.checked' /> Review DMTs </label>
     </div>
 
     <div class="cds-items-info">
-      <input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoDMT')" width="20px" height="20px">
+      <input type="image" src="../../assets/images/information-icon.png" (click)="openDialog($event,'review_dmts')" 
+             width="20px" height="20px">
     </div>
   </div>
   <div class="cds-items">
@@ -61,8 +62,8 @@
       <label><input type="checkbox" (change)='changed($event,"review_monitoring_labs")' [(ngModel)]='cdsState.review_monitoring_labs.checked'  /> Review monitoring labs </label>
     </div>
     <div class="cds-items-info">
-      <input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoMonitoringLabs')" width="20px"
-        height="20px">
+      <input type="image" src="../../assets/images/information-icon.png" (click)="openDialog($event,'review_monitoring_labs')" 
+             width="20px" height="20px">
     </div>
   </div>
   <div class="cds-items">
@@ -70,7 +71,8 @@
       <label><input type="checkbox" (change)='changed($event,"review_vitamin_d")' [(ngModel)]='cdsState.review_vitamin_d.checked'  /> Review Vitamin D </label>
     </div>
     <div class="cds-items-info">
-      <input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoVitaminD')" width="20px" height="20px">
+      <input type="image" src="../../assets/images/information-icon.png" (click)="openDialog($event,'review_vitamin_d')" 
+             width="20px" height="20px">
     </div>
   </div>
   <div class="cds-items">
@@ -78,8 +80,8 @@
       <label><input type="checkbox" (change)='changed($event,"review_other_meds")' [(ngModel)]='cdsState.review_other_meds.checked'  /> Review other related meds </label>
     </div>
     <div class="cds-items-info">
-      <input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoOtherMeds')" width="20px"
-        height="20px">
+      <input type="image" src="../../assets/images/information-icon.png" (click)="openDialog($event,'review_other_meds')" 
+             width="20px" height="20px">
     </div>
   </div>
   <div class="cds-items">
@@ -87,19 +89,17 @@
       <label><input type="checkbox" (change)='changed($event,"review_symptoms_referrals")' [(ngModel)]='cdsState.review_symptoms_referrals.checked' /> Review symptoms referrals </label>
     </div>
     <div class="cds-items-info">
-      <input type="image" src="../../assets/images/information-icon.png" (click)="buttonclicked('infoSymptomsReferrals')" width="20px"
-        height="20px">
+      <input type="image" src="../../assets/images/information-icon.png" (click)="openDialog($event,'review_symptoms_referrals')" 
+             width="20px" height="20px">
     </div>
   </div>
   <div class="cds-items">
     <div class="cds-items-checkbox">
-      <label><input type="checkbox" (change)='changed($event,"review_vaccinations.checked")' [(ngModel)]='cdsState.review_vaccinations.checked' /> Review vaccinations </label>
+      <label><input type="checkbox" (change)='changed($event,"review_vaccinations")' [(ngModel)]='cdsState.review_vaccinations.checked' /> Review vaccinations </label>
     </div>
     <div class="cds-items-info">
-      <input type="image" src="../../assets/images/information-icon.png" (click)="buttonClicked('vaccinations')" width="20px" height="20px">
+      <input type="image" src="../../assets/images/information-icon.png" (click)="openDialog($event,'review_vaccinations')" width="20px" height="20px">
     </div>
   </div>
 </div>
-<template #cdsTemplate>
-  <div [innerHtml]="selectedCdsInfo && selectedCdsInfo.info && selectedCdsInfo.info[0]"></div>
-</template>
+
