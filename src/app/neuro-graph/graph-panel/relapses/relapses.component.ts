@@ -255,7 +255,7 @@ export class RelapsesComponent implements OnInit {
     }).sort((a, b) => a.lastUpdatedDate - b.lastUpdatedDate);
 
     this.datasetB = this.datasetA.map(d => {
-      return {
+       return {
         ...d,
         last_updated_instant:d.relapse_month + "/15/" + d.relapse_year,
         lastUpdatedDate: new Date(d.relapse_month + "/15/" + d.relapse_year),
