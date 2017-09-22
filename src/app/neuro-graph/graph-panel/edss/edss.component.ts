@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ViewChild, TemplateRef, Inject,ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
-import { BrokerService } from '../../../broker/broker.service';
+import { BrokerService } from '../../broker/broker.service';
 import { allMessages, allHttpMessages, medication } from '../../neuro-graph.config';
 import { GRAPH_SETTINGS } from '../../neuro-graph.config';
 import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';

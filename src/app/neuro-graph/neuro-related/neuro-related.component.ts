@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { BrokerService } from '../../broker/broker.service';
+import { BrokerService } from '../broker/broker.service';
+// import { BrokerService } from '../../broker/broker.module';
+// import {BrokerService} from 'broker';
 import { allMessages, allHttpMessages, manyHttpMessages } from '../neuro-graph.config';
 import { MdDialog } from '@angular/material';
 import { EdssPopupComponent } from './edss-popup/edss-popup.component';
@@ -18,12 +20,12 @@ export class NeuroRelatedComponent implements OnInit {
 
   ngOnInit() {
     console.log('neuro-related ngOnInit');
-    this
-      .brokerService
-      .filterOn(manyHttpMessages.httpGetTestMany)
-      .subscribe(d => {
-        console.log(d);
-      })
+    // this
+    //   .brokerService
+    //   .filterOn(manyHttpMessages.httpGetTestMany)
+    //   .subscribe(d => {
+    //     console.log(d);
+    //   })
   }
 
   changed(e, value) {

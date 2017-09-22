@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
-import { BrokerService } from '../../../broker/broker.service';
+import { BrokerService } from '../../broker/broker.service';
 import { allMessages, allHttpMessages, manyHttpMessages, medication } from '../../neuro-graph.config';
 import { searchObject } from '../../neuro-graph.helper';
 import { GRAPH_SETTINGS } from '../../neuro-graph.config';

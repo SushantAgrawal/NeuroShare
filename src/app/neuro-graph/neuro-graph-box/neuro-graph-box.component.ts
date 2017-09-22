@@ -1,7 +1,7 @@
 import {Component, OnInit, AfterViewInit, ChangeDetectionStrategy, ViewEncapsulation} from '@angular/core';
-import {envs} from '../../app.config';
+// import {envs} from '../../app.config';
 import {allMessages, allHttpMessages, manyHttpMessages} from '../neuro-graph.config';
-import {BrokerService} from '../../broker/broker.service';
+import {BrokerService} from '../broker/broker.service';
 import {NeuroGraphService} from '../neuro-graph.service';
 
 //changeDetection is important
