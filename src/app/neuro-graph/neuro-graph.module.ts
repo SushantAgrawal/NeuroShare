@@ -1,7 +1,7 @@
 //Angular
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-// import {FormsModule} from '@angular/forms';
+import {FormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 //UI Frameworks
 // import {PopoverModule} from 'ngx-bootstrap/popover';
@@ -27,7 +27,7 @@ export const ROUTES : Routes = [];
   imports: [
     BrokerModule.forRoot(),
     CommonModule
-    // , FormsModule
+    , FormsModule
     , RouterModule.forRoot(ROUTES),
     // PopoverModule.forRoot(),
     // ModalModule.forRoot(),
