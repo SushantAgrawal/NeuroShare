@@ -4,7 +4,7 @@ import {NgModule} from '@angular/core';
 import {HttpModule} from '@angular/http';
 import {AppComponent} from './app.component';
 import { NeuroGraphModule } from './neuro-graph/neuro-graph.module';
-// import {NeuroGraphModule} from 'neuro-graph';
+// import {NeuroGraphModule} from '@sutterhealth/neuro-graph';
 import {SharedModule} from './shared/shared.module';
 
 @NgModule({
