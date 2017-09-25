@@ -3,8 +3,9 @@ import * as d3 from 'd3';
 import { BrokerService } from '../../broker/broker.service';
 import { allMessages, allHttpMessages, medication } from '../../neuro-graph.config';
 import { GRAPH_SETTINGS } from '../../neuro-graph.config';
-import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
-import { edssPopup } from '../../neuro-graph.config'
+import { MdDialog, MdDialogRef } from '@angular/material';
+import { edssPopup } from '../../neuro-graph.config';
+import { NeuroGraphService } from '../../neuro-graph.service';
 
 @Component({
   selector: '[app-edss]',
@@ -107,7 +108,7 @@ export class EdssComponent implements OnInit {
     }
   ];
 
-  constructor(private brokerService: BrokerService, private dialog: MdDialog) {
+  constructor(private brokerService: BrokerService, private dialog: MdDialog, private neuroGraphService: NeuroGraphService) {
 
   }
 
@@ -118,16 +119,28 @@ export class EdssComponent implements OnInit {
     this.edssPopupQuestions[index].checked = true;
   }
 
-  submit() {
-    let selectedValue = this.edssPopupQuestions.find(x => x.checked == true);
+  submitEdssScore(event) {
+    let selectedScore = this.edssPopupQuestions.find(x => x.checked == true);
+    if (!selectedScore) { 
+      event.stopPropagation() 
+      return;
+    };
     if (this.type == 'Add') {
-      debugger;
-      console.log(this.edssData[0]);
+      //Call api and update local data on success
+      this.edssData.push({
+        last_updated_instant: new Date(),
+        last_updated_provider_id: "G00123",
+        save_csn: this.neuroGraphService.get("queryParams").csn,
+        save_csn_status: this.neuroGraphService.get("queryParams").encounter_status,
+        score: selectedScore.score,
+      })
     }
     else {
       debugger;
       //Call Update API
     }
+    this.removeChart();
+    this.drawChart();
     this.dialogRef.close();
   }
 

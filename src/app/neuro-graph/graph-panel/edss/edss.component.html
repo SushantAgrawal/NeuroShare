@@ -30,14 +30,14 @@
     <div class="modal-body">
         <table class="questionContainer">
             <tr *ngFor="let question of edssPopupQuestions; let idx=index">
-                <td><input type="radio" name="edssPopupGroup" [checked]="idx===0" [value]="question.checked" (click)="selectEdssScore(idx)"></td>
+                <td><input type="radio" name="edssPopupGroup" (click)="selectEdssScore(idx)"></td>
                 <td>{{question.score}}</td>
                 <td>{{question.title}}</td>
             </tr>
         </table>
         <div class="buttonContainer">
-            <button class="roundButton" *ngIf="type=='Add'" (click)="submit()">Add</button>
-            <button class="roundButton" *ngIf="type=='Update'" (click)="submit()">Update</button>
+            <button class="roundButton" *ngIf="type=='Add'" (click)="submitEdssScore($event)">Add</button>
+            <button class="roundButton" *ngIf="type=='Update'" (click)="submitEdssScore($event)">Update</button>
         </div>
     </div>
 </ng-template>
