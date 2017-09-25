@@ -113,7 +113,6 @@ export class CdsComponent implements OnInit {
   openDialog(e, infoTitle) {
     let x = e.clientX;
     let y = e.clientY;
-    console.log(x + "/" + y);
     this.selectedCdsInfo = this.cdsInfo.find(x => x.label == infoTitle);
     let dialogRef = this.dialog.open(InfoPopupComponent, {
       width: '300px',
