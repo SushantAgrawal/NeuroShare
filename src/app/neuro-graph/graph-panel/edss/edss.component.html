@@ -1,4 +1,4 @@
-<template #edssSecondLevelTemplate>
+<ng-template #edssSecondLevelTemplate>
     <div class="modal-header">
         <h4 class="modal-title pull-left">EDSS</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRef.close()">
@@ -19,20 +19,25 @@
             <div class="col-xs-6">{{edssScoreDetail.last_updated_instant}}</div>
         </div>
     </div>
-</template>
-<template #edssSecondLevelAddTemplate>
-    <div class="header">
-        Select EDSS Score
-      </div>
-      <table class="questionContainer">
-        <tr *ngFor="let question of edssPopupQuestions">
-          <td><input type="radio" name="edssPopupGroup" [checked]="question.checked"></td>
-          <td>{{question.score}}</td>
-          <td>{{question.title}}</td>
-        </tr>
-      </table>
-      <div class="buttonContainer">
-        <button class="roundButton" *ngIf="type=='Add'" (click)="submit()">Add</button>
-        <button class="roundButton" *ngIf="type=='Update'" (click)="submit()">Update</button>
-      </div>
-</template>
+</ng-template>
+<ng-template #edssSecondLevelAddTemplate>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Select EDSS Score</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRef.close()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="questionContainer">
+            <tr *ngFor="let question of edssPopupQuestions; let idx=index">
+                <td><input type="radio" name="edssPopupGroup" (click)="selectEdssScore(idx)"></td>
+                <td>{{question.score}}</td>
+                <td>{{question.title}}</td>
+            </tr>
+        </table>
+        <div class="buttonContainer">
+            <button class="roundButton" *ngIf="type=='Add'" (click)="submitEdssScore($event)">Add</button>
+            <button class="roundButton" *ngIf="type=='Update'" (click)="submitEdssScore($event)">Update</button>
+        </div>
+    </div>
+</ng-template>
