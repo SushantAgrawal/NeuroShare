@@ -8,15 +8,15 @@
     <div class="modal-body">
         <div class="row">
             <div class="col-xs-6">Score</div>
-            <div class="col-xs-6">{{edssScoreDetail.score}}</div>
+            <div class="col-xs-6">{{edssScoreDetail.scoreValue}}</div>
         </div>
         <div class="row">
             <div class="col-xs-6">Reported By</div>
-            <div class="col-xs-6">{{edssScoreDetail.last_updated_provider_id}}</div>
+            <div class="col-xs-6">{{edssScoreDetail.reportedBy}}</div>
         </div>
         <div class="row">
             <div class="col-xs-6">Reported</div>
-            <div class="col-xs-6">{{edssScoreDetail.last_updated_instant}}</div>
+            <div class="col-xs-6">{{edssScoreDetail.lastUpdatedDate | date:'MM/dd/yyyy'}}</div>
         </div>
     </div>
 </ng-template>

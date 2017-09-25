@@ -16,8 +16,24 @@ export class InfoPopupComponent implements OnInit {
   constructor(public dialogRef: MdDialogRef<InfoPopupComponent>,@Inject(MD_DIALOG_DATA) public data: any) 
   { 
     this.displayInfo = data.info;
+    let label = this.displayInfo.label;
     this.x = data.x - 315;
-    this.y = data.y;
+    if(label == 'review_vitamin_d')
+      {
+        this.y = data.y - 175;
+      }
+    else if(label == 'review_symptoms_referrals')
+      {
+        this.y = data.y - 110;
+      }
+    else if(label == 'review_vaccinations')
+      {
+        this.y = data.y - 330;
+      }
+    else
+      {
+        this.y = data.y;
+      }
   }
 
   ngOnInit() {
