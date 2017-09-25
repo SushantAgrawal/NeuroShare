@@ -299,12 +299,7 @@ export class EdssComponent implements OnInit {
   }
 
   showSecondLevel(data) {
-
-
-
-
-
-    let config = { hasBackdrop: true, panelClass: 'edssSecondLevel', width: '600px' };
+    let config = { hasBackdrop: true, panelClass: 'edssSecondLevel', width: '300px' };
     this.edssScoreDetail = data;
     this.dialogRef = this.dialog.open(this.edssSecondLevelTemplate, config);
   }
