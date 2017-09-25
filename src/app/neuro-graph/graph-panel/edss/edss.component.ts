@@ -69,7 +69,7 @@ export class EdssComponent implements OnInit {
       "qx_name": "MS-SHARE-QX",
       "browser": "",
       "qx_completed_at": "2016-08-12 12:52:57",
-      "edss_score": "4.5",
+      "edss_score": "3",
       "pom_id": "82043"
     },
     {
@@ -299,6 +299,11 @@ export class EdssComponent implements OnInit {
   }
 
   showSecondLevel(data) {
+
+
+
+
+
     let config = { hasBackdrop: true, panelClass: 'edssSecondLevel', width: '600px' };
     this.edssScoreDetail = data;
     this.dialogRef = this.dialog.open(this.edssSecondLevelTemplate, config);
@@ -310,6 +315,7 @@ export class EdssComponent implements OnInit {
       return {
         ...d,
         lastUpdatedDate: Date.parse(d.last_updated_instant),
+        reportedBy: "Clinician",
         scoreValue: parseFloat(d.score)
       }
     }).sort((a, b) => a.lastUpdatedDate - b.lastUpdatedDate);
@@ -318,6 +324,7 @@ export class EdssComponent implements OnInit {
       return {
         ...d,
         lastUpdatedDate: Date.parse(d.qx_completed_at),
+        reportedBy: "Patient",
         scoreValue: parseFloat(d.edss_score)
       }
     }).sort((a, b) => a.lastUpdatedDate - b.lastUpdatedDate);
@@ -404,7 +411,7 @@ export class EdssComponent implements OnInit {
         this.showSecondLevel(d);
       })
 
-    svg.selectAll('.dot-patient')
+      svg.selectAll('.dot-patient')
       .data(questionnaireDataset)
       .enter()
       .append('circle')
@@ -415,6 +422,14 @@ export class EdssComponent implements OnInit {
       .style('fill', GRAPH_SETTINGS.edss.color)
       .style('cursor', 'pointer')
       .on('click', d => {
+        let match = this.edssData.find(itm => {
+          let cDt = new Date(itm.last_updated_instant);
+          let pDt = new Date(d.qx_completed_at);
+          return parseFloat(itm.score) == parseFloat(d.edss_score) && pDt.getDate() == cDt.getDate() && pDt.getMonth() == cDt.getMonth() && pDt.getFullYear()==cDt.getFullYear();
+        });
+        if(match){
+          d.reportedBy="Patient and Clinician";
+        }
         this.showSecondLevel(d);
       })
 
@@ -440,14 +455,13 @@ export class EdssComponent implements OnInit {
 
   }
 
-
-
   drawChart() {
     //data preparation
     let edssDataset = this.edssData.map(d => {
       return {
         ...d,
         lastUpdatedDate: Date.parse(d.last_updated_instant),
+        reportedBy: "Clinician",
         scoreValue: parseFloat(d.score)
       }
     }).sort((a, b) => a.lastUpdatedDate - b.lastUpdatedDate);
@@ -456,6 +470,7 @@ export class EdssComponent implements OnInit {
       return {
         ...d,
         lastUpdatedDate: Date.parse(d.qx_completed_at),
+        reportedBy: "Patient",
         scoreValue: parseFloat(d.edss_score)
       }
     }).sort((a, b) => a.lastUpdatedDate - b.lastUpdatedDate);
@@ -508,9 +523,6 @@ export class EdssComponent implements OnInit {
       .style('fill', GRAPH_SETTINGS.edss.color)
       .style('cursor', 'pointer')
       .on('click', d => {
-        let matchedPatient = this.questionnaireEdssData.find(itm => {
-          return false;
-        });
         this.showSecondLevel(d);
       })
 
@@ -525,7 +537,14 @@ export class EdssComponent implements OnInit {
       .style('fill', GRAPH_SETTINGS.edss.color)
       .style('cursor', 'pointer')
       .on('click', d => {
-
+        let match = this.edssData.find(itm => {
+          let cDt = new Date(itm.last_updated_instant);
+          let pDt = new Date(d.qx_completed_at);
+          return parseFloat(itm.score) == parseFloat(d.edss_score) && pDt.getDate() == cDt.getDate() && pDt.getMonth() == cDt.getMonth() && pDt.getFullYear()==cDt.getFullYear();
+        });
+        if(match){
+          d.reportedBy="Patient and Clinician";
+        }
         this.showSecondLevel(d);
       })
 
