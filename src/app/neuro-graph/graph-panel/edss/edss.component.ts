@@ -27,22 +27,110 @@ export class EdssComponent implements OnInit {
   private type: any;
   private score: any;
 
-  constructor(private brokerService: BrokerService, private dialog: MdDialog) { }
-  onNoClick(): void {
-    this.dialogRef.close();
+  //temporary hard-coded data for area and mean
+  datasetArea1 = [
+    {
+      "xDate": Date.parse("01/01/2015"),
+      "q2": 1,
+      "q3": 2.5
+    },
+    {
+      "xDate": Date.parse("06/30/2015"),
+      "q2": 1,
+      "q3": 2.5
+    },
+    {
+      "xDate": Date.parse("06/30/2016"),
+      "q2": 2,
+      "q3": 5
+    },
+    {
+      "xDate": Date.parse("06/30/2017"),
+      "q2": 1.8,
+      "q3": 3.5
+    },
+    {
+      "xDate": Date.parse("12/31/2017"),
+      "q2": 1.8,
+      "q3": 3.5
+    }
+  ];
+
+  datasetArea2 = [
+    {
+      "xDate": Date.parse("01/01/2015"),
+      "q1": 0,
+      "q4": 5
+    },
+    {
+      "xDate": Date.parse("06/30/2015"),
+      "q1": 0,
+      "q4": 5
+    },
+    {
+      "xDate": Date.parse("06/30/2016"),
+      "q1": 1.2,
+      "q4": 7.5
+    },
+    {
+      "xDate": Date.parse("06/30/2017"),
+      "q1": 1,
+      "q4": 6
+    },
+    {
+      "xDate": Date.parse("12/31/2017"),
+      "q1": 1,
+      "q4": 6
+    }
+  ];
+
+  datasetMean = [
+    {
+      "xDate": Date.parse("01/1/2015"),
+      "m": 2
+    },
+    {
+      "xDate": Date.parse("06/30/2015"),
+      "m": 2
+    },
+    {
+      "xDate": Date.parse("06/30/2016"),
+      "m": 3.2
+    },
+    {
+      "xDate": Date.parse("06/30/2017"),
+      "m": 2.2
+    },
+    {
+      "xDate": Date.parse("12/31/2017"),
+      "m": 2.2
+    }
+  ];
+
+  constructor(private brokerService: BrokerService, private dialog: MdDialog) {
+
   }
+
+  selectEdssScore(index): void {
+    this.edssPopupQuestions.forEach(q => {
+      q.checked = false;
+    });
+    this.edssPopupQuestions[index].checked = true;
+  }
+
   submit() {
-
-
-    var selectedValue = this.edssPopupQuestions.find(x => x.checked == true);
+    let selectedValue = this.edssPopupQuestions.find(x => x.checked == true);
     if (this.type == 'Add') {
-      //Call Add API
+      debugger;
+      console.log(this.edssData[0]);
     }
     else {
+      debugger;
       //Call Update API
     }
     this.dialogRef.close();
   }
+
   ngOnInit() {
     this.type = "Add";
     this.subscriptions = this
@@ -98,11 +186,9 @@ export class EdssComponent implements OnInit {
           : (() => {
             console.log(d.data);
             this.dialogRef = this.dialog.open(this.edssSecondLevelAddTemplate, {
-              width: '583px',
-              height: '662px'//,
-              //data: { type: "Add", score: '' }
+              width: '600px',
+              height: '650px'
             });
-
           })();
       })
     let sub4 = virtualCaseLoad
@@ -145,6 +231,7 @@ export class EdssComponent implements OnInit {
     this.edssScoreDetail = data;
     this.dialogRef = this.dialog.open(this.edssSecondLevelTemplate, config);
   }
+
   redrawChart() {
     //data preparation
     let dataset = this.edssData.map(d => {
@@ -154,87 +241,6 @@ export class EdssComponent implements OnInit {
         scoreValue: parseFloat(d.score)
       }
     }).sort((a, b) => a.lastUpdatedDate - b.lastUpdatedDate);
-
-    //temporary hard-coded data for area and mean
-    let datasetArea1 = [
-      {
-        "xDate": Date.parse("01/01/2015"),
-        "q2": 1,
-        "q3": 2.5
-      },
-      {
-        "xDate": Date.parse("06/30/2015"),
-        "q2": 1,
-        "q3": 2.5
-      },
-      {
-        "xDate": Date.parse("06/30/2016"),
-        "q2": 2,
-        "q3": 5
-      },
-      {
-        "xDate": Date.parse("06/30/2017"),
-        "q2": 1.8,
-        "q3": 3.5
-      },
-      {
-        "xDate": Date.parse("12/31/2017"),
-        "q2": 1.8,
-        "q3": 3.5
-      }
-    ];
-
-    let datasetArea2 = [
-      {
-        "xDate": Date.parse("01/01/2015"),
-        "q1": 0,
-        "q4": 5
-      },
-      {
-        "xDate": Date.parse("06/30/2015"),
-        "q1": 0,
-        "q4": 5
-      },
-      {
-        "xDate": Date.parse("06/30/2016"),
-        "q1": 1.2,
-        "q4": 7.5
-      },
-      {
-        "xDate": Date.parse("06/30/2017"),
-        "q1": 1,
-        "q4": 6
-      },
-      {
-        "xDate": Date.parse("12/31/2017"),
-        "q1": 1,
-        "q4": 6
-      }
-    ];
-
-    let datasetMean = [
-      {
-        "xDate": Date.parse("01/1/2015"),
-        "m": 2
-      },
-      {
-        "xDate": Date.parse("06/30/2015"),
-        "m": 2
-      },
-      {
-        "xDate": Date.parse("06/30/2016"),
-        "m": 3.2
-      },
-      {
-        "xDate": Date.parse("06/30/2017"),
-        "m": 2.2
-      },
-      {
-        "xDate": Date.parse("12/31/2017"),
-        "m": 2.2
-      }
-    ];
-
 
     this.yScale = d3
       .scaleLinear()
@@ -279,12 +285,12 @@ export class EdssComponent implements OnInit {
       });
 
     svg.append("path")
-      .datum(datasetArea2)
+      .datum(this.datasetArea2)
       .attr("fill", "lightgrey")
       .attr("d", area2);
 
     svg.append("path")
-      .datum(datasetArea1)
+      .datum(this.datasetArea1)
       .attr("fill", "darkgrey")
       .attr("d", area1);
 
@@ -297,7 +303,7 @@ export class EdssComponent implements OnInit {
       .attr('d', line);
 
     svg.append('path')
-      .datum(datasetMean)
+      .datum(this.datasetMean)
       .attr('class', 'line')
       .style('fill', 'none')
       .style('stroke', "white")
