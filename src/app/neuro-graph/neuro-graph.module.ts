@@ -1,7 +1,7 @@
 //Angular
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 //UI Frameworks
 // import {PopoverModule} from 'ngx-bootstrap/popover';
@@ -21,6 +21,11 @@ import {EdssComponent} from './graph-panel/edss/edss.component';
 import {RelapsesComponent} from './graph-panel/relapses/relapses.component';
 import {EdssPopupComponent} from './neuro-related/edss-popup/edss-popup.component';
 import { InfoPopupComponent } from './cds/info-popup/info-popup.component';
+
+export * from './graph-panel/graph-panel.component';
+export * from './cds/cds.component';
+export * from './neuro-graph-box/neuro-graph-box.component';
+export * from './neuro-related/neuro-related.component';
 
 export const ROUTES : Routes = [];
 @NgModule({

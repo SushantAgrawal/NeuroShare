@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 import { GRAPH_SETTINGS } from '../../neuro-graph.config';
 import { BrokerService } from '../../broker/broker.service';
 import { allMessages, allHttpMessages, medication } from '../../neuro-graph.config';
-//import * as moment from 'moment';
+//import moment from 'moment';
 import {MdDialog,MdDialogRef,MD_DIALOG_DATA} from '@angular/material';
 import {NeuroGraphService} from '../../neuro-graph.service';
 
@@ -138,6 +138,13 @@ export class RelapsesComponent implements OnInit {
       .add(putRelapse)
       .add(postRelapse);
   }
+
+  ngOnDestroy() {
+    this
+      .subscriptions
+      .unsubscribe();
+  }
+  
   deleteChart(){
     this.dialogRef.close();
     var objIndex = this.relapsesData.findIndex((obj => obj.relapse_id == this.relapsesDetail.relapse_id));
