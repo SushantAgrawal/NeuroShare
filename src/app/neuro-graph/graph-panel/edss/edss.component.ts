@@ -195,8 +195,14 @@ export class EdssComponent implements OnInit {
       })
     }
     else {
-      this.edssScoreDetail.score = selectedScore.score;
-      this.edssScoreDetail.scoreValue = parseFloat(selectedScore.score);
+      if (this.edssScoreDetail.score !== selectedScore.score) {
+        this.edssScoreDetail.score = selectedScore.score;
+        this.edssScoreDetail.scoreValue = parseFloat(selectedScore.score);
+        this.edssScoreDetail.showUpdate = true
+      }
+      else {
+        this.edssScoreDetail.showUpdate = false;
+      }
       this.showSecondLevel(this.edssScoreDetail);
       //Call Update API
     }
@@ -314,8 +320,8 @@ export class EdssComponent implements OnInit {
   updateEdssScore() {
     console.log(this.edssScoreDetail);
     let match = this.edssData.find(x => x.score_id == this.edssScoreDetail.score_id);
-    if(match){
-      match.score=this.edssScoreDetail.score
+    if (match) {
+      match.score = this.edssScoreDetail.score
     }
     this.removeChart();
     this.drawChart();
