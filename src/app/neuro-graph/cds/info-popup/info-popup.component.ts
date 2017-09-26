@@ -4,7 +4,7 @@ import { MdDialog, MdDialogConfig, MdDialogRef, MD_DIALOG_DATA } from '@angular/
 @Component({
   selector: 'app-info-popup',
   templateUrl: './info-popup.component.html',
-  styleUrls: ['./info-popup.component.sass'],
+  styleUrls: ['./info-popup.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class InfoPopupComponent implements OnInit {

@@ -11,7 +11,7 @@ import { NeuroGraphService } from '../../neuro-graph.service';
 @Component({
   selector: '[app-medications]',
   templateUrl: './medications.component.html',
-  styleUrls: ['./medications.component.sass'],
+  styleUrls: ['./medications.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class MedicationsComponent implements OnInit {

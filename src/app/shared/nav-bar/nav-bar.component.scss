@@ -1,0 +1,27 @@
+.left-menu{
+    display: block;
+    text-align: center;
+    padding: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 20pt;
+    color: #999999;
+    border-bottom: solid 1px #7f7f7f;
+}
+.down-nav{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+.up-nav a, 
+.down-nav a{
+    @extend .left-menu
+}
+.up-nav a:hover,
+.down-nav a:hover,
+.up-nav a.selected,
+.down-nav a.selected{
+    background-color: #7f7f7f;
+    color: #ffffff;
+}

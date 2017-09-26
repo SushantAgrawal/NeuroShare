@@ -10,7 +10,7 @@ import { NeuroGraphService } from '../../neuro-graph.service';
 @Component({
   selector: '[app-edss]',
   templateUrl: './edss.component.html',
-  styleUrls: ['./edss.component.sass'],
+  styleUrls: ['./edss.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 
@@ -18,15 +18,15 @@ export class EdssComponent implements OnInit {
   @ViewChild('edssSecondLevelTemplate') private edssSecondLevelTemplate: TemplateRef<any>;
   @ViewChild('edssSecondLevelAddTemplate') private edssSecondLevelAddTemplate: TemplateRef<any>;
   @Input() private chartState: any;
-  dialogRef: MdDialogRef<any>;
+  private dialogRef: MdDialogRef<any>;
+  private scoreChartDialogRef: MdDialogRef<any>;
   private edssScoreDetail: any;
   private subscriptions: any;
   private yScale: any;
   private yDomain: Array<number> = [0, GRAPH_SETTINGS.edss.maxValueY];
   private edssData: Array<any>;
   private edssPopupQuestions: any = [];
-  private type: any;
-  private score: any;
+  private scoreChartOpType: any;
 
   //Questionnaire static
   questionnaireEdssData = [
@@ -171,7 +171,7 @@ export class EdssComponent implements OnInit {
 
   }
 
-  selectEdssScore(index): void {
+  selectEdssScore(index) {
     this.edssPopupQuestions.forEach(q => {
       q.checked = false;
     });
@@ -184,7 +184,7 @@ export class EdssComponent implements OnInit {
       event.stopPropagation()
       return;
     };
-    if (this.type == 'Add') {
+    if (this.scoreChartOpType == 'Add') {
       //Call api and update local data on success
       this.edssData.push({
         last_updated_instant: new Date(),
@@ -195,16 +195,32 @@ export class EdssComponent implements OnInit {
       })
     }
     else {
-      debugger;
+      if (this.edssScoreDetail.score !== selectedScore.score) {
+        this.edssScoreDetail.score = selectedScore.score;
+        this.edssScoreDetail.scoreValue = parseFloat(selectedScore.score);
+        this.edssScoreDetail.showUpdate = true
+      }
+      else {
+        this.edssScoreDetail.showUpdate = false;
+      }
+      this.showSecondLevel(this.edssScoreDetail);
       //Call Update API
     }
     this.removeChart();
     this.drawChart();
+    this.scoreChartDialogRef.close();
+  }
+
+  openScoreChartForUpdate() {
+    this.scoreChartOpType = "Update";
     this.dialogRef.close();
+    this.scoreChartDialogRef = this.dialog.open(this.edssSecondLevelAddTemplate, {
+      width: '600px',
+      height: '650px'
+    });
   }
 
   ngOnInit() {
-    this.type = "Add";
     this.subscriptions = this
       .brokerService
       .filterOn(allHttpMessages.httpGetEdss)
@@ -256,8 +272,8 @@ export class EdssComponent implements OnInit {
         d.error
           ? console.log(d.error)
           : (() => {
-            console.log(d.data);
-            this.dialogRef = this.dialog.open(this.edssSecondLevelAddTemplate, {
+            this.scoreChartOpType = "Add";
+            this.scoreChartDialogRef = this.dialog.open(this.edssSecondLevelAddTemplate, {
               width: '600px',
               height: '650px'
             });
@@ -289,9 +305,6 @@ export class EdssComponent implements OnInit {
 
     this.edssPopupQuestions = edssPopup;
     this.edssPopupQuestions.map(x => x.checked = false);
-    if (this.score != '') {
-      this.edssPopupQuestions.forEach(x => { if (x.score == this.score) x.checked = true });
-    }
   }
 
   ngOnDestroy() {
@@ -302,6 +315,17 @@ export class EdssComponent implements OnInit {
     let config = { hasBackdrop: true, panelClass: 'edssSecondLevel', width: '300px' };
     this.edssScoreDetail = data;
     this.dialogRef = this.dialog.open(this.edssSecondLevelTemplate, config);
+  }
+
+  updateEdssScore() {
+    console.log(this.edssScoreDetail);
+    let match = this.edssData.find(x => x.score_id == this.edssScoreDetail.score_id);
+    if (match) {
+      match.score = this.edssScoreDetail.score
+    }
+    this.removeChart();
+    this.drawChart();
+    this.dialogRef.close();
   }
 
   drawChartWithVirtualCaseload() {
@@ -392,6 +416,20 @@ export class EdssComponent implements OnInit {
       .style('stroke-width', '1')
       .attr('d', lineMean);
 
+    svg.selectAll('.dot-patient')
+      .data(questionnaireDataset)
+      .enter()
+      .append('circle')
+      .attr('class', 'dot-patient')
+      .attr('cx', d => this.chartState.xScale(d.lastUpdatedDate))
+      .attr('cy', d => this.yScale(d.scoreValue))
+      .attr('r', 7)
+      .style('fill', GRAPH_SETTINGS.edss.color)
+      .style('cursor', 'pointer')
+      .on('click', d => {
+        this.showSecondLevel(d);
+      })
+
     svg.selectAll('.dot-clinician')
       .data(dataset)
       .enter()
@@ -403,28 +441,15 @@ export class EdssComponent implements OnInit {
       .style('fill', GRAPH_SETTINGS.edss.color)
       .style('cursor', 'pointer')
       .on('click', d => {
-        this.showSecondLevel(d);
-      })
-
-      svg.selectAll('.dot-patient')
-      .data(questionnaireDataset)
-      .enter()
-      .append('circle')
-      .attr('class', 'dot-patient')
-      .attr('cx', d => this.chartState.xScale(d.lastUpdatedDate))
-      .attr('cy', d => this.yScale(d.scoreValue))
-      .attr('r', 7)
-      .style('fill', GRAPH_SETTINGS.edss.color)
-      .style('cursor', 'pointer')
-      .on('click', d => {
-        let match = this.edssData.find(itm => {
-          let cDt = new Date(itm.last_updated_instant);
-          let pDt = new Date(d.qx_completed_at);
-          return parseFloat(itm.score) == parseFloat(d.edss_score) && pDt.getDate() == cDt.getDate() && pDt.getMonth() == cDt.getMonth() && pDt.getFullYear()==cDt.getFullYear();
+        let match = this.questionnaireEdssData.find(itm => {
+          let cDt = new Date(itm.qx_completed_at);
+          let pDt = new Date(d.last_updated_instant);
+          return parseFloat(itm.edss_score) == parseFloat(d.score) && pDt.getDate() == cDt.getDate() && pDt.getMonth() == cDt.getMonth() && pDt.getFullYear() == cDt.getFullYear();
         });
-        if(match){
-          d.reportedBy="Patient and Clinician";
+        if (match) {
+          d.reportedBy = "Patient and Clinician";
         }
+        d.allowEdit = d.save_csn_status !== "Closed";
         this.showSecondLevel(d);
       })
 
@@ -507,20 +532,6 @@ export class EdssComponent implements OnInit {
       .style('stroke-width', '1')
       .attr('d', line);
 
-    svg.selectAll('.dot-clinician')
-      .data(edssDataset)
-      .enter()
-      .append('circle')
-      .attr('class', 'dot-clinician')
-      .attr('cx', d => this.chartState.xScale(d.lastUpdatedDate))
-      .attr('cy', d => this.yScale(d.scoreValue))
-      .attr('r', 7)
-      .style('fill', GRAPH_SETTINGS.edss.color)
-      .style('cursor', 'pointer')
-      .on('click', d => {
-        this.showSecondLevel(d);
-      })
-
     svg.selectAll('.dot-patient')
       .data(questionnaireDataset)
       .enter()
@@ -532,14 +543,29 @@ export class EdssComponent implements OnInit {
       .style('fill', GRAPH_SETTINGS.edss.color)
       .style('cursor', 'pointer')
       .on('click', d => {
-        let match = this.edssData.find(itm => {
-          let cDt = new Date(itm.last_updated_instant);
-          let pDt = new Date(d.qx_completed_at);
-          return parseFloat(itm.score) == parseFloat(d.edss_score) && pDt.getDate() == cDt.getDate() && pDt.getMonth() == cDt.getMonth() && pDt.getFullYear()==cDt.getFullYear();
+        this.showSecondLevel(d);
+      })
+
+    svg.selectAll('.dot-clinician')
+      .data(edssDataset)
+      .enter()
+      .append('circle')
+      .attr('class', 'dot-clinician')
+      .attr('cx', d => this.chartState.xScale(d.lastUpdatedDate))
+      .attr('cy', d => this.yScale(d.scoreValue))
+      .attr('r', 7)
+      .style('fill', GRAPH_SETTINGS.edss.color)
+      .style('cursor', 'pointer')
+      .on('click', d => {
+        let match = this.questionnaireEdssData.find(itm => {
+          let cDt = new Date(itm.qx_completed_at);
+          let pDt = new Date(d.last_updated_instant);
+          return parseFloat(itm.edss_score) == parseFloat(d.score) && pDt.getDate() == cDt.getDate() && pDt.getMonth() == cDt.getMonth() && pDt.getFullYear() == cDt.getFullYear();
         });
-        if(match){
-          d.reportedBy="Patient and Clinician";
+        if (match) {
+          d.reportedBy = "Patient and Clinician";
         }
+        d.allowEdit = d.save_csn_status !== "Closed";
         this.showSecondLevel(d);
       })
 
