@@ -11,7 +11,7 @@ import { RelapsesComponent } from '../graph-panel/relapses/relapses.component';
 @Component({
   selector: 'app-neuro-related',
   templateUrl: './neuro-related.component.html',
-  styleUrls: ['./neuro-related.component.sass'],
+  styleUrls: ['./neuro-related.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class NeuroRelatedComponent implements OnInit {

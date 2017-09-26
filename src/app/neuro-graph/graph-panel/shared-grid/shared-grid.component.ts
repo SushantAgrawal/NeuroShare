@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 @Component({
   selector: '[app-shared-grid]',
   templateUrl: './shared-grid.component.html',
-  styleUrls: ['./shared-grid.component.sass'],
+  styleUrls: ['./shared-grid.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class SharedGridComponent implements OnInit {

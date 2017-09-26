@@ -5,7 +5,7 @@ import {edssPopup} from '../../neuro-graph.config'
 @Component({
   selector: 'app-edss-popup',
   templateUrl: './edss-popup.component.html',
-  styleUrls: ['./edss-popup.component.sass'],
+  styleUrls: ['./edss-popup.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class EdssPopupComponent implements OnInit {

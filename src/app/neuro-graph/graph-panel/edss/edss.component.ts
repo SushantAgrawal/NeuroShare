@@ -10,7 +10,7 @@ import { NeuroGraphService } from '../../neuro-graph.service';
 @Component({
   selector: '[app-edss]',
   templateUrl: './edss.component.html',
-  styleUrls: ['./edss.component.sass'],
+  styleUrls: ['./edss.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 

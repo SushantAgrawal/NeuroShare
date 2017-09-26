@@ -10,7 +10,7 @@ import {NeuroGraphService} from '../../neuro-graph.service';
 @Component({
   selector: '[app-relapses]',
   templateUrl: './relapses.component.html',
-  styleUrls: ['./relapses.component.sass'],
+  styleUrls: ['./relapses.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class RelapsesComponent implements OnInit {
