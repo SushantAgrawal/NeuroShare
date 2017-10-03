@@ -36,6 +36,11 @@ export class InfoPopupComponent implements OnInit {
       }
   }
 
+  closeDialog()
+  {
+    this.dialogRef.close();
+  }
+
   ngOnInit() {
     let topMargin = this.y + 'px';
     let leftMargin = this.x + 'px';
