@@ -1,68 +1,56 @@
 <div class="header-area">
   <span class="header-text">Neuro Related</span>
 </div>
-<!-- <button (click)="testMany()">Test Many</button> -->
-<!-- <app-zebra></app-zebra> -->
 <div class="ms-related-panel">
   <div class="related-panel">
-      <div class="related-treatments">
-        <div class="related-rotate-text">TREATMENTS</div>
-      </div>
-      <div class="related-items">
-        <ul class="related-items-ul">
-          <li><label><input type="checkbox" [checked]="true" (change)='changed($event,"dmt")' /> DMT </label></li>
-          <li><label><input type="checkbox" (change)='changed($event,"otherMeds")' /> Other Meds </label></li>
-          <li><label><input type="checkbox" (change)='changed($event,"vitaminD")' /> Vitamin D </label></li>
-          <li><label><input type="checkbox" (change)='changed($event,"referrals")' /> Referrals </label></li>
-        </ul>
-      </div>
-  
+    <div class="related-treatments">
+      <div class="related-rotate-text">TREATMENTS</div>
+    </div>
+    <div class="related-items">
+      <ul class="related-items-ul">
+        <li class="ns-dmt-othermeds-theme"><md-checkbox color="primary" [checked]="true" (change)='changed($event,"dmt")'>DMT</md-checkbox></li>
+        <li class="ns-dmt-othermeds-theme"><md-checkbox color="accent" (change)='changed($event,"otherMeds")'>Other Meds</md-checkbox></li>
+        <li class="ns-vitaminD-theme"><md-checkbox color="primary" (change)='changed($event,"vitaminD")'>Vitamin D</md-checkbox></li>
+        <li class="ns-referrals-theme"><md-checkbox color="primary" (change)='changed($event,"referrals")'>Referrals</md-checkbox></li>
+      </ul>
+    </div>
   </div>
   <div class="related-panel">
-
-      <div class="related-outcomes">
-        <div class="related-rotate-text">OUTCOMES</div>
-      </div>
-      <div class="related-items">
-        <ul class="related-items-ul">
-          <li><label><input type="checkbox" [checked]="true" (change)='changed($event,"edss")' /> EDSS </label><span (click)="openDialog('edss')">+</span></li>
-          <li><label><input type="checkbox" (change)='changed($event,"walk25Feet")' /> 25' Walk </label><span>+</span></li>
-          <li><label><input type="checkbox" (change)='changed($event,"relapses")' /> Relapses </label><span (click)="openDialog('relapses')">+</span></li>
-          <li><label><input type="checkbox" (change)='changed($event,"imaging")' /> Imaging </label></li>
-          <li><label><input type="checkbox" (change)='changed($event,"symptoms")' /> Symptoms </label></li>
-        </ul>
-      </div>
-
+    <div class="related-outcomes">
+      <div class="related-rotate-text">OUTCOMES</div>
+    </div>
+    <div class="related-items">
+      <ul class="related-items-ul">
+        <li class="ns-edss-theme"><md-checkbox color="primary" [checked]="true" (change)='changed($event,"edss")'>EDSS</md-checkbox><span (click)="openDialog('edss')">+</span></li>
+        <li class="ns-25walk-theme"><md-checkbox color="primary" (change)='changed($event,"walk25Feet")'>25' Walk</md-checkbox></li>
+        <li class="ns-relapses-theme"><md-checkbox color="primary" (change)='changed($event,"relapses")'>Relapses</md-checkbox><span (click)="openDialog('relapses')">+</span></li>
+        <li class="ns-images-theme"><md-checkbox color="primary" (change)='changed($event,"imaging")'>Imaging</md-checkbox></li>
+        <li class="ns-symptoms-theme"><md-checkbox color="primary" (change)='changed($event,"symptoms")'>Symptoms</md-checkbox></li>
+      </ul>
+    </div>
   </div>
-
   <div class="related-panel">
-
-      <div class="related-monitoring">
-        <div class="related-rotate-text">MONITORING</div>
-      </div>
-      <div class="related-items">
-        <ul class="related-items-ul">
-          <li><label><input type="checkbox" [checked]="true" (change)='changed($event,"labs")' /> Labs </label></li>
-          <li><label><input type="checkbox" (change)='changed($event,"vaccinations")' /> Vaccinations </label></li>
-          <li><label><input type="checkbox" (change)='changed($event,"dme")' /> DME </label><span>+</span></li>
-        </ul>
-      </div>
-
+    <div class="related-monitoring">
+      <div class="related-rotate-text">MONITORING</div>
+    </div>
+    <div class="related-items">
+      <ul class="related-items-ul">
+        <li class="ns-labs-theme"><md-checkbox color="primary" [checked]="true" (change)='changed($event,"labs")'>Labs</md-checkbox></li>
+        <li class="ns-vaccinations-theme"><md-checkbox color="primary" (change)='changed($event,"vaccinations")'>Vaccinations</md-checkbox></li>
+        <li class="ns-dme-theme"><md-checkbox color="primary" (change)='changed($event,"dme")'>DME</md-checkbox><span>+</span></li>
+      </ul>
+    </div>
   </div>
-
   <div class="related-panel">
-
-      <div class="related-encounters">
-        <div class="related-rotate-text">ENCOUNTERS</div>
-      </div>
-      <div class="related-items">
-        <ul class="related-items-ul">
-          <li><label><input type="checkbox" (change)='changed($event,"office")' /> Office </label></li>
-          <li><label><input type="checkbox" (change)='changed($event,"mho")' /> MHO </label></li>
-          <li><label><input type="checkbox" (change)='changed($event,"phone")' /> Phone </label></li>
-        </ul>
-      </div>
-
+    <div class="related-encounters">
+      <div class="related-rotate-text">ENCOUNTERS</div>
+    </div>
+    <div class="related-items">
+      <ul class="related-items-ul">
+        <li class="ns-default-theme"><md-checkbox color="primary" (change)='changed($event,"office")'>Office</md-checkbox></li>
+        <li class="ns-default-theme"><md-checkbox color="primary" (change)='changed($event,"mho")'>MHO</md-checkbox></li>
+        <li class="ns-default-theme"><md-checkbox color="primary" (change)='changed($event,"phone")'>Phone</md-checkbox></li>
+      </ul>
+    </div>
   </div>
-
 </div>
