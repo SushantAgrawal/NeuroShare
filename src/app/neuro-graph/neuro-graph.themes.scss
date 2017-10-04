@@ -61,6 +61,12 @@ $ns-dme-accent: mat-palette($ns-dme-base-color, 500);
 $ns-dme-warn: mat-palette($ns-dme-base-color, 900);
 $ns-dme-theme: mat-light-theme($ns-dme-primary, $ns-dme-accent, $ns-dme-warn);
 
+// Define the DMT Theme
+$ns-dmt-primary: mat-palette($ns-dmt-base-color, 500);
+$ns-dmt-accent: mat-palette($ns-dmt-base-color, 500);
+$ns-dmt-warn: mat-palette($ns-dmt-base-color, 900);
+$ns-dmt-theme: mat-light-theme($ns-dmt-primary, $ns-dmt-accent, $ns-dmt-warn);
+
 // Define the DMT Other Meds Theme
 $ns-dmt-othermeds-primary: mat-palette($ns-dmt-othermeds-base-color, 500);
 $ns-dmt-othermeds-accent: mat-palette($ns-dmt-othermeds-base-color, 500);
@@ -111,6 +117,7 @@ $ns-default-theme: mat-light-theme($ns-default-primary, $ns-default-accent, $ns-
             }
         
         }
+        
 }
 
 @include angular-material-theme($ns-default-theme);
@@ -168,6 +175,12 @@ $ns-default-theme: mat-light-theme($ns-default-primary, $ns-default-accent, $ns-
 .ns-dme-theme{
     @include angular-material-theme($ns-dme-theme);
     @include applyCustomStyles($ns-dme-accent);
+}
+
+//DMT Parent class
+.ns-dmt-theme{
+    @include angular-material-theme($ns-dmt-theme);
+    @include applyCustomStyles($ns-dmt-accent);
 }
 
 //DMT Other Meds Parent class

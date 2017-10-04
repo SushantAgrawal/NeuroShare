@@ -214,10 +214,8 @@ export class EdssComponent implements OnInit {
   openScoreChartForUpdate() {
     this.scoreChartOpType = "Update";
     this.dialogRef.close();
-    this.scoreChartDialogRef = this.dialog.open(this.edssSecondLevelAddTemplate, {
-      width: '600px',
-      height: '650px'
-    });
+    let dialogConfig = { hasBackdrop: true, panelClass: 'ns-edss-theme', width: '600px', height: '650px' };
+    this.scoreChartDialogRef = this.dialog.open(this.edssSecondLevelAddTemplate, dialogConfig);
   }
 
   ngOnInit() {
@@ -273,10 +271,8 @@ export class EdssComponent implements OnInit {
           ? console.log(d.error)
           : (() => {
             this.scoreChartOpType = "Add";
-            this.scoreChartDialogRef = this.dialog.open(this.edssSecondLevelAddTemplate, {
-              width: '600px',
-              height: '650px'
-            });
+            let dialogConfig = { hasBackdrop: true, panelClass: 'ns-edss-theme', width: '600px', height: '650px' };
+            this.scoreChartDialogRef = this.dialog.open(this.edssSecondLevelAddTemplate, dialogConfig);
           })();
       })
     let sub4 = virtualCaseLoad
