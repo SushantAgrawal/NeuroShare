@@ -271,9 +271,15 @@ export const GRAPH_SETTINGS = {
     },
     relapse: {
         positionTop: 300,
-        chartHeight: 210,
+        chartHeight: 350,
         maxValueY: 9,
         color: "red"
+    },
+    imaging: {
+        positionTop: 300,
+        chartHeight: 350,
+        maxValueY: 9,
+        color: "violet"
     }
 }
 

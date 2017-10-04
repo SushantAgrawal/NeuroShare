@@ -21,6 +21,7 @@ import {EdssComponent} from './graph-panel/edss/edss.component';
 import {RelapsesComponent} from './graph-panel/relapses/relapses.component';
 import {EdssPopupComponent} from './neuro-related/edss-popup/edss-popup.component';
 import { InfoPopupComponent } from './cds/info-popup/info-popup.component';
+import { ImagingComponent } from './graph-panel/imaging/imaging.component';
 
 export * from './graph-panel/graph-panel.component';
 export * from './cds/cds.component';
@@ -55,7 +56,8 @@ export const ROUTES : Routes = [];
     SharedGridComponent,
     RelapsesComponent,
     EdssPopupComponent,
-    InfoPopupComponent
+    InfoPopupComponent,
+    ImagingComponent
   ],
   exports: [NeuroGraphBoxComponent],
   providers: [NeuroGraphService],
