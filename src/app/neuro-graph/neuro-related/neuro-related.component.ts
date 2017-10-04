@@ -4,7 +4,6 @@ import { BrokerService } from '../broker/broker.service';
 // import {BrokerService} from 'broker';
 import { allMessages, allHttpMessages, manyHttpMessages } from '../neuro-graph.config';
 import { MdDialog } from '@angular/material';
-import { EdssPopupComponent } from './edss-popup/edss-popup.component';
 import { RelapsesComponent } from '../graph-panel/relapses/relapses.component';
 
 
@@ -33,7 +32,7 @@ export class NeuroRelatedComponent implements OnInit {
       .brokerService
       .emit(allMessages.neuroRelated, {
         artifact: value,
-        checked: e.target.checked
+        checked: e.checked
       });
   }
 
@@ -56,21 +55,14 @@ export class NeuroRelatedComponent implements OnInit {
   //     data: { type: "Add", score: '' }
   //   });
   // }
+
   openDialog(type) {
     switch (type) {
       case 'relapses':
-        this
-          .brokerService
-          .emit(allMessages.invokeAddRelapses, {
-
-          });
+        this.brokerService.emit(allMessages.invokeAddRelapses);
         break;
       case 'edss':
-        this
-          .brokerService
-          .emit(allMessages.invokeAddEdss, {
-
-          });
+        this.brokerService.emit(allMessages.invokeAddEdss);
         break;
       default:
 
