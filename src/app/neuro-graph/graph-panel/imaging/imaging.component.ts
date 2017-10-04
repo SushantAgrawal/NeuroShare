@@ -122,6 +122,7 @@ export class ImagingComponent implements OnInit {
       .attr("cx", d => this.chartState.xScale(d.x))
       .attr("cy", d => this.yScale(d.axis))
       .attr("r", 10)
+      .attr('class', 'x-axis-arrow')
       .style("stroke", "#BE90D4")
       .style("fill", d => {
         let returnColor;
@@ -136,6 +137,9 @@ export class ImagingComponent implements OnInit {
         }
         return returnColor;
       })
+      .on('click', d => {
+        alert("second layer data");
+       })
       
       this.chart.append("text")
       .attr("transform", "translate(" + this.chartState.xScale(this.chartState.xDomain.defaultMinValue) + "," + "3.0" + ")")
