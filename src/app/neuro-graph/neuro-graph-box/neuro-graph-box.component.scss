@@ -182,6 +182,8 @@ label {
 }
 .related-text-rotate {
     font-size: 10pt;
+    color: #7e7e7e;
+    font-weight: 700;
     text-align: center;
     width: 20px;
     -ms-transform: rotate(270deg);
@@ -192,6 +194,8 @@ label {
     -moz-transform-origin: top middle 0;
     -webkit-transform-origin: top middle 0;
     transform-origin: top middle 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 .related-items {
     padding: 10px 0px;
