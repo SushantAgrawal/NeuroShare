@@ -272,7 +272,7 @@ export class MedicationsComponent implements OnInit {
   }
 
   drawDmt() {
-    let config = { hasBackdrop: true, panelClass: 'dmtSecondLevel', width: '700px' };
+    let config = { hasBackdrop: true, panelClass: 'ns-dmt-theme', width: '700px' };
     let openSecondLayer = (selectedData) => {
 
       //This is temp  & redundant code. Pulls data set from api first time and stores locally.
@@ -319,7 +319,7 @@ export class MedicationsComponent implements OnInit {
   }
 
   drawVitaminD() {
-    let config = { hasBackdrop: true, panelClass: 'vitaminDSecondLevel', width: '600px' };
+    let config = { hasBackdrop: true, panelClass: 'ns-vitaminD-theme', width: '600px' };
     let openSecondLayer = (selectedData) => {
       console.log(selectedData);
       this.medSecondLayerModel = this.getSecondLayerModel(selectedData, this.medType.vitaminD, false);
@@ -329,7 +329,7 @@ export class MedicationsComponent implements OnInit {
   }
 
   drawOtherMeds() {
-    let config = { hasBackdrop: true, panelClass: 'otherMedsSecondLevel', width: '600px' };
+    let config = { hasBackdrop: true, panelClass: 'ns-othermeds-theme', width: '600px' };
     let openSecondLayer = (selectedData) => {
       //This is temp & redundant code. Pulls data set from api first time and stores locally.
       if (this.otherMedsSecondLayerLocalData) {
