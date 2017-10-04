@@ -280,6 +280,12 @@ export const GRAPH_SETTINGS = {
         chartHeight: 350,
         maxValueY: 9,
         color: "violet"
+    },
+    labs: {
+        positionTop: 300,
+        chartHeight: 300,
+        maxValueY: 9,
+        color: "blue"
     }
 }
 
