@@ -10,7 +10,7 @@
     </div>
     <div class="related-items">
       <ul class="related-items-ul">
-        <li><md-checkbox [checked]="true" (change)='changed($event,"dmt")'>DMT</md-checkbox></li>
+        <li class="ns-edss-theme"><md-checkbox [checked]="true" color="primary" (change)='changed($event,"dmt")'>DMT</md-checkbox></li>
         <li><md-checkbox (change)='changed($event,"otherMeds")'>Other Meds</md-checkbox></li>
         <li><md-checkbox (change)='changed($event,"vitaminD")'>Vitamin D</md-checkbox></li>
         <li><md-checkbox (change)='changed($event,"referrals")'>Referrals</md-checkbox></li>
@@ -25,7 +25,7 @@
     <div class="related-items">
       <ul class="related-items-ul">
         <li><md-checkbox [checked]="true" (change)='changed($event,"edss")'>EDSS</md-checkbox><span (click)="openDialog('edss')">+</span></li>
-        <li><md-checkbox (change)='changed($event,"walk25Feet")'>25' Walk</md-checkbox></li>
+        <li class="ns-25walk-theme"><md-checkbox (change)='changed($event,"walk25Feet")'>25' Walk</md-checkbox></li>
         <li><md-checkbox (change)='changed($event,"relapses")'>Relapses</md-checkbox><span (click)="openDialog('relapses')">+</span></li>
         <li><md-checkbox (change)='changed($event,"imaging")'>Imaging</md-checkbox></li>
         <li><md-checkbox (change)='changed($event,"symptoms")'>Symptoms</md-checkbox></li>
