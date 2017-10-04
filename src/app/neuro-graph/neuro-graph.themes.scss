@@ -1,3 +1,4 @@
+@import 'neuro-graph.icons.scss';
 @import '~@angular/material/theming';
 // Plus imports for other components in your app.
 
@@ -35,11 +36,11 @@ $ns-referrals-accent: mat-palette($ns-referrals-base-color, 500);
 $ns-referrals-warn: mat-palette($ns-referrals-base-color, 900);
 $ns-referrals-theme: mat-light-theme($ns-referrals-primary, $ns-referrals-accent, $ns-referrals-warn);
 
-// Define the Vaccinaons Theme
-$ns-vaccinaons-primary: mat-palette($ns-vaccinaons-base-color, 500);
-$ns-vaccinaons-accent: mat-palette($ns-vaccinaons-base-color, 500);
-$ns-vaccinaons-warn: mat-palette($ns-vaccinaons-base-color, 900);
-$ns-vaccinaons-theme: mat-light-theme($ns-vaccinaons-primary, $ns-vaccinaons-accent, $ns-vaccinaons-warn);
+// Define the vaccinations Theme
+$ns-vaccinations-primary: mat-palette($ns-vaccinations-base-color, 500);
+$ns-vaccinations-accent: mat-palette($ns-vaccinations-base-color, 500);
+$ns-vaccinations-warn: mat-palette($ns-vaccinations-base-color, 900);
+$ns-vaccinations-theme: mat-light-theme($ns-vaccinations-primary, $ns-vaccinations-accent, $ns-vaccinations-warn);
 
 // Define the Labs Theme
 $ns-labs-primary: mat-palette($ns-labs-base-color, 500);
@@ -61,10 +62,10 @@ $ns-dme-warn: mat-palette($ns-dme-base-color, 900);
 $ns-dme-theme: mat-light-theme($ns-dme-primary, $ns-dme-accent, $ns-dme-warn);
 
 // Define the DMT Other Meds Theme
-$ns-dmtothermeds-primary: mat-palette($ns-dmtothermeds-base-color, 500);
-$ns-dmtothermeds-accent: mat-palette($ns-dmtothermeds-base-color, 500);
-$ns-dmtothermeds-warn: mat-palette($ns-dmtothermeds-base-color, 900);
-$ns-dmtothermeds-theme: mat-light-theme($ns-dmtothermeds-primary, $ns-dmtothermeds-accent, $ns-dmtothermeds-warn);
+$ns-dmt-othermeds-primary: mat-palette($ns-dmt-othermeds-base-color, 500);
+$ns-dmt-othermeds-accent: mat-palette($ns-dmt-othermeds-base-color, 500);
+$ns-dmt-othermeds-warn: mat-palette($ns-dmt-othermeds-base-color, 900);
+$ns-dmt-othermeds-theme: mat-light-theme($ns-dmt-othermeds-primary, $ns-dmt-othermeds-accent, $ns-dmt-othermeds-warn);
 
 // Define the Vitamin-D Theme
 $ns-vitaminD-primary: mat-palette($ns-vitaminD-base-color, 500);
@@ -77,6 +78,14 @@ $ns-encounters-primary: mat-palette($ns-encounters-base-color, 500);
 $ns-encounters-accent: mat-palette($ns-encounters-base-color, 500);
 $ns-encounters-warn: mat-palette($ns-encounters-base-color, 900);
 $ns-encounters-theme: mat-light-theme($ns-encounters-primary, $ns-encounters-accent, $ns-encounters-warn);
+
+
+// Define the Default Theme
+$ns-default-primary: mat-palette($ns-default, 500);
+$ns-default-accent: mat-palette($ns-default, 500);
+$ns-default-warn: mat-palette($ns-default, 900);
+$ns-default-theme: mat-light-theme($ns-default-primary, $ns-default-accent, $ns-default-warn);
+
 
 @mixin applyCustomStyles($theme) {
     .mat-dialog-container {
@@ -104,6 +113,8 @@ $ns-encounters-theme: mat-light-theme($ns-encounters-primary, $ns-encounters-acc
         }
 }
 
+@include angular-material-theme($ns-default-theme);
+
 //EDSS Parent class
 .ns-edss-theme{
     @include angular-material-theme($ns-edss-theme);
@@ -130,19 +141,19 @@ $ns-encounters-theme: mat-light-theme($ns-encounters-primary, $ns-encounters-acc
 }
 
 //Referrals Parent class
-.ns-images-theme{
+.ns-referrals-theme{
     @include angular-material-theme($ns-referrals-theme);
     @include applyCustomStyles($ns-referrals-accent);
 }
 
-//Vaccinaons Parent class
-.ns-vaccinaons-theme{
-    @include angular-material-theme($ns-vaccinaons-theme);
-    @include applyCustomStyles($ns-vaccinaons-accent);
+//vaccinations Parent class
+.ns-vaccinations-theme{
+    @include angular-material-theme($ns-vaccinations-theme);
+    @include applyCustomStyles($ns-vaccinations-accent);
 }
 
 //Labs Parent class
-.ns-vaccinaons-theme{
+.ns-labs-theme{
     @include angular-material-theme($ns-labs-theme);
     @include applyCustomStyles($ns-labs-accent);
 }
@@ -160,9 +171,9 @@ $ns-encounters-theme: mat-light-theme($ns-encounters-primary, $ns-encounters-acc
 }
 
 //DMT Other Meds Parent class
-.ns-dmtothermeds-theme{
-    @include angular-material-theme($ns-dmtothermeds-theme);
-    @include applyCustomStyles($ns-dmtothermeds-accent);
+.ns-dmt-othermeds-theme{
+    @include angular-material-theme($ns-dmt-othermeds-theme);
+    @include applyCustomStyles($ns-dmt-othermeds-accent);
 }
 
 //Vitamin-D Parent class

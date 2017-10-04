@@ -168,8 +168,8 @@ $ns-referrals-base-color:(
     )
 );
 
-//Vaccinaons color palette
-$ns-vaccinaons-base-color: (
+//vaccinations color palette
+$ns-vaccinations-base-color: (
     50 : #e3effa,
     100 : #bad6f2,
     200 : #8cbbe9,
@@ -305,7 +305,7 @@ $ns-dme-base-color: (
 );
 
 //DMT Other Meds color palette
-$ns-dmtothermeds-base-color: (
+$ns-dmt-othermeds-base-color: (
     50 : #eceff1,
     100 : #cfd8dc,
     200 : #b0bec5,
@@ -405,3 +405,38 @@ $ns-encounters-base-color: (
         A700 : #000000,
     )
 );
+
+/*Default color palette */
+$ns-default: (
+    50 : #f4f4f4,
+    100 : #e4e4e4,
+    200 : #d2d2d2,
+    300 : #c0c0c0,
+    400 : #b3b3b3,
+    500 : #a5a5a5,
+    600 : #9d9d9d,
+    700 : #939393,
+    800 : #8a8a8a,
+    900 : #797979,
+    A100 : #ffffff,
+    A200 : #fad3d3,
+    A400 : #ff9b9b,
+    A700 : #ff8181,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #000000,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
