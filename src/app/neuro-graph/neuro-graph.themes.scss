@@ -68,10 +68,10 @@ $ns-dmt-warn: mat-palette($ns-dmt-base-color, 900);
 $ns-dmt-theme: mat-light-theme($ns-dmt-primary, $ns-dmt-accent, $ns-dmt-warn);
 
 // Define the DMT Other Meds Theme
-$ns-dmt-othermeds-primary: mat-palette($ns-dmt-othermeds-base-color, 500);
-$ns-dmt-othermeds-accent: mat-palette($ns-dmt-othermeds-base-color, 500);
-$ns-dmt-othermeds-warn: mat-palette($ns-dmt-othermeds-base-color, 900);
-$ns-dmt-othermeds-theme: mat-light-theme($ns-dmt-othermeds-primary, $ns-dmt-othermeds-accent, $ns-dmt-othermeds-warn);
+$ns-othermeds-primary: mat-palette($ns-othermeds-base-color, 500);
+$ns-othermeds-accent: mat-palette($ns-othermeds-base-color, 500);
+$ns-othermeds-warn: mat-palette($ns-othermeds-base-color, 900);
+$ns-othermeds-theme: mat-light-theme($ns-othermeds-primary, $ns-othermeds-accent, $ns-othermeds-warn);
 
 // Define the Vitamin-D Theme
 $ns-vitaminD-primary: mat-palette($ns-vitaminD-base-color, 500);
@@ -184,9 +184,9 @@ $ns-default-theme: mat-light-theme($ns-default-primary, $ns-default-accent, $ns-
 }
 
 //DMT Other Meds Parent class
-.ns-dmt-othermeds-theme{
-    @include angular-material-theme($ns-dmt-othermeds-theme);
-    @include applyCustomStyles($ns-dmt-othermeds-accent);
+.ns-othermeds-theme{
+    @include angular-material-theme($ns-othermeds-theme);
+    @include applyCustomStyles($ns-othermeds-accent);
 }
 
 //Vitamin-D Parent class
