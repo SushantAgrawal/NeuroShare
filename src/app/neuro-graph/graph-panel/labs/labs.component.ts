@@ -1,4 +1,4 @@
-import { Component, OnInit, Input,ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
 import { GRAPH_SETTINGS } from '../../neuro-graph.config';
 import { BrokerService } from '../../broker/broker.service';
@@ -15,7 +15,6 @@ export class LabsComponent implements OnInit {
   private chart: any;
   private width: number;
   private height: number;
-  //private xScale: any;
   private colors: any;
   private xAxis: any;
   private yAxis: any;
@@ -24,42 +23,41 @@ export class LabsComponent implements OnInit {
   private lineA: any;
   private pathUpdate: any;
   private datasetA: Array<any> = [
-    { "x": new Date("07/05/2015"), "y": 0,"axis":3.0 },
-    { "x": new Date("07/05/2016"), "y": 50,"axis":3.0 },
-    { "x": new Date("07/05/2017"), "y": 100,"axis":3.0 },
+    { "x": new Date("07/05/2015"), "y": 0, "axis": 3.0 },
+    { "x": new Date("07/05/2016"), "y": 50, "axis": 3.0 },
+    { "x": new Date("07/05/2017"), "y": 100, "axis": 3.0 },
   ];
 
   constructor(private brokerService: BrokerService) { }
 
   ngOnInit() {
     let labs = this
-    .brokerService
-    .filterOn(allMessages.neuroRelated)
-    .filter(t => (t.data.artifact == 'labs'));
+      .brokerService
+      .filterOn(allMessages.neuroRelated)
+      .filter(t => (t.data.artifact == 'labs'));
 
     let sub1 = labs
-    .filter(t => t.data.checked)
-    .subscribe(d => {
-      d.error
-        ? console.log(d.error)
-        : (() => {
-          console.log(d.data);
-          //make api call
-         this.createChart();
-         
-        })();
-    });
+      .filter(t => t.data.checked)
+      .subscribe(d => {
+        d.error
+          ? console.log(d.error)
+          : (() => {
+            console.log(d.data);
+            //make api call
+            this.createChart();
+          })();
+      });
 
     let sub2 = labs
-    .filter(t => !t.data.checked)
-    .subscribe(d => {
-      d.error
-        ? console.log(d.error)
-        : (() => {
-          console.log(d.data);
-          this.removeChart();
-        })();
-    })
+      .filter(t => !t.data.checked)
+      .subscribe(d => {
+        d.error
+          ? console.log(d.error)
+          : (() => {
+            console.log(d.data);
+            this.removeChart();
+          })();
+      })
   }
   removeChart() {
     d3.select('#labs').selectAll("*").remove();
@@ -70,37 +68,33 @@ export class LabsComponent implements OnInit {
     this.height = GRAPH_SETTINGS.panel.offsetHeight - GRAPH_SETTINGS.panel.marginTop - GRAPH_SETTINGS.panel.marginBottom;
 
     this.yScale = d3
-    .scaleLinear()
-    .domain(this.yDomain)
-    .range([GRAPH_SETTINGS.labs.chartHeight - 20, 0]);
+      .scaleLinear()
+      .domain(this.yDomain)
+      .range([GRAPH_SETTINGS.labs.chartHeight - 20, 0]);
 
-    //this.xScale = d3.scaleLinear().domain(this.chartState.xDomain).range([0, this.width, 0]);
-
-      this.lineA = d3.line<any>()
+    this.lineA = d3.line<any>()
       .x((d: any) => this.chartState.xScale(d.x))
       .y((d: any) => this.yScale(d.axis));
-   
+
     this.chart = d3.select("#labs").append("svg")
       .attr("width", element.offsetWidth)
       .attr("height", element.offsetHeight)
       .append("g")
-      .attr("transform", "translate(" + GRAPH_SETTINGS.panel.marginLeft  + "," + GRAPH_SETTINGS.panel.marginTop + ")");
+      .attr("transform", "translate(" + GRAPH_SETTINGS.panel.marginLeft + "," + GRAPH_SETTINGS.panel.marginTop + ")");
 
-      this.pathUpdate = this.chart.append("path")
+    this.pathUpdate = this.chart.append("path")
       .datum([
         { "x": this.chartState.xDomain.defaultMinValue, "axis": 3.0 },
         { "x": this.chartState.xDomain.defaultMaxValue, "axis": 3.0 }
       ])
       .attr("d", this.lineA)
-      .attr("stroke","#00AAA5")
-      .attr("stroke-width","10")
-      .attr("opacity","0.25")
-      .attr("fill","none")
+      .attr("stroke", "#00AAA5")
+      .attr("stroke-width", "10")
+      .attr("opacity", "0.25")
+      .attr("fill", "none")
       .attr("class", "lineA")
-     
-   
 
-    let gradLab = this.chart 
+    let gradLab = this.chart
       .append("defs")
       .append("linearGradient")
       .attr("id", "gradLab")
@@ -109,14 +103,14 @@ export class LabsComponent implements OnInit {
       .attr("y1", "100%")
       .attr("y2", "0%");
 
-      gradLab.append("stop").attr("offset", "50%").style("stop-color", "#00AAA5");
-      gradLab.append("stop").attr("offset", "50%").style("stop-color", "white");
+    gradLab.append("stop").attr("offset", "50%").style("stop-color", "#00AAA5");
+    gradLab.append("stop").attr("offset", "50%").style("stop-color", "white");
 
-   
+
     this.chart.selectAll(".dotA")
       .data(this.datasetA)
       .enter()
-      .append("circle")   
+      .append("circle")
       .attr("class", "dotA")
       .attr("cx", d => this.chartState.xScale(d.x))
       .attr("cy", d => this.yScale(d.axis))
@@ -137,16 +131,13 @@ export class LabsComponent implements OnInit {
         return returnColor;
       })
       .on('click', d => {
-       alert("second layer data");
       })
-      
-      this.chart.append("text")
+
+    this.chart.append("text")
       .attr("transform", "translate(" + this.chartState.xScale(this.chartState.xDomain.defaultMinValue) + "," + "3.0" + ")")
       .attr("dy", this.yScale(3.0))
       .attr("text-anchor", "start")
       .attr("font-size", "10px")
       .text("Labs");
-
-      
   }
 }
