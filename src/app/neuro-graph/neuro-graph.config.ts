@@ -266,7 +266,7 @@ export const GRAPH_SETTINGS = {
     edss: {
         positionTop: 300,
         chartHeight: 210,
-        maxValueY: 9,
+        maxValueY: 10,
         color: "#EA700D"
     },
     relapse: {
