@@ -9,8 +9,8 @@
             
     </div>
     <div class="right-float">
-        <div class="action-buttons selected"><span class="icon-file-empty"></span></div>
-        <div class="action-buttons"><span class="icon-files-empty"></span></div>
+        <div class="action-buttons selected"><span class="icon-nav-avs"></span></div>
+        <div class="action-buttons"><span class="icon-nav-note"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span></div>
     </div>
 </div>
 <!-- <div>
@@ -28,6 +28,8 @@
     <div id="graph-container" style="position:relative;">
         <svg width="100%" [style.height.px]="graphSetting.panel.offsetHeight">
             <g app-shared-grid [chartState]="state" id="shared-grid"></g>
+            <g app-labs [chartState]="state" id="labs"></g>
+            <g app-imaging [chartState]="state" id="imaging"></g>
             <g app-relapses [chartState]="state" id="relapses"></g>
             <g app-edss [chartState]="state" id="edss"></g>
         </svg>
@@ -36,11 +38,8 @@
         </div>
     </div>
     <div id="graph-control">
-        <div id="undo" class="control-button" style="background-color: #e7d7f7">
-        </div>
-        <div id="zoom" class="control-button" style="background-color: #e1f4ff">
-        </div>
-        <div id="legend" class="control-button" style="background-color:#dff1a6">
-        </div>
+        <div id="undo" class="control-button"><span class="icon-graph-undo"></span></div>
+        <div id="legend" class="control-button"><span class="icon-graph-key"></span></div>
+        <div id="zoom" class="control-button"><span class="icon-graph-zoom"></span></div>
     </div>
 </div>

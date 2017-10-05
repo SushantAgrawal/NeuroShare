@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 //UI Frameworks
-import { MdButtonModule, MdCheckboxModule, MdSelectModule, MdInputModule, MdDialogModule, MdTooltipModule } from '@angular/material';
+import { MdButtonModule, MdCheckboxModule, MdSelectModule, MdInputModule, MdDialogModule, MdTooltipModule, MdGridListModule } from '@angular/material';
 //Custom Components, Services etc
 import { GraphPanelComponent } from './graph-panel/graph-panel.component';
 import { NeuroRelatedComponent } from './neuro-related/neuro-related.component';
@@ -18,6 +18,8 @@ import { SharedGridComponent } from './graph-panel/shared-grid/shared-grid.compo
 import { EdssComponent } from './graph-panel/edss/edss.component';
 import { RelapsesComponent } from './graph-panel/relapses/relapses.component';
 import { InfoPopupComponent } from './cds/info-popup/info-popup.component';
+import { ImagingComponent } from './graph-panel/imaging/imaging.component';
+import { LabsComponent } from './graph-panel/labs/labs.component';
 
 export * from './graph-panel/graph-panel.component';
 export * from './cds/cds.component';
@@ -36,7 +38,8 @@ export const ROUTES: Routes = [];
     MdSelectModule,
     MdInputModule,
     MdDialogModule,
-    MdTooltipModule
+    MdTooltipModule,
+    MdGridListModule
   ],
   declarations: [
     GraphPanelComponent,
@@ -48,7 +51,9 @@ export const ROUTES: Routes = [];
     EdssComponent,
     SharedGridComponent,
     RelapsesComponent,
-    InfoPopupComponent
+    InfoPopupComponent,
+    ImagingComponent,
+    LabsComponent
   ],
   exports: [NeuroGraphBoxComponent],
   providers: [NeuroGraphService],

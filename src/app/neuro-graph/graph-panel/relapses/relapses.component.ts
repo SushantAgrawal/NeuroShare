@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ViewEncapsulation, ViewChild, TemplateRef, In
 import * as d3 from 'd3';
 import { GRAPH_SETTINGS } from '../../neuro-graph.config';
 import { BrokerService } from '../../broker/broker.service';
-import { allMessages, allHttpMessages, medication } from '../../neuro-graph.config';
+import { allMessages, allHttpMessages } from '../../neuro-graph.config';
 //import moment from 'moment';
 import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 import { NeuroGraphService } from '../../neuro-graph.service';
@@ -121,7 +121,7 @@ export class RelapsesComponent implements OnInit {
               this.relapsesDetail = this.relapsesData[0];
               this.relapsesDetail.month = "January";
               this.relapsesDetail.year = new Date().getFullYear().toString();
-              let dialogConfig = { hasBackdrop: true, panelClass: 'ns-relapses-theme', width: '450px' };
+              let dialogConfig = { hasBackdrop: true, panelClass: 'ns-relapses-theme', width: '500px' };
               this.dialogRef = this.dialog.open(this.relapsesAddSecondLevelTemplate, dialogConfig);
             }
           })();
@@ -222,12 +222,12 @@ export class RelapsesComponent implements OnInit {
     this.relapsesDetail = data;
     if (data.save_csn_status == "Open") {
       this.isEditSelected = false;
-      let dialogConfig = { hasBackdrop: true, panelClass: 'ns-relapses-theme', width: '450px' };
+      let dialogConfig = { hasBackdrop: true, panelClass: 'ns-relapses-theme', width: '500px' };
       this.dialogRef = this.dialog.open(this.relapsesEditSecondLevelTemplate, dialogConfig);
 
     }
     else {
-      let dialogConfig = { hasBackdrop: true, panelClass: 'ns-relapses-theme', width: '450px' };
+      let dialogConfig = { hasBackdrop: true, panelClass: 'ns-relapses-theme', width: '500px' };
       this.dialogRef = this.dialog.open(this.relapsesSecondLevelTemplate, dialogConfig);
     }
 

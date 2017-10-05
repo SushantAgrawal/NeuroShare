@@ -252,7 +252,7 @@ export const GRAPH_SETTINGS = {
         offsetHeight: 640,
         offsetWidth: 710,
         marginTop: 5,
-        marginRight: 25,
+        marginRight: 20,
         marginBottom: 20,
         marginLeft: 25
     },
@@ -266,14 +266,26 @@ export const GRAPH_SETTINGS = {
     edss: {
         positionTop: 300,
         chartHeight: 210,
-        maxValueY: 9,
+        maxValueY: 10,
         color: "#EA700D"
     },
     relapse: {
         positionTop: 300,
-        chartHeight: 210,
+        chartHeight: 350,
         maxValueY: 9,
         color: "red"
+    },
+    imaging: {
+        positionTop: 300,
+        chartHeight: 350,
+        maxValueY: 9,
+        color: "violet"
+    },
+    labs: {
+        positionTop: 300,
+        chartHeight: 300,
+        maxValueY: 9,
+        color: "blue"
     }
 }
 

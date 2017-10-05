@@ -1,11 +1,8 @@
-<!-- <div style="padding:50px;">
-    <md-select placeholder="Favorite food">
-        <md-option *ngFor="let food of foods" [value]="food.value">
-            {{ food.viewValue }}
-        </md-option>
-    </md-select>
-    <md-checkbox>Check me!</md-checkbox>
-</div> -->
-
-
-<!-- <md-checkbox>Check me!</md-checkbox> -->
+<div style="border:1px solid black; padding:5px; margin:5px;">
+    This is Angular Material Grid System.
+</div>
+<md-grid-list cols="4" rowHeight="100px">
+    <md-grid-tile *ngFor="let tile of tiles" [colspan]="tile.cols" [rowspan]="tile.rows" [style.background]="tile.color">
+        {{tile.text}}
+    </md-grid-tile>
+</md-grid-list>
