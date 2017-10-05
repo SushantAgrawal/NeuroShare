@@ -51,14 +51,13 @@ export class SharedGridComponent implements OnInit {
 
   //Need to update this method when range is <= 1 Year
   drawCommonXAxis(nodeSelection, dimension, xScale) {
+    let xAxis = d3.axisBottom(xScale).tickSize(0);
     nodeSelection.append('rect')
       .attr('x', 0)
       .attr('y', 0)
       .attr('width', dimension.width)
       .attr('height', 16)
       .attr('class', 'custom-x-domain');
-
-    let xAxis = d3.axisBottom(xScale).ticks(d3.timeMonth).tickSize(2);
 
     let minor = nodeSelection.append('g')
       .attr('class', 'x-axis')
@@ -69,26 +68,27 @@ export class SharedGridComponent implements OnInit {
         axis.selectAll('text').attr('class', (d) => {
           return d.getMonth() == 6 ? 'mid-year-tick' : '';
         });
-        axis.selectAll('line').attr('y2', (d) => {
-          return d.getMonth() == 0 ? 6 : 2;
-        });
+        // axis.selectAll('line').attr('y2', (d) => {
+        //   return d.getMonth() == 0 ? 6 : 0;
+        // });
         axis.selectAll('text').html((d) => {
           return d.getMonth() == 6 ? d.getFullYear() : '';
         });
-        axis.selectAll('.mid-year-tick').style('display', 'block');
+        axis.selectAll('.mid-year-tick').style('display', 'block').style('font-size', '12px');
       });
   };
 
   drawVerticalGridLines(nodeSelection, dimension, xScale) {
-    let gridlines = d3.axisBottom(xScale)
-      .ticks(d3.timeMonth)
-      .tickFormat(null)
-      .tickSize(dimension.offsetHeight);
+    let xAxisGridLines = d3.axisBottom(xScale).tickSize(0);
     nodeSelection.append('g')
       .attr('class', 'grid-lines')
       .call(g => {
-        g.call(gridlines).selectAll('text').remove();
-        g.select('.domain').remove();
+        let axis = g.call(xAxisGridLines)
+        axis.select('.domain').remove();
+        axis.selectAll('text').remove();
+        axis.selectAll('line').attr('y2', (d) => {
+          return d.getMonth() == 0 ? dimension.offsetHeight : 0;
+        });
       });
   };
 
