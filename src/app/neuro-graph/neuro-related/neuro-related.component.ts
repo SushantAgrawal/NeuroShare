@@ -18,13 +18,7 @@ export class NeuroRelatedComponent implements OnInit {
   constructor(private brokerService: BrokerService, public dialog: MdDialog) { }
 
   ngOnInit() {
-    console.log('neuro-related ngOnInit');
-    // this
-    //   .brokerService
-    //   .filterOn(manyHttpMessages.httpGetTestMany)
-    //   .subscribe(d => {
-    //     console.log(d);
-    //   })
+    console.log('neuro-related ngOnInit');    
   }
 
   changed(e, value) {
@@ -48,14 +42,6 @@ export class NeuroRelatedComponent implements OnInit {
       ]);
   }
 
-  // openDialog(): void {
-  //   let dialogRef = this.dialog.open(EdssPopupComponent, {
-  //     width: '583px',
-  //     height: '662px',
-  //     data: { type: "Add", score: '' }
-  //   });
-  // }
-
   openDialog(type) {
     switch (type) {
       case 'relapses':
@@ -65,7 +51,6 @@ export class NeuroRelatedComponent implements OnInit {
         this.brokerService.emit(allMessages.invokeAddEdss);
         break;
       default:
-
     }
   }
 }

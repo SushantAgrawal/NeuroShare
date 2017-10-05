@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Http, URLSearchParams, Headers, RequestOptions} from '@angular/http';
-import {Subject} from 'rxjs/subject';
+import {Subject} from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
 import {Observable} from 'rxjs/Observable';
 import {messages} from './broker.config';
