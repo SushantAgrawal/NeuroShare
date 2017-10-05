@@ -506,6 +506,11 @@ export class EdssComponent implements OnInit {
       .attr('class', 'edss-elements-wrapper')
       .attr('transform', `translate(${GRAPH_SETTINGS.panel.marginLeft},${GRAPH_SETTINGS.edss.positionTop})`)
 
+    svg.append('text')
+      .attr('y', GRAPH_SETTINGS.edss.chartHeight)
+      .style('font-size', '10px')
+      .html(`<tspan x="${-GRAPH_SETTINGS.panel.marginLeft}" dy="0">EDSS</tspan><tspan x="${-GRAPH_SETTINGS.panel.marginLeft}" dy="10">Score</tspan>`);
+
     svg.append('g')
       .attr('class', 'edss-y-axis')
       .call(g => {
