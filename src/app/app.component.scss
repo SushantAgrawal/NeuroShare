@@ -9,8 +9,7 @@ $navigation-bar : #333333;
 .navigation-bar{
     width: 50px;
     height: 718px;
-    top: 50px;
-    left: 0px;
     background-color: $navigation-bar;
-    position: absolute;
-    }
+    position:relative;
+    float: left;
+}
