@@ -1,6 +1,7 @@
 @import 'neuro-graph.icons.scss';
-@import '~@angular/material/theming';
 // Plus imports for other components in your app.
+
+@import '~@angular/material/theming';
 
 @include mat-core();
 
