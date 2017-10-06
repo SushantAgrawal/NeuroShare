@@ -16,6 +16,14 @@ export class CdsComponent implements OnInit {
   cdsState : Object = {};
   csnState : any = {};
   constructor(private brokerService : BrokerService, private changeDetector : ChangeDetectorRef, private neuroGraphService : NeuroGraphService, public dialog : MdDialog) {
+
+    // {   "review_relapses": "Yes",   "review_mri_images": "No",
+    // "review_symptom_status": "Yes",   "review_ms_type_status": "No",
+    // "review_dmts": "Yes",   "review_mointoring_labs": "No",   "review_vitamin_d":
+    // "No",   "review_other_meds": "No",   "review_symptoms_referrals": "Yes",
+    // "review_vaccinations": "No",   "provider_id": "G00123",   "encounter_csn":
+    // "865482572",   "updated_instant": "08/31/2017 10:41:05" }
+
     this.cdsState = {
       review_relapses: {
         checked: false
@@ -94,6 +102,18 @@ export class CdsComponent implements OnInit {
             this.setChkBoxes();
           })();
       });
+    let sub3 = this
+      .brokerService
+      .filterOn(allHttpMessages.httpPutCdsUserData)
+      .subscribe(d => d.error
+        ? console.log(d.error)
+        : console.log(d.data));
+    let sub4 = this
+      .brokerService
+      .filterOn(allHttpMessages.httpPostCdsUserData)
+      .subscribe(d => d.error
+        ? console.log(d.error)
+        : console.log(d.data));
     this
       .brokerService
       .httpGet(allHttpMessages.httpGetCdsInfo);
@@ -103,7 +123,33 @@ export class CdsComponent implements OnInit {
     this
       .subscriptions
       .add(sub1)
-      .add(sub2);
+      .add(sub2)
+      .add(sub3)
+      .add(sub4);
+  }
+
+  saveChkBoxesState() {
+    this
+      .brokerService
+      .httpPost(allHttpMessages.httpPostCdsUserData, this.getCdsStateData());
+    // if (this.cdsUserData.provider_id) {   this     .brokerService
+    // .put(allHttpMessages.httpPutCdsUserData)   else {     this .brokerService
+    //   .post(allHttpMessages.httpPostCdsUserData)   } }
+  }
+
+  getCdsStateData() {
+    let cdsStateData = {};
+    Object
+      .keys(this.cdsState)
+      .forEach(x => {
+        let ret;
+        if (this.cdsState[x]) {
+          cdsStateData[x] = "Yes";
+        } else {
+          cdsStateData[x] = "No";
+        }
+      });
+    return (cdsStateData);
   }
 
   setChkBoxes() {
@@ -119,7 +165,9 @@ export class CdsComponent implements OnInit {
       .detectChanges();
   }
 
-  changed(event, item) {}
+  changed(event, item) {
+    this.saveChkBoxesState();
+  }
 
   openDialog(e, infoTitle) {
     let x = e.clientX;
