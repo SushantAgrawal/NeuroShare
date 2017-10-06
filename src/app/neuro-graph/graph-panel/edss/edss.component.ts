@@ -171,6 +171,68 @@ export class EdssComponent implements OnInit {
 
   }
 
+  ngOnInit() {
+    this.subscriptions = this
+      .brokerService
+      .filterOn(allHttpMessages.httpGetEdss)
+      .subscribe(d => {
+        d.error ? console.log(d.error) : (() => {
+          this.edssData = d.data.edss_scores;
+          this.drawEdssLineChart();
+        })();
+      })
+    let edss = this
+      .brokerService
+      .filterOn(allMessages.neuroRelated)
+      .filter(t => (t.data.artifact == 'edss'));
+
+    let modal = this.brokerService.filterOn(allMessages.invokeAddEdss)
+
+    let virtualCaseLoad = this.brokerService.filterOn(allMessages.virtualCaseload)
+
+    let sub1 = edss.filter(t => t.data.checked).subscribe(d => {
+      d.error ? console.log(d.error) : (() => {
+        this.brokerService.httpGet(allHttpMessages.httpGetEdss);
+      })();
+    });
+    let sub2 = edss.filter(t => !t.data.checked).subscribe(d => {
+      d.error ? console.log(d.error) : (() => {
+        this.removeChart();
+      })();
+    })
+    let sub3 = modal.subscribe(d => {
+      d.error ? console.log(d.error) : (() => {
+        this.scoreChartOpType = "Add";
+        let dialogConfig = { hasBackdrop: true, panelClass: 'ns-edss-theme', width: '600px', height: '650px' };
+        this.scoreChartDialogRef = this.dialog.open(this.edssSecondLevelAddTemplate, dialogConfig);
+      })();
+    })
+    let sub4 = virtualCaseLoad.subscribe(d => {
+      d.error ? console.log(d.error) : (() => {
+        if (d.data.artifact == "add") {
+          this.removeChart();
+          this.drawVirtualCaseload();
+        }
+        else {
+          this.removeChart();
+          this.drawEdssLineChart();
+        }
+      })();
+    })
+    this
+      .subscriptions
+      .add(sub1)
+      .add(sub2)
+      .add(sub3);
+
+    this.edssPopupQuestions = edssPopup;
+    this.edssPopupQuestions.map(x => x.checked = false);
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
+
   selectEdssScore(index) {
     this.edssPopupQuestions.forEach(q => {
       q.checked = false;
@@ -207,7 +269,7 @@ export class EdssComponent implements OnInit {
       //Call Update API
     }
     this.removeChart();
-    this.drawChart();
+    this.drawEdssLineChart();
     this.scoreChartDialogRef.close();
   }
 
@@ -218,95 +280,6 @@ export class EdssComponent implements OnInit {
     this.scoreChartDialogRef = this.dialog.open(this.edssSecondLevelAddTemplate, dialogConfig);
   }
 
-  ngOnInit() {
-    this.subscriptions = this
-      .brokerService
-      .filterOn(allHttpMessages.httpGetEdss)
-      .subscribe(d => {
-        d.error
-          ? console.log(d.error)
-          : (() => {
-            this.edssData = d.data.edss_scores;
-            this.drawChart();
-          })();
-      })
-    let edss = this
-      .brokerService
-      .filterOn(allMessages.neuroRelated)
-      .filter(t => (t.data.artifact == 'edss'));
-
-    let modal = this
-      .brokerService
-      .filterOn(allMessages.invokeAddEdss)
-
-    let virtualCaseLoad = this
-      .brokerService
-      .filterOn(allMessages.virtualCaseload)
-
-    let sub1 = edss
-      .filter(t => t.data.checked)
-      .subscribe(d => {
-        d.error
-          ? console.log(d.error)
-          : (() => {
-            console.log(d.data);
-            //make api call
-            this
-              .brokerService
-              .httpGet(allHttpMessages.httpGetEdss);
-          })();
-      });
-    let sub2 = edss
-      .filter(t => !t.data.checked)
-      .subscribe(d => {
-        d.error
-          ? console.log(d.error)
-          : (() => {
-            this.removeChart();
-          })();
-      })
-    let sub3 = modal
-      .subscribe(d => {
-        d.error
-          ? console.log(d.error)
-          : (() => {
-            this.scoreChartOpType = "Add";
-            let dialogConfig = { hasBackdrop: true, panelClass: 'ns-edss-theme', width: '600px', height: '650px' };
-            this.scoreChartDialogRef = this.dialog.open(this.edssSecondLevelAddTemplate, dialogConfig);
-          })();
-      })
-    let sub4 = virtualCaseLoad
-      .subscribe(d => {
-        d.error
-          ? console.log(d.error)
-          : (() => {
-            console.log(d.data);
-            if (d.data.artifact == "add") {
-              this.removeChart();
-              this.drawChartWithVirtualCaseload();
-            }
-            else {
-              this.removeChart();
-              this.drawChart();
-            }
-
-
-          })();
-      })
-    this
-      .subscriptions
-      .add(sub1)
-      .add(sub2)
-      .add(sub3);
-
-    this.edssPopupQuestions = edssPopup;
-    this.edssPopupQuestions.map(x => x.checked = false);
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
-  }
-
   showSecondLevel(data) {
     let config = { hasBackdrop: true, panelClass: 'ns-edss-theme', width: '300px' };
     this.edssScoreDetail = data;
@@ -314,19 +287,17 @@ export class EdssComponent implements OnInit {
   }
 
   updateEdssScore() {
-    console.log(this.edssScoreDetail);
     let match = this.edssData.find(x => x.score_id == this.edssScoreDetail.score_id);
     if (match) {
       match.score = this.edssScoreDetail.score
     }
     this.removeChart();
-    this.drawChart();
+    this.drawEdssLineChart();
     this.dialogRef.close();
   }
 
-  drawChartWithVirtualCaseload() {
-    //data preparation
-    let dataset = this.edssData.map(d => {
+  drawVirtualCaseload() {
+    let clinicianDataSet = this.edssData.map(d => {
       return {
         ...d,
         lastUpdatedDate: Date.parse(d.last_updated_instant),
@@ -335,7 +306,7 @@ export class EdssComponent implements OnInit {
       }
     }).sort((a, b) => a.lastUpdatedDate - b.lastUpdatedDate);
 
-    let questionnaireDataset = this.questionnaireEdssData.map(d => {
+    let patientDataSet = this.questionnaireEdssData.map(d => {
       return {
         ...d,
         lastUpdatedDate: Date.parse(d.qx_completed_at),
@@ -344,6 +315,134 @@ export class EdssComponent implements OnInit {
       }
     }).sort((a, b) => a.lastUpdatedDate - b.lastUpdatedDate);
 
+    this.plotAreaChart();
+    this.plotLineChart(clinicianDataSet, patientDataSet);
+  }
+
+  drawEdssLineChart() {
+    let clinicianDataSet = this.edssData.map(d => {
+      return {
+        ...d,
+        lastUpdatedDate: Date.parse(d.last_updated_instant),
+        reportedBy: "Clinician",
+        scoreValue: parseFloat(d.score)
+      }
+    }).sort((a, b) => a.lastUpdatedDate - b.lastUpdatedDate);
+
+    let patientDataSet = this.questionnaireEdssData.map(d => {
+      return {
+        ...d,
+        lastUpdatedDate: Date.parse(d.qx_completed_at),
+        reportedBy: "Patient",
+        scoreValue: parseFloat(d.edss_score)
+      }
+    }).sort((a, b) => a.lastUpdatedDate - b.lastUpdatedDate);
+
+    this.plotLineChart(clinicianDataSet, patientDataSet);
+  }
+
+  plotLineChart(clinicianDataSet, patientDataSet) {
+    //Y axis scale
+    this.yScale = d3
+      .scaleLinear()
+      .domain(this.yDomain)
+      .range([GRAPH_SETTINGS.edss.chartHeight - 20, 0]);
+    //Chart line
+    let line = d3.line<any>()
+      .x((d: any) => this.chartState.xScale(d.lastUpdatedDate))
+      .y((d: any) => this.yScale(d.scoreValue));
+    //Drawing container
+    let svg = d3
+      .select('#edss')
+      .attr('class', 'edss-elements-wrapper')
+      .attr('transform', `translate(${GRAPH_SETTINGS.panel.marginLeft},${GRAPH_SETTINGS.edss.positionTop})`)
+    //Draws Y axis bottom text
+    svg.append('text')
+      .attr('y', GRAPH_SETTINGS.edss.chartHeight)
+      .style('font-size', '10px')
+      .html(`<tspan x="${-GRAPH_SETTINGS.panel.marginLeft}" dy="0">EDSS</tspan><tspan x="${-GRAPH_SETTINGS.panel.marginLeft}" dy="10">Score</tspan>`);
+    //Draws Y Axis
+    svg.append('g')
+      .attr('class', 'edss-y-axis')
+      .call(g => {
+        let yAxis = g.call(d3.axisLeft(this.yScale).tickFormat(d3.format('.1f')));
+        g.select('.domain').remove();
+        yAxis.selectAll('line')
+          .style('display', 'none');
+        yAxis.selectAll('text')
+          .attr('x', '-5')
+          .attr('fill', GRAPH_SETTINGS.edss.color)
+          .style('font-size', '1.2em')
+          .style('font-weight', 'bold');
+      });
+    //Draws circles for clinician data
+    svg.selectAll('.dot-clinician')
+      .data(clinicianDataSet)
+      .enter()
+      .append('circle')
+      .attr('class', 'dot-clinician')
+      .attr('cx', d => this.chartState.xScale(d.lastUpdatedDate))
+      .attr('cy', d => this.yScale(d.scoreValue))
+      .attr('r', 7)
+      .style('fill', GRAPH_SETTINGS.edss.color)
+      .style('cursor', 'pointer')
+      .on('click', d => {
+        let match = this.questionnaireEdssData.find(itm => {
+          let cDt = new Date(itm.qx_completed_at);
+          let pDt = new Date(d.last_updated_instant);
+          return parseFloat(itm.edss_score) == parseFloat(d.score) && pDt.getDate() == cDt.getDate() && pDt.getMonth() == cDt.getMonth() && pDt.getFullYear() == cDt.getFullYear();
+        });
+        if (match) {
+          d.reportedBy = "Patient and Clinician";
+        }
+        d.allowEdit = d.save_csn_status !== "Closed";
+        this.showSecondLevel(d);
+      })
+    //Adds labels for clinician data
+    svg.selectAll('.label-clinician')
+      .data(clinicianDataSet)
+      .enter()
+      .append('text')
+      .attr('class', 'label-clinician')
+      .style('font-size', '0.8em')
+      .attr('x', d => this.chartState.xScale(d.lastUpdatedDate) - 5)
+      .attr('y', d => this.yScale(d.scoreValue) - 10)
+      .text(d => d.scoreValue);
+    //Draws line for patient data 
+    svg.append('path')
+      .datum(patientDataSet)
+      .attr('class', 'line')
+      .style('fill', 'none')
+      .style('stroke', GRAPH_SETTINGS.edss.color)
+      .style('stroke-width', '1')
+      .attr('d', line);
+    //Draws circles for patient data
+    svg.selectAll('.dot-patient')
+      .data(patientDataSet)
+      .enter()
+      .append('circle')
+      .attr('class', 'dot-patient')
+      .attr('cx', d => this.chartState.xScale(d.lastUpdatedDate))
+      .attr('cy', d => this.yScale(d.scoreValue))
+      .attr('r', 7)
+      .style('fill', GRAPH_SETTINGS.edss.color)
+      .style('cursor', 'pointer')
+      .on('click', d => {
+        this.showSecondLevel(d);
+      })
+    //Adds labels for patient data
+    svg.selectAll('.label-patient')
+      .data(patientDataSet)
+      .enter()
+      .append('text')
+      .attr('class', 'label-patient')
+      .style('font-size', '0.8em')
+      .attr('x', d => this.chartState.xScale(d.lastUpdatedDate) - 5)
+      .attr('y', d => this.yScale(d.scoreValue) - 10)
+      .text(d => d.scoreValue);
+  }
+
+  plotAreaChart() {
     this.yScale = d3
       .scaleLinear()
       .domain(this.yDomain)
@@ -372,20 +471,6 @@ export class EdssComponent implements OnInit {
       .attr('class', 'edss-elements-wrapper')
       .attr('transform', `translate(${GRAPH_SETTINGS.panel.marginLeft},${GRAPH_SETTINGS.edss.positionTop})`)
 
-    svg.append('g')
-      .attr('class', 'edss-y-axis')
-      .call(g => {
-        let yAxis = g.call(d3.axisLeft(this.yScale).tickFormat(d3.format('.1f')));
-        g.select('.domain').remove();
-        yAxis.selectAll('line')
-          .style('display', 'none');
-        yAxis.selectAll('text')
-          .attr('x', '-5')
-          .attr('fill', GRAPH_SETTINGS.edss.color)
-          .style('font-size', '1.2em')
-          .style('font-weight', 'bold');
-      });
-
     svg.append("path")
       .datum(this.datasetArea2)
       .attr("fill", "lightgrey")
@@ -397,199 +482,12 @@ export class EdssComponent implements OnInit {
       .attr("d", area1);
 
     svg.append('path')
-      .datum(questionnaireDataset)
-      .attr('class', 'line')
-      .style('fill', 'none')
-      .style('stroke', GRAPH_SETTINGS.edss.color)
-      .style('stroke-width', '1')
-      .attr('d', line);
-
-    svg.append('path')
       .datum(this.datasetMean)
       .attr('class', 'line')
       .style('fill', 'none')
       .style('stroke', "white")
       .style('stroke-width', '1')
       .attr('d', lineMean);
-
-    svg.selectAll('.dot-patient')
-      .data(questionnaireDataset)
-      .enter()
-      .append('circle')
-      .attr('class', 'dot-patient')
-      .attr('cx', d => this.chartState.xScale(d.lastUpdatedDate))
-      .attr('cy', d => this.yScale(d.scoreValue))
-      .attr('r', 7)
-      .style('fill', GRAPH_SETTINGS.edss.color)
-      .style('cursor', 'pointer')
-      .on('click', d => {
-        this.showSecondLevel(d);
-      })
-
-    svg.selectAll('.dot-clinician')
-      .data(dataset)
-      .enter()
-      .append('circle')
-      .attr('class', 'dot-clinician')
-      .attr('cx', d => this.chartState.xScale(d.lastUpdatedDate))
-      .attr('cy', d => this.yScale(d.scoreValue))
-      .attr('r', 7)
-      .style('fill', GRAPH_SETTINGS.edss.color)
-      .style('cursor', 'pointer')
-      .on('click', d => {
-        let match = this.questionnaireEdssData.find(itm => {
-          let cDt = new Date(itm.qx_completed_at);
-          let pDt = new Date(d.last_updated_instant);
-          return parseFloat(itm.edss_score) == parseFloat(d.score) && pDt.getDate() == cDt.getDate() && pDt.getMonth() == cDt.getMonth() && pDt.getFullYear() == cDt.getFullYear();
-        });
-        if (match) {
-          d.reportedBy = "Patient and Clinician";
-        }
-        d.allowEdit = d.save_csn_status !== "Closed";
-        this.showSecondLevel(d);
-      })
-
-    svg.selectAll('.label-clinician')
-      .data(dataset)
-      .enter()
-      .append('text')
-      .attr('class', 'label-clinician')
-      .style('font-size', '0.8em')
-      .attr('x', d => this.chartState.xScale(d.lastUpdatedDate) - 5)
-      .attr('y', d => this.yScale(d.scoreValue) - 10)
-      .text(d => d.scoreValue);
-
-    svg.selectAll('.label-patient')
-      .data(questionnaireDataset)
-      .enter()
-      .append('text')
-      .attr('class', 'label-patient')
-      .style('font-size', '0.8em')
-      .attr('x', d => this.chartState.xScale(d.lastUpdatedDate) - 5)
-      .attr('y', d => this.yScale(d.scoreValue) - 10)
-      .text(d => d.scoreValue);
-
-  }
-
-  drawChart() {
-    //data preparation
-    let edssDataset = this.edssData.map(d => {
-      return {
-        ...d,
-        lastUpdatedDate: Date.parse(d.last_updated_instant),
-        reportedBy: "Clinician",
-        scoreValue: parseFloat(d.score)
-      }
-    }).sort((a, b) => a.lastUpdatedDate - b.lastUpdatedDate);
-
-    let questionnaireDataset = this.questionnaireEdssData.map(d => {
-      return {
-        ...d,
-        lastUpdatedDate: Date.parse(d.qx_completed_at),
-        reportedBy: "Patient",
-        scoreValue: parseFloat(d.edss_score)
-      }
-    }).sort((a, b) => a.lastUpdatedDate - b.lastUpdatedDate);
-
-    this.yScale = d3
-      .scaleLinear()
-      .domain(this.yDomain)
-      .range([GRAPH_SETTINGS.edss.chartHeight - 20, 0]);
-
-    let line = d3.line<any>()
-      .x((d: any) => this.chartState.xScale(d.lastUpdatedDate))
-      .y((d: any) => this.yScale(d.scoreValue));
-
-
-    let svg = d3
-      .select('#edss')
-      .attr('class', 'edss-elements-wrapper')
-      .attr('transform', `translate(${GRAPH_SETTINGS.panel.marginLeft},${GRAPH_SETTINGS.edss.positionTop})`)
-
-    svg.append('text')
-      .attr('y', GRAPH_SETTINGS.edss.chartHeight)
-      .style('font-size', '10px')
-      .html(`<tspan x="${-GRAPH_SETTINGS.panel.marginLeft}" dy="0">EDSS</tspan><tspan x="${-GRAPH_SETTINGS.panel.marginLeft}" dy="10">Score</tspan>`);
-
-    svg.append('g')
-      .attr('class', 'edss-y-axis')
-      .call(g => {
-        let yAxis = g.call(d3.axisLeft(this.yScale).tickFormat(d3.format('.1f')));
-        g.select('.domain').remove();
-        yAxis.selectAll('line')
-          .style('display', 'none');
-        yAxis.selectAll('text')
-          .attr('x', '-5')
-          .attr('fill', GRAPH_SETTINGS.edss.color)
-          .style('font-size', '1.2em')
-          .style('font-weight', 'bold');
-      });
-
-    svg.append('path')
-      .datum(questionnaireDataset)
-      .attr('class', 'line')
-      .style('fill', 'none')
-      .style('stroke', GRAPH_SETTINGS.edss.color)
-      .style('stroke-width', '1')
-      .attr('d', line);
-
-    svg.selectAll('.dot-patient')
-      .data(questionnaireDataset)
-      .enter()
-      .append('circle')
-      .attr('class', 'dot-patient')
-      .attr('cx', d => this.chartState.xScale(d.lastUpdatedDate))
-      .attr('cy', d => this.yScale(d.scoreValue))
-      .attr('r', 7)
-      .style('fill', GRAPH_SETTINGS.edss.color)
-      .style('cursor', 'pointer')
-      .on('click', d => {
-        this.showSecondLevel(d);
-      })
-
-    svg.selectAll('.dot-clinician')
-      .data(edssDataset)
-      .enter()
-      .append('circle')
-      .attr('class', 'dot-clinician')
-      .attr('cx', d => this.chartState.xScale(d.lastUpdatedDate))
-      .attr('cy', d => this.yScale(d.scoreValue))
-      .attr('r', 7)
-      .style('fill', GRAPH_SETTINGS.edss.color)
-      .style('cursor', 'pointer')
-      .on('click', d => {
-        let match = this.questionnaireEdssData.find(itm => {
-          let cDt = new Date(itm.qx_completed_at);
-          let pDt = new Date(d.last_updated_instant);
-          return parseFloat(itm.edss_score) == parseFloat(d.score) && pDt.getDate() == cDt.getDate() && pDt.getMonth() == cDt.getMonth() && pDt.getFullYear() == cDt.getFullYear();
-        });
-        if (match) {
-          d.reportedBy = "Patient and Clinician";
-        }
-        d.allowEdit = d.save_csn_status !== "Closed";
-        this.showSecondLevel(d);
-      })
-
-    svg.selectAll('.label-clinician')
-      .data(edssDataset)
-      .enter()
-      .append('text')
-      .attr('class', 'label-clinician')
-      .style('font-size', '0.8em')
-      .attr('x', d => this.chartState.xScale(d.lastUpdatedDate) - 5)
-      .attr('y', d => this.yScale(d.scoreValue) - 10)
-      .text(d => d.scoreValue);
-
-    svg.selectAll('.label-patient')
-      .data(questionnaireDataset)
-      .enter()
-      .append('text')
-      .attr('class', 'label-patient')
-      .style('font-size', '0.8em')
-      .attr('x', d => this.chartState.xScale(d.lastUpdatedDate) - 5)
-      .attr('y', d => this.yScale(d.scoreValue) - 10)
-      .text(d => d.scoreValue);
-
   }
 
   removeChart() {
