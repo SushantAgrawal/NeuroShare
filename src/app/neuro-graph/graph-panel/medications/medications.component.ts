@@ -20,6 +20,7 @@ export class MedicationsComponent implements OnInit {
   @ViewChild('otherMedsSecondLevelTemplate') private otherMedsSecondLevelTemplate: TemplateRef<any>;
   @Input() private chartState: any;
 
+  graphDimension = GRAPH_SETTINGS.panel;
   dialogRef: MdDialogRef<any>;
   medSecondLayerModel: any;
   subscriptions: any;
@@ -391,7 +392,9 @@ export class MedicationsComponent implements OnInit {
     let svg = d3
       .select('#' + containterId)
       .attr('class', containterId + '-elements-wrapper')
-      .attr('transform', 'translate(' + GRAPH_SETTINGS.panel.marginLeft + ', 5)');
+      //.attr('transform', 'translate(' + GRAPH_SETTINGS.panel.marginLeft + ', 5)');
+      .attr('transform', 'translate(0, 5)');
+
 
     //group on generic name
     let groupsUnfiltered = dataset.map(d => d.medication.id);
