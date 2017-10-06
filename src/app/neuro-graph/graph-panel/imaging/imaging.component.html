@@ -1,0 +1,30 @@
+<ng-template #imagingSecondLevelTemplate>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left cssTitle">Imaging</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="dialog.closeAll()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+                <div class="col-xs-5">Study</div>
+                <div class="col-xs-3">Ordered</div>
+                <div class="col-xs-4">See Data</div>
+        </div>
+        <div class="row" style="padding-top: 5px;">
+            <div *ngFor="let imaging of imagingDataDetails; let i = index;">
+                    <div class="col-xs-5">{{imaging.displayName}}</div>
+                    <div class="col-xs-3">{{imaging.orderFormatDate}}</div>
+                    <div *ngIf="i == 0" class="col-xs-4" style="font-size:20pt;color:grey;">
+                        <span class="icon-mri">
+                                <span class="path1"></span>
+                                
+                            </span> 
+                        <span class="icon-memo"></span>
+                        
+                    </div>
+            </div>
+        
+        </div>
+    </div>
+  </ng-template>
