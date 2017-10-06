@@ -2,7 +2,7 @@ import {Component, OnInit, ChangeDetectorRef, ViewEncapsulation} from '@angular/
 import {BrokerService} from '../broker/broker.service';
 import {NeuroGraphService} from '../neuro-graph.service';
 import {Observable} from 'rxjs/Observable';
-import { MdDialog } from '@angular/material';
+import {MdDialog} from '@angular/material';
 // import * as _ from 'lodash';
 import {cdsMap, allMessages, manyHttpMessages, allHttpMessages} from '../neuro-graph.config';
 import {InfoPopupComponent} from './info-popup/info-popup.component'
@@ -15,7 +15,15 @@ export class CdsComponent implements OnInit {
   cdsUserData : any;
   cdsState : Object = {};
   csnState : any = {};
-  constructor(private brokerService : BrokerService, private changeDetector : ChangeDetectorRef, private neuroGraphService : NeuroGraphService, public dialog: MdDialog) {
+  constructor(private brokerService : BrokerService, private changeDetector : ChangeDetectorRef, private neuroGraphService : NeuroGraphService, public dialog : MdDialog) {
+
+    // {   "review_relapses": "Yes",   "review_mri_images": "No",
+    // "review_symptom_status": "Yes",   "review_ms_type_status": "No",
+    // "review_dmts": "Yes",   "review_mointoring_labs": "No",   "review_vitamin_d":
+    // "No",   "review_other_meds": "No",   "review_symptoms_referrals": "Yes",
+    // "review_vaccinations": "No",   "provider_id": "G00123",   "encounter_csn":
+    // "865482572",   "updated_instant": "08/31/2017 10:41:05" }
+
     this.cdsState = {
       review_relapses: {
         checked: false
@@ -51,6 +59,7 @@ export class CdsComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('cds ngOnInit');
     this.subscriptions = this
       .brokerService
       .filterOn(allMessages.neuroRelated)
@@ -65,19 +74,20 @@ export class CdsComponent implements OnInit {
       });
     let sub1 = this
       .brokerService
-      .filterOn(manyHttpMessages.httpGetInitialApiCall)
+      .filterOn(allHttpMessages.httpGetCdsInfo)
+      .subscribe(d => {
+        d.error
+          ? console.log(d.error)
+          : this.cdsInfo = d.data.cds;
+      });
+    let sub2 = this
+      .brokerService
+      .filterOn(allHttpMessages.httpGetCdsUserData)
       .subscribe(d => {
         d.error
           ? console.log(d.error)
           : (() => {
-            this.cdsInfo = d
-              .data
-              .find(x => x[allHttpMessages.httpGetCdsInfo]);
-            this.cdsInfo = this.cdsInfo && this.cdsInfo[allHttpMessages.httpGetCdsInfo].cds;
-            this.cdsUserData = d
-              .data
-              .find(x => x[allHttpMessages.httpGetCdsUserData]);
-            let cdsUserData = this.cdsUserData && this.cdsUserData[allHttpMessages.httpGetCdsUserData].cds;
+            this.cdsUserData = d.data.cds;
             this.csnState.csn = this
               .neuroGraphService
               .get('queryParams')
@@ -86,13 +96,60 @@ export class CdsComponent implements OnInit {
               .neuroGraphService
               .get('queryParams')
               .encounter_status;
-            this.cdsUserData = cdsUserData.find(x => x.save_csn == this.csnState.csn);
-            this.setChkBoxes()
+            this.cdsUserData = this
+              .cdsUserData
+              .find(x => x.save_csn == this.csnState.csn);
+            this.setChkBoxes();
           })();
       });
+    let sub3 = this
+      .brokerService
+      .filterOn(allHttpMessages.httpPutCdsUserData)
+      .subscribe(d => d.error
+        ? console.log(d.error)
+        : console.log(d.data));
+    let sub4 = this
+      .brokerService
+      .filterOn(allHttpMessages.httpPostCdsUserData)
+      .subscribe(d => d.error
+        ? console.log(d.error)
+        : console.log(d.data));
+    this
+      .brokerService
+      .httpGet(allHttpMessages.httpGetCdsInfo);
+    this
+      .brokerService
+      .httpGet(allHttpMessages.httpGetCdsUserData);
     this
       .subscriptions
-      .add(sub1);
+      .add(sub1)
+      .add(sub2)
+      .add(sub3)
+      .add(sub4);
+  }
+
+  saveChkBoxesState() {
+    this
+      .brokerService
+      .httpPost(allHttpMessages.httpPostCdsUserData, this.getCdsStateData());
+    // if (this.cdsUserData.provider_id) {   this     .brokerService
+    // .put(allHttpMessages.httpPutCdsUserData)   else {     this .brokerService
+    //   .post(allHttpMessages.httpPostCdsUserData)   } }
+  }
+
+  getCdsStateData() {
+    let cdsStateData = {};
+    Object
+      .keys(this.cdsState)
+      .forEach(x => {
+        let ret;
+        if (this.cdsState[x]) {
+          cdsStateData[x] = "Yes";
+        } else {
+          cdsStateData[x] = "No";
+        }
+      });
+    return (cdsStateData);
   }
 
   setChkBoxes() {
@@ -108,18 +165,27 @@ export class CdsComponent implements OnInit {
       .detectChanges();
   }
 
-  changed(event, item) {}
+  changed(event, item) {
+    this.saveChkBoxesState();
+  }
 
   openDialog(e, infoTitle) {
     let x = e.clientX;
     let y = e.clientY;
-    this.selectedCdsInfo = this.cdsInfo.find(x => x.label == infoTitle);
-    let dialogRef = this.dialog.open(InfoPopupComponent, {
-      width: '300px',
-      data: { info : this.selectedCdsInfo, x: x, y: y }
-    });
+    this.selectedCdsInfo = this
+      .cdsInfo
+      .find(x => x.label == infoTitle);
+    let dialogRef = this
+      .dialog
+      .open(InfoPopupComponent, {
+        width: '300px',
+        data: {
+          info: this.selectedCdsInfo,
+          x: x,
+          y: y
+        }
+      });
   }
-  
 
   ngOnDestroy() {
     this

@@ -46,6 +46,7 @@ export class MedicationsComponent implements OnInit {
   constructor(private brokerService: BrokerService, private dialog: MdDialog, private neuroGraphService: NeuroGraphService) { }
 
   ngOnInit() {
+    console.log('medication ngOnInit');
     this.subscriptions = this
       .brokerService
       .filterOn(allHttpMessages.httpGetMedications)

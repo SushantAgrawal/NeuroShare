@@ -21,6 +21,28 @@ export class NeuroRelatedComponent implements OnInit {
     console.log('neuro-related ngOnInit');    
   }
 
+  ngAfterViewInit(){
+    console.log('neuro-related anAfterViewInit');
+    this
+    .brokerService
+    .emit(allMessages.neuroRelated, {
+      artifact: 'dmt',
+      checked: true
+    });
+  this
+    .brokerService
+    .emit(allMessages.neuroRelated, {
+      artifact: 'edss',
+      checked: true
+    });
+  this
+    .brokerService
+    .emit(allMessages.neuroRelated, {
+      artifact: 'labs',
+      checked: true
+    });
+  };
+
   changed(e, value) {
     this
       .brokerService
@@ -28,18 +50,6 @@ export class NeuroRelatedComponent implements OnInit {
         artifact: value,
         checked: e.checked
       });
-  }
-
-  testMany() {
-    this
-      .brokerService
-      .httpGetMany(manyHttpMessages.httpGetTestMany, [
-        {
-          urlId: allHttpMessages.httpGetEdss
-        }, {
-          urlId: allHttpMessages.httpGetMedications
-        }
-      ]);
   }
 
   openDialog(type) {

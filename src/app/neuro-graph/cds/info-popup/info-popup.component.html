@@ -3,10 +3,12 @@
     {{displayInfo.title}}
     <img (click)="closeDialog()" src="../../assets/images/close.png" width="20px" height="20px" style="float:right;">
   </div>
-  <div class="content">
-    {{displayInfo.info}}
-  </div>
-  <br />
+  <div class="content" *ngFor="let i of displayInfo.info">
+    <div>
+      {{i}}
+    </div>
+    <br />
+  </div> 
   <div class="urlContainer">
     <a *ngIf="displayInfo.learn_more" [href]="displayInfo.learn_more" target="_blank" class="margin"> Learn More </a>
     <a *ngIf="displayInfo.publication" [href]="displayInfo.publication" target="_blank"> See publication </a>
