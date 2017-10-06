@@ -18,7 +18,7 @@ body {
     font-family: $font-Loto;
     background-color: $background;
     font-weight: 400;
-    font-size: 12pt;
+    font-size: 11pt;
     color: #333333;
     line-height: normal;
 }
@@ -49,8 +49,9 @@ label {
 
 .action-buttons {
     @include border-radius(5px);
-    font-size: 24pt;
+    font-size: 22pt;
     width: 35px;
+    height: 35px;
     cursor: pointer;
     line-height: 35px;
     color: #aaaaaa;
@@ -58,7 +59,6 @@ label {
     border: solid 1px $buttonBorder;
     text-align: center;
     margin-left: 10px;
-    padding-top: 2px;
 }
 
 .action-buttons:hover {
@@ -78,7 +78,6 @@ label {
 }
 
 .neuro-graph {
-    margin-left: 50px;
     width: $full-graph-maxwidth;
 }
 
@@ -122,7 +121,7 @@ label {
     .header-text {
         font-weight: 700;
         color: #7e7e7e;
-        font-size: 16pt;
+        font-size: 12pt;
         line-height: 26pt;
         @extend .left-float;
     }
@@ -143,7 +142,10 @@ label {
 .cds-panel {
     padding: 10px;
 }
+.cds-panel .cds-items{
+    margin-bottom: 3px;
 
+}
 .cds-items:after {
     @extend .clearBoth;
 }
@@ -217,20 +219,19 @@ label {
 /*===========TREATMENTS=============*/
 
 .related-treatments {
-
     @extend .related-label;
-    height: 128px;
+    height: 130px;
 
     .related-rotate-text {
          @extend .related-text-rotate;
-         margin-top: 91px;
+         margin-top: 89px;
     }
 }
 
 /*===========OUTCOMES=============*/
 .related-outcomes {
     @extend .related-label;
-    height: 151px;
+    height: 161px;
     .related-rotate-text {
          @extend .related-text-rotate;
          margin-top: 99px;
@@ -239,19 +240,19 @@ label {
 /*===========MONITORING=============*/
 .related-monitoring {
     @extend .related-label;
-    height: 119px;
+    height: 102px;
     .related-rotate-text {
          @extend .related-text-rotate;
-         margin-top: 91px;
+         margin-top: 76px;
     }
 }
 /*===========ENCOUNTERS=============*/
 .related-encounters {
     @extend .related-label;
-    height: 130px;
+    height: 102px;
     .related-rotate-text {
          @extend .related-text-rotate;
-         margin-top: 97px;
+         margin-top: 76px;
     }
 }
 .related-items li a {
@@ -263,7 +264,12 @@ label {
 }
 
 /*-------------------  Neuro Graph ---------------------*/
-
+.mat-checkbox-background, .mat-checkbox-frame{
+    -webkit-border-radius: 5px!important;
+    -moz-border-radius: 5px!important;
+    -ms-border-radius:5px!important;
+    border-radius:5px!important;
+}
 .fake-disabled {
   pointer-events: none;
   background-color: #F2F2F2;
@@ -282,7 +288,6 @@ label {
   margin: 0px 24px 0px 5px;
   min-height: 560px;
 }
-
 #graph-control {
   width: 20px;
   position: absolute;
@@ -297,13 +302,10 @@ label {
     padding-top: 5px;
   }
 }
-
-
 .header-wrapper {
     border-bottom: 1px solid gray;
     height: 40px; 
 }
-
 .header-button {
     margin: 14px;
 }
@@ -333,15 +335,10 @@ label {
   margin: 0px 24px 0px 5px;
   min-height: 560px;
 }
-
- 
-
 .roundButtonCss {
     border-radius: 5px !important;
     border: 1px solid orange !important;
 }
-
-
 .tooltipCss{
     background-color: #fff !important;
     color: #565656 !important;
@@ -351,7 +348,6 @@ label {
     border-radius: 10px;
     box-shadow: 5px 5px 2.5px #eee;
 }
-
 .header{
     border: 1px solid orange;
     width: 100%;

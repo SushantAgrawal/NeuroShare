@@ -19,7 +19,7 @@ export class RelapsesComponent implements OnInit {
   @ViewChild('relapsesAddSecondLevelTemplate') private relapsesAddSecondLevelTemplate: TemplateRef<any>;
 
   @Input() private chartState: any;
-  private yDomain: Array<number> = [0, GRAPH_SETTINGS.relapse.maxValueY];
+  private yDomain: Array<number> = [0, 1];
   private width: number;
   private height: number;
   private yScale: any;
@@ -285,11 +285,8 @@ export class RelapsesComponent implements OnInit {
 
 
 
-    this.chart = d3.select("#relapses").append("svg")
-      .attr("width", element.offsetWidth)
-      .attr("height", element.offsetHeight)
-      .append("g")
-      .attr("transform", "translate(" + GRAPH_SETTINGS.panel.marginLeft + "," + GRAPH_SETTINGS.panel.marginTop + ")");
+    this.chart = d3.select("#relapses")
+      .attr("transform", "translate(" + GRAPH_SETTINGS.panel.marginLeft + "," + GRAPH_SETTINGS.relapse.positionTop + ")");
 
     this.pathUpdate = this.chart.append("path")
       .datum([

@@ -19,7 +19,7 @@ export class LabsComponent implements OnInit {
   private xAxis: any;
   private yAxis: any;
   private yScale: any;
-  private yDomain: Array<number> = [0, GRAPH_SETTINGS.imaging.maxValueY];
+  private yDomain: Array<number> = [0, 1];
   private lineA: any;
   private pathUpdate: any;
   private datasetA: Array<any> = [
@@ -76,11 +76,8 @@ export class LabsComponent implements OnInit {
       .x((d: any) => this.chartState.xScale(d.x))
       .y((d: any) => this.yScale(d.axis));
 
-    this.chart = d3.select("#labs").append("svg")
-      .attr("width", element.offsetWidth)
-      .attr("height", element.offsetHeight)
-      .append("g")
-      .attr("transform", "translate(" + GRAPH_SETTINGS.panel.marginLeft + "," + GRAPH_SETTINGS.panel.marginTop + ")");
+    this.chart = d3.select("#labs")
+      .attr("transform", "translate(" + GRAPH_SETTINGS.panel.marginLeft + "," + GRAPH_SETTINGS.labs.positionTop + ")");
 
     this.pathUpdate = this.chart.append("path")
       .datum([

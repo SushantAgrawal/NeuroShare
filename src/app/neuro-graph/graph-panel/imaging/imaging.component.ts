@@ -1,4 +1,4 @@
-import { Component, OnInit, Input,ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
 import { GRAPH_SETTINGS } from '../../neuro-graph.config';
 import { BrokerService } from '../../broker/broker.service';
@@ -21,46 +21,46 @@ export class ImagingComponent implements OnInit {
   private xAxis: any;
   private yAxis: any;
   private yScale: any;
-  private yDomain: Array<number> = [0, GRAPH_SETTINGS.imaging.maxValueY];
+  private yDomain: Array<number> = [0, 1];
   private lineA: any;
   private pathUpdate: any;
   private datasetA: Array<any> = [
-    { "x": new Date("05/05/2015"), "y": 50,"axis":3.0 },
-    { "x": new Date("05/05/2016"), "y": 0,"axis":3.0 },
-    { "x": new Date("05/05/2017"), "y": 100,"axis":3.0 },
+    { "x": new Date("05/05/2015"), "y": 50, "axis": 3.0 },
+    { "x": new Date("05/05/2016"), "y": 0, "axis": 3.0 },
+    { "x": new Date("05/05/2017"), "y": 100, "axis": 3.0 },
   ];
 
   constructor(private brokerService: BrokerService) { }
 
   ngOnInit() {
     let imaging = this
-    .brokerService
-    .filterOn(allMessages.neuroRelated)
-    .filter(t => (t.data.artifact == 'imaging'));
+      .brokerService
+      .filterOn(allMessages.neuroRelated)
+      .filter(t => (t.data.artifact == 'imaging'));
 
     let sub1 = imaging
-    .filter(t => t.data.checked)
-    .subscribe(d => {
-      d.error
-        ? console.log(d.error)
-        : (() => {
-          console.log(d.data);
-          //make api call
-         this.createChart();
-         
-        })();
-    });
+      .filter(t => t.data.checked)
+      .subscribe(d => {
+        d.error
+          ? console.log(d.error)
+          : (() => {
+            console.log(d.data);
+            //make api call
+            this.createChart();
+
+          })();
+      });
 
     let sub2 = imaging
-    .filter(t => !t.data.checked)
-    .subscribe(d => {
-      d.error
-        ? console.log(d.error)
-        : (() => {
-          console.log(d.data);
-          this.removeChart();
-        })();
-    })
+      .filter(t => !t.data.checked)
+      .subscribe(d => {
+        d.error
+          ? console.log(d.error)
+          : (() => {
+            console.log(d.data);
+            this.removeChart();
+          })();
+      })
   }
   removeChart() {
     d3.select('#imaging').selectAll("*").remove();
@@ -71,37 +71,34 @@ export class ImagingComponent implements OnInit {
     this.height = GRAPH_SETTINGS.panel.offsetHeight - GRAPH_SETTINGS.panel.marginTop - GRAPH_SETTINGS.panel.marginBottom;
 
     this.yScale = d3
-    .scaleLinear()
-    .domain(this.yDomain)
-    .range([GRAPH_SETTINGS.imaging.chartHeight - 20, 0]);
+      .scaleLinear()
+      .domain(this.yDomain)
+      .range([GRAPH_SETTINGS.imaging.chartHeight - 20, 0]);
 
     //this.xScale = d3.scaleLinear().domain(this.chartState.xDomain).range([0, this.width, 0]);
 
-      this.lineA = d3.line<any>()
+    this.lineA = d3.line<any>()
       .x((d: any) => this.chartState.xScale(d.x))
       .y((d: any) => this.yScale(d.axis));
-   
-    this.chart = d3.select("#imaging").append("svg")
-      .attr("width", element.offsetWidth)
-      .attr("height", element.offsetHeight)
-      .append("g")
-      .attr("transform", "translate(" + GRAPH_SETTINGS.panel.marginLeft  + "," + GRAPH_SETTINGS.panel.marginTop + ")");
 
-      this.pathUpdate = this.chart.append("path")
+    this.chart = d3.select("#imaging")
+      .attr("transform", "translate(" + GRAPH_SETTINGS.panel.marginLeft + "," + GRAPH_SETTINGS.imaging.positionTop + ")");
+
+    this.pathUpdate = this.chart.append("path")
       .datum([
         { "x": this.chartState.xDomain.defaultMinValue, "axis": 3.0 },
         { "x": this.chartState.xDomain.defaultMaxValue, "axis": 3.0 }
       ])
       .attr("d", this.lineA)
-      .attr("stroke","#BE90D4")
-      .attr("stroke-width","10")
-      .attr("opacity","0.25")
-      .attr("fill","none")
+      .attr("stroke", "#BE90D4")
+      .attr("stroke-width", "10")
+      .attr("opacity", "0.25")
+      .attr("fill", "none")
       .attr("class", "lineA")
-     
-   
 
-    let gradImg = this.chart 
+
+
+    let gradImg = this.chart
       .append("defs")
       .append("linearGradient")
       .attr("id", "gradImg")
@@ -110,14 +107,14 @@ export class ImagingComponent implements OnInit {
       .attr("y1", "100%")
       .attr("y2", "0%");
 
-      gradImg.append("stop").attr("offset", "50%").style("stop-color", "#BE90D4");
-      gradImg.append("stop").attr("offset", "50%").style("stop-color", "white");
+    gradImg.append("stop").attr("offset", "50%").style("stop-color", "#BE90D4");
+    gradImg.append("stop").attr("offset", "50%").style("stop-color", "white");
 
-   
+
     this.chart.selectAll(".dotA")
       .data(this.datasetA)
       .enter()
-      .append("circle")   
+      .append("circle")
       .attr("class", "dotA")
       .attr("cx", d => this.chartState.xScale(d.x))
       .attr("cy", d => this.yScale(d.axis))
@@ -139,15 +136,15 @@ export class ImagingComponent implements OnInit {
       })
       .on('click', d => {
         alert("second layer data");
-       })
-      
-      this.chart.append("text")
+      })
+
+    this.chart.append("text")
       .attr("transform", "translate(" + this.chartState.xScale(this.chartState.xDomain.defaultMinValue) + "," + "3.0" + ")")
       .attr("dy", this.yScale(3.0))
       .attr("text-anchor", "start")
       .attr("font-size", "10px")
       .text("Images");
 
-      
+
   }
 }

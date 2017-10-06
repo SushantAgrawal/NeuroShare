@@ -270,21 +270,18 @@ export const GRAPH_SETTINGS = {
         color: "#EA700D"
     },
     relapse: {
-        positionTop: 300,
-        chartHeight: 350,
-        maxValueY: 9,
+        positionTop: 265,
+        chartHeight: 30,
         color: "red"
     },
     imaging: {
-        positionTop: 300,
-        chartHeight: 350,
-        maxValueY: 9,
+        positionTop: 240,
+        chartHeight: 30,
         color: "violet"
     },
     labs: {
-        positionTop: 300,
-        chartHeight: 300,
-        maxValueY: 9,
+        positionTop: 200,
+        chartHeight: 30,
         color: "blue"
     }
 }
