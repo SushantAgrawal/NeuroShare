@@ -12,7 +12,11 @@
     }
     .grid-lines line {
         stroke: #E4E4E4;
-        stroke-width: 1px; //stroke-dasharray: 1, 3;
+        stroke-width: 1px;
+    }
+    .horizontal-grid-lines line {
+        stroke: rgb(240, 240, 240);
+        stroke-width: 1px;
     }
     .x-axis .tick:first-child,
     .grid-lines .tick:first-child {

@@ -68,10 +68,7 @@ export class SharedGridComponent implements OnInit {
         axis.selectAll('text').attr('class', (d) => {
           return d.getMonth() == 6 ? 'mid-year-tick' : '';
         });
-        // axis.selectAll('line').attr('y2', (d) => {
-        //   return d.getMonth() == 0 ? 6 : 0;
-        // });
-        axis.selectAll('text').html((d) => {
+        axis.selectAll('text').text((d) => {
           return d.getMonth() == 6 ? d.getFullYear() : '';
         });
         axis.selectAll('.mid-year-tick').style('display', 'block').style('font-size', '12px');
