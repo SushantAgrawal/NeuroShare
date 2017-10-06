@@ -368,7 +368,7 @@ export class ImagingComponent implements OnInit {
   showSecondLevel(data) {
     console.log(data);
    
-    this.imagingDataDetails = data;
+    this.imagingDataDetails = data.orderDetails;
    
       let dialogConfig = { hasBackdrop: true, panelClass: 'ns-images-theme', width: '350px' };
       this.dialogRef = this.dialog.open(this.imagingSecondLevelTemplate, dialogConfig);
@@ -377,6 +377,8 @@ export class ImagingComponent implements OnInit {
   }
   removeChart() {
     d3.select('#imaging').selectAll("*").remove();
+    this.datasetB=[];
+    this.datasetC=[];
   }
   createChart() {
    // debugger;
@@ -515,7 +517,7 @@ export class ImagingComponent implements OnInit {
         return returnColor;
       })
       .on('click', d => {
-        this.showSecondLevel(d.orderDetails);
+        this.showSecondLevel(d);
       })
 
     this.chart.append("text")
