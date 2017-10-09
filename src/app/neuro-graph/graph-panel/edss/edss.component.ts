@@ -347,10 +347,16 @@ export class EdssComponent implements OnInit {
   }
 
   drawEdssLineCharts() {
+    //Use moment js later
+    let getParsedDate = (dtString) => {
+        let dtPart=dtString.split(' ')[0];
+        return Date.parse(dtPart);
+    }
+
     let clinicianDataSet = this.edssData.map(d => {
       return {
         ...d,
-        lastUpdatedDate: Date.parse(d.last_updated_instant),
+        lastUpdatedDate: getParsedDate(d.last_updated_instant),
         reportedBy: "Clinician",
         scoreValue: parseFloat(d.score)
       }
@@ -359,7 +365,7 @@ export class EdssComponent implements OnInit {
     let patientDataSet = this.questionnaireEdssData.map(d => {
       return {
         ...d,
-        lastUpdatedDate: Date.parse(d.qx_completed_at),
+        lastUpdatedDate: getParsedDate(d.qx_completed_at),
         reportedBy: "Patient",
         scoreValue: parseFloat(d.edss_score)
       }
