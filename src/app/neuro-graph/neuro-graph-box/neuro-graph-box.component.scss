@@ -1,4 +1,5 @@
-@import url(https://fonts.googleapis.com/css?family=Lato:300,400,700);
+@import url('https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i');
+//@import '../../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 @import '../neuro-graph.themes.scss';
 
 $font-Loto : 'Lato', sans-serif;
@@ -13,7 +14,9 @@ $headerBottomBorder : #bfbfbf;
     margin: 0px;
     border: none;
 }
-
+*:focus {
+    outline: none;
+}
 body {
     font-family: $font-Loto;
     background-color: $background;
@@ -25,6 +28,12 @@ body {
 
 label {
     font-weight: 300;
+}
+.mat-select, .mat-form-field, .mat-option{font-family: $font-Loto;}
+.mat-option{
+    line-height:25px!important;
+    height: 25px!important;
+    font-size: 12px!important;
 }
 
 @mixin border-radius($radius) {
@@ -80,6 +89,34 @@ label {
         box-shadow: 0px 0px 0px 0px #9c9c9c;
     }
 }
+.call-out-buttons{
+    @include border-radius(5px);
+    font-size: 12pt;
+    height: 25px;
+    width: 61px;
+    cursor: pointer;
+    color: #808080;
+    text-align: center;
+    background-color: #ffffff;
+    &:hover {
+        -webkit-box-shadow: 2px 2px 2px 1px #9c9c9c;
+        box-shadow: 2px 2px 2px 1px #9c9c9c;
+    }
+    &.selected {
+        background-color: #999999;
+        color: #ffffff;
+        -webkit-box-shadow: 2px 2px 2px 1px #9c9c9c;
+        box-shadow: 2px 2px 2px 1px #9c9c9c;
+    }
+    &.disabled {
+        background-color: #ffffff;
+        color: #aaaaaa;
+        border: solid 1px #aaaaaa;
+        pointer-events: none;
+        -webkit-box-shadow: 0px 0px 0px 0px #9c9c9c;
+        box-shadow: 0px 0px 0px 0px #9c9c9c;
+    }
+}
 
 .virtual-buttons {
     @include border-radius(5px);
@@ -111,16 +148,18 @@ label {
         border: solid 1px #aaaaaa !important;
    }
 }
+
 .virtual-buttons .mat-button-wrapper{ line-height: 25px;}
+
 .btn-info{ 
     width: 25px; 
     height: 25px; 
     display: inline-block; 
     text-align:center;
-    line-height: 25px;
     font-weight: 700;
     margin-left: 8px;
-    font-size: 16pt!important;
+    font-size: 18pt;
+    line-height: 18pt;
     color: #333333; 
     border: solid 1px #F15A24; 
     background-color: #ffffff;
@@ -179,25 +218,37 @@ label {
 .header-area {
     border-bottom: 1px solid $headerBottomBorder;
     padding: 7px 7px 5px 15px;
-    height: 50px;
+    height: 38px;
+    line-height: 38px;
     .header-text {
         font-weight: 700;
         color: #7e7e7e;
         font-size: 14pt;
-        line-height: 26pt;
         @extend .left-float;
     }
 }
 .header-area:after {
     @extend .clearBoth;
 }
-
-
+.modal-header{
+    border-bottom: 1px solid $headerBottomBorder;
+    .modal-title{
+        @extend .left-float;
+        }
+    .close{
+        @extend .right-float;
+        font-size: 12pt;
+        color: #bfbfbf;
+        background-color: transparent;
+        cursor: pointer;
+        
+    }
+} 
+.modal-header:after {
+    @extend .clearBoth;
+}
 .modal-body {
     font-size: 10pt;
-    .row {
-        margin-bottom: 5px;
-    }
 }
 
 /*------------ Neuro Related Care ---------------------*/
@@ -270,6 +321,7 @@ label {
 	margin : 0px;
 	list-style-type : none;
 }
+.related-items-ul li{ margin-bottom: 5px;}
 
 .related-items-ul .plus-icon {
         display: block;
@@ -327,10 +379,7 @@ label {
 
 /*-------------------  Neuro Graph ---------------------*/
 .mat-checkbox-background, .mat-checkbox-frame{
-    -webkit-border-radius: 5px!important;
-    -moz-border-radius: 5px!important;
-    -ms-border-radius:5px!important;
-    border-radius:5px!important;
+    @include border-radius(5px);
 }
 .fake-disabled {
   pointer-events: none;

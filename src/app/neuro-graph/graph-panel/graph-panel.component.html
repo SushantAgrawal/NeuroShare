@@ -1,12 +1,12 @@
 <div class="header-area">
     <div class="header-text" *ngIf="isEdssSelected">
-   
+        <div style="height: 25px;">
             <button md-button class="virtual-buttons" (click)="addArea()">{{toggleVirtualCaseLoad}}</button>
             <!-- <div class="example-tooltip-host" mdTooltip="Tooltip!" [mdTooltipPosition]="after"> -->
             <span mdTooltipClass="tooltipCss" mdTooltip="This is a cohort of comparable patients from UCSF and other clinical centers who were all prospectively followed in the modern treatment era.Visualizing your patient's course in the context of this 'virtual caseload' of treated MS patients may highlight patients who may require intensification of treatment">
             <div class="btn-info" (click)="buttonclicked('infoMri')"><span class="icon-info"></span></div>
             </span>
-         
+        </div>
     </div>
     <div class="right-float">
         <div class="action-buttons disabled"><span class="icon-nav-avs"></span></div>

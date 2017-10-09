@@ -121,7 +121,7 @@ export class RelapsesComponent implements OnInit {
               this.relapsesDetail = this.relapsesData[0];
               this.relapsesDetail.month = "January";
               this.relapsesDetail.year = new Date().getFullYear().toString();
-              let dialogConfig = { hasBackdrop: true, panelClass: 'ns-relapses-theme', width: '500px' };
+              let dialogConfig = { hasBackdrop: true, panelClass: 'ns-relapses-theme', width: '250px' };
               this.dialogRef = this.dialog.open(this.relapsesAddSecondLevelTemplate, dialogConfig);
             }
           })();
@@ -222,12 +222,12 @@ export class RelapsesComponent implements OnInit {
     this.relapsesDetail = data;
     if (data.save_csn_status == "Open") {
       this.isEditSelected = false;
-      let dialogConfig = { hasBackdrop: true, panelClass: 'ns-relapses-theme', width: '500px' };
+      let dialogConfig = { hasBackdrop: true, panelClass: 'ns-relapses-theme', width: '405px' };
       this.dialogRef = this.dialog.open(this.relapsesEditSecondLevelTemplate, dialogConfig);
 
     }
     else {
-      let dialogConfig = { hasBackdrop: true, panelClass: 'ns-relapses-theme', width: '500px' };
+      let dialogConfig = { hasBackdrop: true, panelClass: 'ns-relapses-theme', width: '350px' };
       this.dialogRef = this.dialog.open(this.relapsesSecondLevelTemplate, dialogConfig);
     }
 
