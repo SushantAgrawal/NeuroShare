@@ -28,7 +28,7 @@ export class RelapsesComponent implements OnInit {
   private relapsesDetail: any;
   private subscriptions: any;
   private pathUpdate: any;
-  private lineA: any;
+  private line: any;
   private chart: any;
   private paramData: any;
   private datasetB: Array<any>;
@@ -247,26 +247,38 @@ export class RelapsesComponent implements OnInit {
     this.isEditSelected = true;
   }
   createChart() {
-    this.datasetA = this.relapsesData.map(d => {
-      return {
-        ...d,
-        lastUpdatedDate: new Date(d.relapse_month + "/15/" + d.relapse_year),//Date.parse(d.last_updated_instant),
-        relapseaxis: parseFloat("2.0")
+    // this.datasetA = this.relapsesData.map(d => {
+    //   return {
+    //     ...d,
+    //     lastUpdatedDate: new Date(d.relapse_month + "/15/" + d.relapse_year),//Date.parse(d.last_updated_instant),
+    //     relapseaxis: parseFloat("2.0")
 
-      }
-    }).sort((a, b) => a.lastUpdatedDate - b.lastUpdatedDate);
+    //   }
+    // }).sort((a, b) => a.lastUpdatedDate - b.lastUpdatedDate);
 
-    this.datasetB = this.datasetA.map(d => {
+    this.datasetB = this.relapsesData.map(d => {
+      //console.log(d);
+      //debugger;
+      let relMonth = this.month.indexOf(d.relapse_month);
+      let relYear = parseInt(d.relapse_year);
+
+      // return {
+      //   ...d,
+      //   last_updated_instant: d.relapse_month + "/15/" + d.relapse_year,
+      //   lastUpdatedDate: new Date(d.relapse_month + "/15/" + d.relapse_year),
+      //   relapseaxis: 2,
+      //   confirm: d.clinician_confirmed,
+      //   month: this.month[new Date(d.relapse_month + "/15/" + d.relapse_year).getMonth()],
+      //   year: new Date(d.relapse_month + "/15/" + d.relapse_year).getFullYear().toString()
+      // }
       return {
         ...d,
         last_updated_instant: d.relapse_month + "/15/" + d.relapse_year,
-        lastUpdatedDate: new Date(d.relapse_month + "/15/" + d.relapse_year),
-        relapseaxis: parseFloat(d.relapseaxis),
+        lastUpdatedDate: new Date(relYear, relMonth, 15),
+        relapseaxis: 2,
         confirm: d.clinician_confirmed,
-        month: this.month[new Date(d.relapse_month + "/15/" + d.relapse_year).getMonth()],
-        year: new Date(d.relapse_month + "/15/" + d.relapse_year).getFullYear().toString()
-
-
+        month: d.relapse_month,
+        year: d.relapse_year
       }
     }).sort((a, b) => a.lastUpdatedDate - b.lastUpdatedDate);
 
@@ -279,11 +291,9 @@ export class RelapsesComponent implements OnInit {
       .domain(this.yDomain)
       .range([GRAPH_SETTINGS.relapse.chartHeight - 20, 0]);
 
-    this.lineA = d3.line<any>()
+    this.line = d3.line<any>()
       .x((d: any) => this.chartState.xScale(d.lastUpdatedDate))
       .y((d: any) => this.yScale(d.relapseaxis));
-
-
 
     this.chart = d3.select("#relapses")
       .attr("transform", "translate(" + GRAPH_SETTINGS.panel.marginLeft + "," + GRAPH_SETTINGS.relapse.positionTop + ")");
@@ -293,27 +303,25 @@ export class RelapsesComponent implements OnInit {
         { "lastUpdatedDate": this.chartState.xDomain.defaultMinValue, "relapseaxis": 2.0 },
         { "lastUpdatedDate": this.chartState.xDomain.defaultMaxValue, "relapseaxis": 2.0 }
       ])
-      .attr("class", "lineA")
-      .attr("d", this.lineA)
+      .attr("class", "line")
+      .attr("d", this.line)
       .attr("stroke", "red")
       .attr("stroke-width", "1.5")
       .attr("fill", "none");
 
     let arc = d3.symbol().type(d3.symbolTriangle).size(100);
-    this.chart.selectAll(".dotA")
+    this.chart.selectAll(".triangle")
       .data(this.datasetB)
       .enter().append('path')
       .attr('d', arc)
-      .attr("class", "dotA")
+      .attr("class", "triangle")
       .attr('transform', d => {
         return `translate(${(this.chartState.xScale(d.lastUpdatedDate))},${(this.yScale(d.relapseaxis))}) rotate(180)`;
       })
-
-      .attr('class', 'x-axis-arrow')
+      //.attr('class', 'x-axis-arrow')
       .style("stroke", "red")
       .style("fill", d => {
         return d.confirm ? 'red' : '#fff';
-
       })
       .on('click', d => {
         this.showSecondLevel(d);

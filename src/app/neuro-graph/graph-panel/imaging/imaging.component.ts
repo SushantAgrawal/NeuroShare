@@ -318,8 +318,8 @@ export class ImagingComponent implements OnInit {
         ? console.log(d.error)
         : (() => {
           
-         // this.imagingData = d.data.EPIC.patient[0].imagingOrders;
-          //this.createChart();
+          this.imagingData = d.data.EPIC.patient[0].imagingOrders;
+          this.createChart();
         })();
     })
 
@@ -336,7 +336,7 @@ export class ImagingComponent implements OnInit {
           : (() => {
             console.log(d.data);
             //make api call
-            // this
+             //this
             // .brokerService
             // .httpGet(allHttpMessages.httpGetImaging);
             this.createChart();
@@ -370,7 +370,7 @@ export class ImagingComponent implements OnInit {
    
     this.imagingDataDetails = data.orderDetails;
    
-      let dialogConfig = { hasBackdrop: true, panelClass: 'ns-images-theme', width: '350px' };
+      let dialogConfig = { hasBackdrop: true, panelClass: 'ns-images-theme', width: '375px' };
       this.dialogRef = this.dialog.open(this.imagingSecondLevelTemplate, dialogConfig);
    
 
@@ -429,6 +429,11 @@ export class ImagingComponent implements OnInit {
               isComplete="Half";
               this.datasetB[this.datasetB.length - 1].status = isComplete;
             }
+            else if(this.datasetC[j].status == "Completed" && isComplete=="Empty")
+            {
+              isComplete="Half";
+              this.datasetB[this.datasetB.length - 1].status = isComplete;
+            }
             this.datasetB[this.datasetB.length - 1].orderDetails.push(this.datasetC[j]);
             this.datasetC.splice(j, 1);
             
@@ -438,6 +443,7 @@ export class ImagingComponent implements OnInit {
       }
      
       repeatCount = 0;
+      isComplete = "Empty";
     }
     this.datasetB = this.datasetB.map(d => {
       return {
