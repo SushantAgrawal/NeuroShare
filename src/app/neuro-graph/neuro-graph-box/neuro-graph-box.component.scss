@@ -35,6 +35,9 @@ label {
     height: 25px!important;
     font-size: 12px!important;
 }
+.mat-checkbox-layout .mat-checkbox-label{
+    line-height:normal;
+}
 
 @mixin border-radius($radius) {
     -webkit-border-radius: $radius!important;
@@ -256,7 +259,7 @@ label {
     padding: 10px;
 }
 .cds-panel .cds-items{
-    margin-bottom: 3px;
+    margin-bottom: 2px;
 
 }
 .cds-items:after {
@@ -273,10 +276,13 @@ label {
 }
 .cds-items-info {
     @extend .right-float;
+    padding-right: 5px;
 }
-.cds-items-info span {
-    display: block;
+.cds-items-info .material-icons {
     cursor: pointer;
+    width: 16px;
+    height: 16px;
+    color:#a5a5a5;
 }
 /*------------  Neuro Related ---------------------*/
 
