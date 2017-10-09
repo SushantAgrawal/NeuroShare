@@ -248,8 +248,9 @@ export class EdssComponent implements OnInit {
     };
     if (this.scoreChartOpType == 'Add') {
       //Call api and update local data on success
+      let currentDate = new Date();
       this.edssData.push({
-        last_updated_instant: new Date(),
+        last_updated_instant: `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`,
         last_updated_provider_id: "G00123",
         save_csn: this.neuroGraphService.get("queryParams").csn,
         save_csn_status: this.neuroGraphService.get("queryParams").encounter_status,
@@ -349,8 +350,8 @@ export class EdssComponent implements OnInit {
   drawEdssLineCharts() {
     //Use moment js later
     let getParsedDate = (dtString) => {
-        let dtPart=dtString.split(' ')[0];
-        return Date.parse(dtPart);
+      let dtPart = dtString.split(' ')[0];
+      return Date.parse(dtPart);
     }
 
     let clinicianDataSet = this.edssData.map(d => {
