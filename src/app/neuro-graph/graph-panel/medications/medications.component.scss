@@ -15,24 +15,25 @@
     .mat-select-trigger {
         font-size: 10pt;
     }
-    .mat-select{ margin-top: -25px;} 
+    .mat-select{ padding-top: 0px;} 
 }
 
 .ns-dmt-selectBox-value{  width: 39%; display: inline-block;
     @extend .ns-selectBox; 
     .mat-select-trigger {
     min-width: 70px;
+    width: 72px;
     }
 }
 
 .ns-dmt-selectBox-reason{  width: 39%; display: inline-block;
     @extend .ns-selectBox; 
     .mat-select-trigger {
-    min-width: 146px;
+    min-width: 145px;
     }
 }
 .ns-dmt-selectBox-reason .mat-form-field{
-    width: 146px;
+    width: 145px;
 }
 .ns-dmt-update{
     float: right;
