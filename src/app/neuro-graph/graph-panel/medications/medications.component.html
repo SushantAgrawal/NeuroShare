@@ -51,9 +51,9 @@
                     </md-select>
              
             </div>
-            <div *ngIf="!medSecondLayerModel.allowEdit">
-                <span>{{medSecondLayerModel.patientReportedStartDateMonthName}}</span>
-                <span>{{medSecondLayerModel.patientReportedStartDateYear}}</span>
+            <div class="ns-dmt-value" *ngIf="!medSecondLayerModel.allowEdit">
+                <div class="ns-dmt-report-month">{{medSecondLayerModel.patientReportedStartDateMonthName}}</div>
+                <div  class="ns-dmt-report-year">{{medSecondLayerModel.patientReportedStartDateYear}}</div>
             </div>
         </div>
         <div class="ns-dmt-row">
@@ -90,11 +90,11 @@
                     </md-form-field>
                 </span>
             </div>
-            <div class="ns-dmt-selectBox-reason" *ngIf="!medSecondLayerModel.allowEdit">
-                <span>
+            <div class="ns-dmt-value" *ngIf="!medSecondLayerModel.allowEdit">
+                <span class="ns-dmt-model">
                     {{medSecondLayerModel.reasonStopped}}
                 </span>
-                <span *ngIf="medSecondLayerModel.reasonStopped === 'Other' || medSecondLayerModel.reasonStopped === 'Side effects'">
+                <span class="ns-dmt-model" *ngIf="medSecondLayerModel.reasonStopped === 'Other' || medSecondLayerModel.reasonStopped === 'Side effects'">
                     {{medSecondLayerModel.otherReason}}
                 </span>
             </div>
@@ -199,8 +199,8 @@
                     <md-option value="Quality of Life">Quality of Life</md-option>
                 </md-select>
             </div>
-            <div  *ngIf="!medSecondLayerModel.allowEdit">
-                <span>{{medSecondLayerModel.reasonForMed}}</span>
+            <div class="ns-other-meds-value" *ngIf="!medSecondLayerModel.allowEdit">
+                <span class="ns-other-meds-model">{{medSecondLayerModel.reasonForMed}}</span>
             </div>
         </div>
         <div class="ns-other-meds-row" *ngIf="medSecondLayerModel.allowEdit">
