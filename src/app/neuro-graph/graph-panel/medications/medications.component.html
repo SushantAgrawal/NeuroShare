@@ -1,37 +1,35 @@
 <!-- initial height is 0, appropriate height and display will be set at runtime -->
-<svg attr.id={{medType.vitaminD}} width="100%" height="0" style="display:none"></svg>
-<svg attr.id={{medType.dmt}} width="100%" height="0" style="display:none"></svg>
-<svg attr.id={{medType.otherMeds}} width="100%" height="0" style="display:none"></svg>
+<svg attr.id={{medType.vitaminD}} width="100%" height="0" [style.marginLeft.px]="graphDimension.marginLeft" style="display:none"></svg>
+<svg attr.id={{medType.dmt}} width="100%" height="0" [style.marginLeft.px]="graphDimension.marginLeft" style="display:none"></svg>
+<svg attr.id={{medType.otherMeds}} width="100%" height="0" [style.marginLeft.px]="graphDimension.marginLeft" style="display:none"></svg>
 
 <ng-template #dmtSecondLevelTemplate>
     <div class="modal-header">
-        <h4 class="modal-title pull-left">{{medSecondLayerModel.name}}</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRef.close()">
+        <h4 class="modal-title">{{medSecondLayerModel.name}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="dialogRef.close()">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="modal-body">
-        <div class="row">
-            <div class="col-xs-5">Generic Name :</div>
-            <div class="col-xs-7">{{medSecondLayerModel.simpleGenericName}}</div>
+    <div class="dmt-container">
+        <div class="ns-dmt-row">
+            <div class="ns-dmt-col">Generic Name :</div>
+            <div class="ns-dmt-value">{{medSecondLayerModel.simpleGenericName}}</div>
         </div>
-        <div class="row">
-            <div class="col-xs-5">Ordered :</div>
-            <div class="col-xs-7">{{medSecondLayerModel.orderDate}}</div>
+        <div class="ns-dmt-row">
+            <div class="ns-dmt-col">Ordered :</div>
+            <div class="ns-dmt-value">{{medSecondLayerModel.orderDate}}</div>
         </div>
-        <div class="row">
-            <div class="col-xs-5">End :</div>
-            <div class="col-xs-7">{{medSecondLayerModel.medEnd}}</div>
+        <div class="ns-dmt-row">
+            <div class="ns-dmt-col">End :</div>
+            <div class="ns-dmt-value">{{medSecondLayerModel.medEnd}}</div>
         </div>
-        <div class="row">
-            <div class="col-xs-5">Patient Reported Start :</div>
-            <div class="col-xs-7">
-                <span>
+        <div class="ns-dmt-row">
+            <div class="ns-dmt-col">Patient Reported Start :</div>
+            <div class="ns-dmt-selectBox-value" *ngIf="medSecondLayerModel.allowEdit">
                     <md-select placeholder="Month" 
                         floatPlaceholder="never" 
-                        [(ngModel)]="medSecondLayerModel.patientReportedStartDateMonth" 
-                        [disabled]="medSecondLayerModel.encounterStatus==='close'"
-                        [ngClass]="{'fake-disabled': !medSecondLayerModel.allowEdit }">
+                        [(ngModel)]="medSecondLayerModel.patientReportedStartDateMonth">
                             <md-option [value]="1">Janaury</md-option>
                             <md-option [value]="2">February</md-option>
                             <md-option [value]="3">March</md-option>
@@ -45,137 +43,143 @@
                             <md-option [value]="11">November</md-option>
                             <md-option [value]="12">December</md-option>
                     </md-select>
-                </span>
-                <span>
+            
                      <md-select placeholder="Year" 
                         floatPlaceholder="never" 
-                        [(ngModel)]="medSecondLayerModel.patientReportedStartDateYear"
-                        [disabled]="medSecondLayerModel.encounterStatus==='close'"
-                        [ngClass]="{'fake-disabled': !medSecondLayerModel.allowEdit }">
+                        [(ngModel)]="medSecondLayerModel.patientReportedStartDateYear">
                         <md-option *ngFor="let item of medSecondLayerModel.allYears" [value]="item">{{item}}</md-option>
                     </md-select>
-                </span>
+             
+            </div>
+            <div class="ns-dmt-value" *ngIf="!medSecondLayerModel.allowEdit">
+                <div class="ns-dmt-report-month">{{medSecondLayerModel.patientReportedStartDateMonthName}}</div>
+                <div  class="ns-dmt-report-year">{{medSecondLayerModel.patientReportedStartDateYear}}</div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-xs-5">Quantity :</div>
-            <div class="col-xs-7">{{medSecondLayerModel.medQuantity}}</div>
+        <div class="ns-dmt-row">
+            <div class="ns-dmt-col">Quantity :</div>
+            <div class="ns-dmt-value">{{medSecondLayerModel.medQuantity}}</div>
         </div>
-        <div class="row">
-            <div class="col-xs-5">Frequency :</div>
-            <div class="col-xs-7">{{medSecondLayerModel.frequency}}</div>
+        <div class="ns-dmt-row">
+            <div class="ns-dmt-col">Frequency :</div>
+            <div class="ns-dmt-value">{{medSecondLayerModel.frequency}}</div>
         </div>
-        <div class="row">
-            <div class="col-xs-5"># of Refills (Ordered/Remaining) :</div>
-            <div class="col-xs-7">{{medSecondLayerModel.refillCount || '...'}} / {{medSecondLayerModel.refillRemain || '...'}}</div>
+        <div class="ns-dmt-row">
+            <div class="ns-dmt-col"># of Refills (Ordered/Remaining) :</div>
+            <div class="ns-dmt-value">{{medSecondLayerModel.refillCount || '...'}} / {{medSecondLayerModel.refillRemain || '...'}}</div>
         </div>
-        <div class="row">
-            <div class="col-xs-5"># of Relapses :</div>
-            <div class="col-xs-7">{{medSecondLayerModel.noOfRelapses}}</div>
+        <div class="ns-dmt-row">
+            <div class="ns-dmt-col"># of Relapses :</div>
+            <div class="ns-dmt-value">{{medSecondLayerModel.noOfRelapses}}</div>
         </div>
-        <div class="row">
-            <div class="col-xs-5">Reason Stopped :</div>
-            <div class="col-xs-7">
-                <span>
-                    <md-select placeholder="Select" floatPlaceholder="never" [ngClass]="{'fake-disabled': !medSecondLayerModel.allowEdit }" 
-                        [(ngModel)]="medSecondLayerModel.reasonStopped"
-                        [disabled]="medSecondLayerModel.encounterStatus==='close'">
-                        <md-option value="Side effects">Side effects </md-option>
-                        <md-option value="Insurance">Insurance</md-option>
-                        <md-option value="Cost">Cost</md-option>
-                        <md-option value="Logistics">Logistics</md-option>
-                        <md-option value="Needle fatigue">Needle fatigue</md-option>
-                        <md-option value="Other">Other</md-option>
-                    </md-select>
-                </span>
+        <div class="ns-dmt-row">
+            <div class="ns-dmt-col">Reason Stopped :</div>
+            <div class="ns-dmt-selectBox-reason" *ngIf="medSecondLayerModel.allowEdit">
+                <md-select placeholder="Select" floatPlaceholder="never" [(ngModel)]="medSecondLayerModel.reasonStopped">
+                    <md-option value="Side effects">Side effects </md-option>
+                    <md-option value="Insurance">Insurance</md-option>
+                    <md-option value="Cost">Cost</md-option>
+                    <md-option value="Logistics">Logistics</md-option>
+                    <md-option value="Needle fatigue">Needle fatigue</md-option>
+                    <md-option value="Other">Other</md-option>
+                </md-select>
                 <span *ngIf="medSecondLayerModel.reasonStopped === 'Other' || medSecondLayerModel.reasonStopped === 'Side effects'">
-                    <md-form-field floatPlaceholder="never" [ngClass]="{'fake-disabled': !medSecondLayerModel.allowEdit }">
+                    <md-form-field floatPlaceholder="never">
                         <input mdInput placeholder="Specify" 
-                        [(ngModel)]="medSecondLayerModel.otherReason" 
-                        />
+                        [(ngModel)]="medSecondLayerModel.otherReason"/>
                     </md-form-field>
                 </span>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12">
-                <button md-raised-button (click)="updateDmt()">Update</button>
+            <div class="ns-dmt-value" *ngIf="!medSecondLayerModel.allowEdit">
+                <span class="ns-dmt-model">
+                    {{medSecondLayerModel.reasonStopped}}
+                </span>
+                <span class="ns-dmt-model" *ngIf="medSecondLayerModel.reasonStopped === 'Other' || medSecondLayerModel.reasonStopped === 'Side effects'">
+                    {{medSecondLayerModel.otherReason}}
+                </span>
             </div>
         </div>
+        <div class="ns-dmt-row" *ngIf="medSecondLayerModel.allowEdit">
+            <div class="ns-dmt-update">
+                <button class="call-out-buttons"  (click)="updateDmt()">Update</button>
+            </div>
+        </div>
+    </div>
     </div>
 </ng-template>
 
 <ng-template #vitaminDSecondLevelTemplate>
     <div class="modal-header">
-        <h4 class="modal-title pull-left">{{medSecondLayerModel.name}}</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRef.close()">
+        <h4 class="modal-title">{{medSecondLayerModel.name}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="dialogRef.close()">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="modal-body">
-        <div class="row">
-            <div class="col-xs-5">Generic Name :</div>
-            <div class="col-xs-7">{{medSecondLayerModel.simpleGenericName}}</div>
+            <div class="vitamin-d3-container">
+        <div class="ns-vitamin-d3-row">
+            <div class="ns-vitamin-d3-col">Generic Name :</div>
+            <div class="ns-vitamin-d3-value">{{medSecondLayerModel.simpleGenericName}}</div>
         </div>
-        <div class="row">
-            <div class="col-xs-5">Ordered :</div>
-            <div class="col-xs-7">{{medSecondLayerModel.orderDate}}</div>
+        <div class="ns-vitamin-d3-row">
+            <div class="ns-vitamin-d3-col">Ordered :</div>
+            <div class="ns-vitamin-d3-value">{{medSecondLayerModel.orderDate}}</div>
         </div>
-        <div class="row">
-            <div class="col-xs-5">End :</div>
-            <div class="col-xs-7">{{medSecondLayerModel.medEnd}}</div>
+        <div class="ns-vitamin-d3-row">
+            <div class="ns-vitamin-d3-col">End :</div>
+            <div class="ns-vitamin-d3-value">{{medSecondLayerModel.medEnd}}</div>
         </div>
-        <div class="row">
-            <div class="col-xs-5">Patient Reported</div>
-            <div class="col-xs-7">{{medSecondLayerModel.medEnded}}</div>
+        <div class="ns-vitamin-d3-row">
+            <div class="ns-vitamin-d3-col">Patient Reported:</div>
+            <div class="ns-vitamin-d3-value">{{medSecondLayerModel.medEnded}}</div>
         </div>
         <hr/>
-        <div class="row">
-            <div class="col-xs-12">
+        <div class="ns-vitamin-d3-row">
+            <div class="ns-vitamin-d3-text">
                 Best practices suggest that all patients treated for MS, should be on dosages of Vitamin D.
             </div>
         </div>
+            </div>
     </div>
 </ng-template>
 
 <ng-template #otherMedsSecondLevelTemplate>
     <div class="modal-header">
-        <h4 class="modal-title pull-left">{{medSecondLayerModel.name}}</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="dialogRef.close()">
+        <h4 class="modal-title">{{medSecondLayerModel.name}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="dialogRef.close()">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="modal-body">
-        <div class="row">
-            <div class="col-xs-5">Generic Name :</div>
-            <div class="col-xs-7">{{medSecondLayerModel.simpleGenericName}}</div>
+            <div class="other-meds-container">
+        <div class="ns-other-meds-row">
+            <div class="ns-other-meds-col">Generic Name :</div>
+            <div class="ns-other-meds-value">{{medSecondLayerModel.simpleGenericName}}</div>
         </div>
-        <div class="row">
-            <div class="col-xs-5">Ordered :</div>
-            <div class="col-xs-7">{{medSecondLayerModel.orderDate}}</div>
+        <div class="ns-other-meds-row">
+            <div class="ns-other-meds-col">Ordered :</div>
+            <div class="ns-other-meds-value">{{medSecondLayerModel.orderDate}}</div>
         </div>
-        <div class="row">
-            <div class="col-xs-5">End :</div>
-            <div class="col-xs-7">{{medSecondLayerModel.medEnd}}</div>
+        <div class="ns-other-meds-row">
+            <div class="ns-other-meds-col">End :</div>
+            <div class="ns-other-meds-value">{{medSecondLayerModel.medEnd}}</div>
         </div>
-        <div class="row">
-            <div class="col-xs-5">Quantity :</div>
-            <div class="col-xs-7">{{medSecondLayerModel.medQuantity}}</div>
+        <div class="ns-other-meds-row">
+            <div class="ns-other-meds-col">Quantity :</div>
+            <div class="ns-other-meds-value">{{medSecondLayerModel.medQuantity}}</div>
         </div>
-        <div class="row">
-            <div class="col-xs-5">Frequency :</div>
-            <div class="col-xs-7">{{medSecondLayerModel.frequency}}</div>
+        <div class="ns-other-meds-row">
+            <div class="ns-other-meds-col">Frequency :</div>
+            <div class="ns-other-meds-value">{{medSecondLayerModel.frequency}}</div>
         </div>
-        <div class="row">
-            <div class="col-xs-5"># of Refills (Ordered/Remaining) :</div>
-            <div class="col-xs-7">{{medSecondLayerModel.refillCount || '...'}} / {{medSecondLayerModel.refillRemain || '...'}}</div>
+        <div class="ns-other-meds-row">
+            <div class="ns-other-meds-col"># of Refills (Ordered/Remaining) :</div>
+            <div class="ns-other-meds-value">{{medSecondLayerModel.refillCount || '...'}} / {{medSecondLayerModel.refillRemain || '...'}}</div>
         </div>
-        <div class="row">
-            <div class="col-xs-5">Reason for Med :</div>
-            <div class="col-xs-7">
-                <md-select style="padding-top:0" placeholder="Select" floatPlaceholder="never" [ngClass]="{'fake-disabled': !medSecondLayerModel.allowEdit }"
-                [(ngModel)]="medSecondLayerModel.reasonForMed"
-                    [disabled]="medSecondLayerModel.encounterStatus==='close'">
+        <div class="ns-other-meds-row">
+            <div class="ns-other-meds-col">Reason for Med :</div>
+            <div class="ns-other-meds-selectBox" *ngIf="medSecondLayerModel.allowEdit">
+                <md-select placeholder="Select" floatPlaceholder="never" [(ngModel)]="medSecondLayerModel.reasonForMed">
                     <md-option value="Thinking/Memory/Cognition">Thinking/Memory/Cognition </md-option>
                     <md-option value="Fatigue">Fatigue</md-option>
                     <md-option value="Vision">Vision</md-option>
@@ -195,11 +199,15 @@
                     <md-option value="Quality of Life">Quality of Life</md-option>
                 </md-select>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12">
-                <button md-raised-button (click)="updateOtherMeds()">Update</button>
+            <div class="ns-other-meds-value" *ngIf="!medSecondLayerModel.allowEdit">
+                <span class="ns-other-meds-model">{{medSecondLayerModel.reasonForMed}}</span>
             </div>
         </div>
+        <div class="ns-other-meds-row" *ngIf="medSecondLayerModel.allowEdit">
+            <div class="ns-other-meds-update">
+                <button class="call-out-buttons" (click)="updateOtherMeds()">Update</button>
+            </div>
+        </div>
+            </div>
     </div>
 </ng-template>

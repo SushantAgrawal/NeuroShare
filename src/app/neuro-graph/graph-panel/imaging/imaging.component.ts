@@ -1,8 +1,9 @@
-import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation,ViewChild,TemplateRef } from '@angular/core';
 import * as d3 from 'd3';
 import { GRAPH_SETTINGS } from '../../neuro-graph.config';
 import { BrokerService } from '../../broker/broker.service';
 import { allMessages, allHttpMessages } from '../../neuro-graph.config';
+import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: '[app-imaging]',
@@ -11,12 +12,11 @@ import { allMessages, allHttpMessages } from '../../neuro-graph.config';
   encapsulation: ViewEncapsulation.None
 })
 export class ImagingComponent implements OnInit {
-  //private margin: any = { top: 30, bottom: 30, left: 30, right: 30 };
+  @ViewChild('imagingSecondLevelTemplate') private imagingSecondLevelTemplate: TemplateRef<any>;
   @Input() private chartState: any;
   private chart: any;
   private width: number;
   private height: number;
-  //private xScale: any;
   private colors: any;
   private xAxis: any;
   private yAxis: any;
@@ -24,15 +24,31 @@ export class ImagingComponent implements OnInit {
   private yDomain: Array<number> = [0, 1];
   private lineA: any;
   private pathUpdate: any;
-  private datasetA: Array<any> = [
-    { "x": new Date("05/05/2015"), "y": 50, "axis": 3.0 },
-    { "x": new Date("05/05/2016"), "y": 0, "axis": 3.0 },
-    { "x": new Date("05/05/2017"), "y": 100, "axis": 3.0 },
-  ];
-
-  constructor(private brokerService: BrokerService) { }
+  private subscriptions: any;
+  private imagingDataDetails: Array<any>;
+  private imagingData: Array<any>;
+  
+  private datasetA: Array<any> ;
+  private datasetB: Array<any> =[];
+  private datasetC: Array<any> =[];
+  private dialogRef: any;
+  private hasReportIcon: boolean = false;
+  private hasBrainIcon: boolean = false;
+  constructor(private brokerService: BrokerService,public dialog: MdDialog) { }
 
   ngOnInit() {
+    this.subscriptions = this
+    .brokerService
+    .filterOn(allHttpMessages.httpGetImaging)
+    .subscribe(d => {
+      d.error
+        ? console.log(d.error)
+        : (() => {
+          this.imagingData = d.data.EPIC.patient[0].imagingOrders;
+          this.createChart();
+        })();
+    })
+
     let imaging = this
       .brokerService
       .filterOn(allMessages.neuroRelated)
@@ -46,8 +62,9 @@ export class ImagingComponent implements OnInit {
           : (() => {
             console.log(d.data);
             //make api call
-            this.createChart();
-
+             this
+            .brokerService
+            .httpGet(allHttpMessages.httpGetImaging);
           })();
       });
 
@@ -61,11 +78,93 @@ export class ImagingComponent implements OnInit {
             this.removeChart();
           })();
       })
+
+      this
+      .subscriptions
+      .add(sub1)
+      .add(sub2);
+  }
+  ngOnDestroy() {
+    this
+      .subscriptions
+      .unsubscribe();
+  }
+
+  showSecondLevel(data) {
+    this.imagingDataDetails = data.orderDetails;
+      let dialogConfig = { hasBackdrop: true, panelClass: 'ns-images-theme', width: '375px' };
+      this.dialogRef = this.dialog.open(this.imagingSecondLevelTemplate, dialogConfig);
   }
   removeChart() {
     d3.select('#imaging').selectAll("*").remove();
+    this.datasetB=[];
+    this.datasetC=[];
   }
   createChart() {
+    this.datasetA = this.imagingData.map(d => {
+      return {
+        ...d,
+        orderDate: new Date(d.orderDate),
+        axis: 3.0,
+        status: d.status,
+        orderFormatDate: d.orderDate
+      }
+    }).sort((a, b) => a.orderDate - b.orderDate);
+    for(let k=0;k<this.datasetA.length;k++)
+    {
+        this.datasetC.push(this.datasetA[k]);
+    }
+    
+    let repeatCount=0;
+    let isComplete = "Empty";
+  
+    for(let i=0;i<this.datasetC.length;i++)
+    {
+      for(let j=0;j<this.datasetC.length;j++)
+      {
+        if(this.datasetC[i].orderFormatDate == this.datasetC[j].orderFormatDate)
+        {
+          if(repeatCount == 0)
+          {
+            if(this.datasetC[j].status == "Completed")
+            {
+              isComplete="Full";
+            }
+           
+              this.datasetB.push({'orderDate':this.datasetC[j].orderDate,
+              'status':isComplete,
+              'orderDetails': [this.datasetC[j]]
+              }) 
+          repeatCount++;
+          }
+          else{
+            if(this.datasetC[j].status != "Completed" && isComplete=="Full")
+            {
+              isComplete="Half";
+              this.datasetB[this.datasetB.length - 1].status = isComplete;
+            }
+            else if(this.datasetC[j].status == "Completed" && isComplete=="Empty")
+            {
+              isComplete="Half";
+              this.datasetB[this.datasetB.length - 1].status = isComplete;
+            }
+            this.datasetB[this.datasetB.length - 1].orderDetails.push(this.datasetC[j]);
+            this.datasetC.splice(j, 1);
+          }
+        }
+      }
+     
+      repeatCount = 0;
+      isComplete = "Empty";
+    }
+    this.datasetB = this.datasetB.map(d => {
+      return {
+        ...d,
+        orderDate: d.orderDate,
+        axis: 3.0,
+        status: d.status
+      }
+    }).sort((a, b) => a.orderDate - b.orderDate);
     let element = d3.select("#imaging");
     this.width = GRAPH_SETTINGS.panel.offsetWidth - GRAPH_SETTINGS.panel.marginLeft - GRAPH_SETTINGS.panel.marginRight;
     this.height = GRAPH_SETTINGS.panel.offsetHeight - GRAPH_SETTINGS.panel.marginTop - GRAPH_SETTINGS.panel.marginBottom;
@@ -75,10 +174,8 @@ export class ImagingComponent implements OnInit {
       .domain(this.yDomain)
       .range([GRAPH_SETTINGS.imaging.chartHeight - 20, 0]);
 
-    //this.xScale = d3.scaleLinear().domain(this.chartState.xDomain).range([0, this.width, 0]);
-
     this.lineA = d3.line<any>()
-      .x((d: any) => this.chartState.xScale(d.x))
+      .x((d: any) => this.chartState.xScale(d.orderDate))
       .y((d: any) => this.yScale(d.axis));
 
     this.chart = d3.select("#imaging")
@@ -86,17 +183,15 @@ export class ImagingComponent implements OnInit {
 
     this.pathUpdate = this.chart.append("path")
       .datum([
-        { "x": this.chartState.xDomain.defaultMinValue, "axis": 3.0 },
-        { "x": this.chartState.xDomain.defaultMaxValue, "axis": 3.0 }
+        { "orderDate": this.chartState.xDomain.defaultMinValue, "axis": 3.0 },
+        { "orderDate": this.chartState.xDomain.defaultMaxValue, "axis": 3.0 }
       ])
       .attr("d", this.lineA)
-      .attr("stroke", "#BE90D4")
+      .attr("stroke", GRAPH_SETTINGS.imaging.color)
       .attr("stroke-width", "10")
       .attr("opacity", "0.25")
       .attr("fill", "none")
       .attr("class", "lineA")
-
-
 
     let gradImg = this.chart
       .append("defs")
@@ -107,27 +202,26 @@ export class ImagingComponent implements OnInit {
       .attr("y1", "100%")
       .attr("y2", "0%");
 
-    gradImg.append("stop").attr("offset", "50%").style("stop-color", "#BE90D4");
+    gradImg.append("stop").attr("offset", "50%").style("stop-color", GRAPH_SETTINGS.imaging.color);
     gradImg.append("stop").attr("offset", "50%").style("stop-color", "white");
 
-
     this.chart.selectAll(".dotA")
-      .data(this.datasetA)
+      .data(this.datasetB)
       .enter()
       .append("circle")
       .attr("class", "dotA")
-      .attr("cx", d => this.chartState.xScale(d.x))
+      .attr("cx", d => this.chartState.xScale(d.orderDate))
       .attr("cy", d => this.yScale(d.axis))
       .attr("r", 10)
       .attr('class', 'x-axis-arrow')
-      .style("stroke", "#BE90D4")
+      .style("stroke", GRAPH_SETTINGS.imaging.color)
       .style("fill", d => {
         let returnColor;
-        if (d.y == 0) {
+        if (d.status == "Empty") {
           returnColor = "#FFF"
         }
-        else if (d.y == 100) {
-          returnColor = "#BE90D4"
+        else if (d.status == "Full") {
+          returnColor = GRAPH_SETTINGS.imaging.color
         }
         else {
           returnColor = "url(#gradImg)"
@@ -135,7 +229,7 @@ export class ImagingComponent implements OnInit {
         return returnColor;
       })
       .on('click', d => {
-        alert("second layer data");
+        this.showSecondLevel(d);
       })
 
     this.chart.append("text")
@@ -144,7 +238,6 @@ export class ImagingComponent implements OnInit {
       .attr("text-anchor", "start")
       .attr("font-size", "10px")
       .text("Images");
-
-
   }
 }
+

@@ -20,6 +20,7 @@ export class MedicationsComponent implements OnInit {
   @ViewChild('otherMedsSecondLevelTemplate') private otherMedsSecondLevelTemplate: TemplateRef<any>;
   @Input() private chartState: any;
 
+  graphDimension = GRAPH_SETTINGS.panel;
   dialogRef: MdDialogRef<any>;
   medSecondLayerModel: any;
   subscriptions: any;
@@ -185,8 +186,9 @@ export class MedicationsComponent implements OnInit {
         if (dtParts.length == 2) {
           model.patientReportedStartDateMonth = parseInt(dtParts[0]);
           model.patientReportedStartDateYear = parseInt(dtParts[1]);
+          debugger;
+          model.patientReportedStartDateMonthName = this.months[model.patientReportedStartDateMonth - 1];
         }
-
       }
       if (medType == this.medType.otherMeds) {
         model.reasonForMed = secondLayerData.reason_for_med;
@@ -273,7 +275,7 @@ export class MedicationsComponent implements OnInit {
   }
 
   drawDmt() {
-    let config = { hasBackdrop: true, panelClass: 'ns-dmt-theme', width: '700px' };
+    let config = { hasBackdrop: true, panelClass: 'ns-dmt-theme', width: '400px' };
     let openSecondLayer = (selectedData) => {
 
       //This is temp  & redundant code. Pulls data set from api first time and stores locally.
@@ -320,7 +322,7 @@ export class MedicationsComponent implements OnInit {
   }
 
   drawVitaminD() {
-    let config = { hasBackdrop: true, panelClass: 'ns-vitaminD-theme', width: '600px' };
+    let config = { hasBackdrop: true, panelClass: 'ns-vitaminD-theme', width: '300px' };
     let openSecondLayer = (selectedData) => {
       console.log(selectedData);
       this.medSecondLayerModel = this.getSecondLayerModel(selectedData, this.medType.vitaminD, false);
@@ -330,7 +332,7 @@ export class MedicationsComponent implements OnInit {
   }
 
   drawOtherMeds() {
-    let config = { hasBackdrop: true, panelClass: 'ns-othermeds-theme', width: '600px' };
+    let config = { hasBackdrop: true, panelClass: 'ns-othermeds-theme', width: '400px' };
     let openSecondLayer = (selectedData) => {
       //This is temp & redundant code. Pulls data set from api first time and stores locally.
       if (this.otherMedsSecondLayerLocalData) {
@@ -391,7 +393,9 @@ export class MedicationsComponent implements OnInit {
     let svg = d3
       .select('#' + containterId)
       .attr('class', containterId + '-elements-wrapper')
-      .attr('transform', 'translate(' + GRAPH_SETTINGS.panel.marginLeft + ', 5)');
+      //.attr('transform', 'translate(' + GRAPH_SETTINGS.panel.marginLeft + ', 5)');
+      .attr('transform', 'translate(0, 5)');
+
 
     //group on generic name
     let groupsUnfiltered = dataset.map(d => d.medication.id);

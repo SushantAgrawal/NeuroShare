@@ -1,14 +1,20 @@
-<div>
-  <div class="header">
+<div class="cds-container">
+<div class="cds-header">
+  <div class="cds-header-title">
     {{displayInfo.title}}
-    <img (click)="closeDialog()" src="../../assets/images/close.png" width="20px" height="20px" style="float:right;">
   </div>
-  <div class="content">
-    {{displayInfo.info}}
+  <div class="cds-header-close">
+    <i (click)="closeDialog()" class="material-icons">clear</i>
   </div>
-  <br />
+</div>
+<div  class="cds-content">
+  <div *ngFor="let i of displayInfo.info">
+      {{i}}
+  </div> 
+</div>
   <div class="urlContainer">
-    <a *ngIf="displayInfo.learn_more" [href]="displayInfo.learn_more" target="_blank" class="margin"> Learn More </a>
-    <a *ngIf="displayInfo.publication" [href]="displayInfo.publication" target="_blank"> See publication </a>
+    <a *ngIf="displayInfo.learn_more" [href]="displayInfo.learn_more" target="_blank" class="pull-left"> Learn More </a>
+    <!-- <a *ngIf="displayInfo.publication" [href]="displayInfo.publication" target="_blank" class="pull-right" > See publication </a> -->
+    <a *ngIf="displayInfo.publication" [href]="displayInfo.publication" target="_blank" [ngClass]="{'pull-right': displayInfo.learn_more}" > See publication </a>
   </div>
 </div>
