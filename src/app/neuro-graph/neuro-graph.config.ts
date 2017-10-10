@@ -263,7 +263,7 @@ export const GRAPH_SETTINGS = {
     },
     medications: {
         positionTop: 520,
-        containerHeight: 118,
+        containerHeight: 110,
         dmtColor: "#607D8B",
         vitaminDColor: "#FBC02D",
         otherMedsColor: "#D8DFE2"
