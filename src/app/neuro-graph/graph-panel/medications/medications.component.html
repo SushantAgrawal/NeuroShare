@@ -26,13 +26,10 @@
         </div>
         <div class="ns-dmt-row">
             <div class="ns-dmt-col">Patient Reported Start :</div>
-            <div class="ns-dmt-selectBox-value">
-                
+            <div class="ns-dmt-selectBox-value" *ngIf="medSecondLayerModel.allowEdit">
                     <md-select placeholder="Month" 
                         floatPlaceholder="never" 
-                        [(ngModel)]="medSecondLayerModel.patientReportedStartDateMonth" 
-                        [disabled]="medSecondLayerModel.encounterStatus==='close'"
-                        [ngClass]="{'fake-disabled': !medSecondLayerModel.allowEdit }">
+                        [(ngModel)]="medSecondLayerModel.patientReportedStartDateMonth">
                             <md-option [value]="1">Janaury</md-option>
                             <md-option [value]="2">February</md-option>
                             <md-option [value]="3">March</md-option>
@@ -49,12 +46,14 @@
             
                      <md-select placeholder="Year" 
                         floatPlaceholder="never" 
-                        [(ngModel)]="medSecondLayerModel.patientReportedStartDateYear"
-                        [disabled]="medSecondLayerModel.encounterStatus==='close'"
-                        [ngClass]="{'fake-disabled': !medSecondLayerModel.allowEdit }">
+                        [(ngModel)]="medSecondLayerModel.patientReportedStartDateYear">
                         <md-option *ngFor="let item of medSecondLayerModel.allYears" [value]="item">{{item}}</md-option>
                     </md-select>
              
+            </div>
+            <div *ngIf="!medSecondLayerModel.allowEdit">
+                <span>{{medSecondLayerModel.patientReportedStartDateMonthName}}</span>
+                <span>{{medSecondLayerModel.patientReportedStartDateYear}}</span>
             </div>
         </div>
         <div class="ns-dmt-row">
@@ -75,29 +74,32 @@
         </div>
         <div class="ns-dmt-row">
             <div class="ns-dmt-col">Reason Stopped :</div>
-            <div class="ns-dmt-selectBox-reason">
-               
-                    <md-select placeholder="Select" floatPlaceholder="never" [ngClass]="{'fake-disabled': !medSecondLayerModel.allowEdit }" 
-                        [(ngModel)]="medSecondLayerModel.reasonStopped"
-                        [disabled]="medSecondLayerModel.encounterStatus==='close'">
-                        <md-option value="Side effects">Side effects </md-option>
-                        <md-option value="Insurance">Insurance</md-option>
-                        <md-option value="Cost">Cost</md-option>
-                        <md-option value="Logistics">Logistics</md-option>
-                        <md-option value="Needle fatigue">Needle fatigue</md-option>
-                        <md-option value="Other">Other</md-option>
-                    </md-select>
-               
+            <div class="ns-dmt-selectBox-reason" *ngIf="medSecondLayerModel.allowEdit">
+                <md-select placeholder="Select" floatPlaceholder="never" [(ngModel)]="medSecondLayerModel.reasonStopped">
+                    <md-option value="Side effects">Side effects </md-option>
+                    <md-option value="Insurance">Insurance</md-option>
+                    <md-option value="Cost">Cost</md-option>
+                    <md-option value="Logistics">Logistics</md-option>
+                    <md-option value="Needle fatigue">Needle fatigue</md-option>
+                    <md-option value="Other">Other</md-option>
+                </md-select>
                 <span *ngIf="medSecondLayerModel.reasonStopped === 'Other' || medSecondLayerModel.reasonStopped === 'Side effects'">
-                    <md-form-field floatPlaceholder="never" [ngClass]="{'fake-disabled': !medSecondLayerModel.allowEdit }">
+                    <md-form-field floatPlaceholder="never">
                         <input mdInput placeholder="Specify" 
-                        [(ngModel)]="medSecondLayerModel.otherReason" 
-                        />
+                        [(ngModel)]="medSecondLayerModel.otherReason"/>
                     </md-form-field>
                 </span>
             </div>
+            <div class="ns-dmt-selectBox-reason" *ngIf="!medSecondLayerModel.allowEdit">
+                <span>
+                    {{medSecondLayerModel.reasonStopped}}
+                </span>
+                <span *ngIf="medSecondLayerModel.reasonStopped === 'Other' || medSecondLayerModel.reasonStopped === 'Side effects'">
+                    {{medSecondLayerModel.otherReason}}
+                </span>
+            </div>
         </div>
-        <div class="ns-dmt-row">
+        <div class="ns-dmt-row" *ngIf="medSecondLayerModel.allowEdit">
             <div class="ns-dmt-update">
                 <button class="call-out-buttons"  (click)="updateDmt()">Update</button>
             </div>
@@ -176,10 +178,8 @@
         </div>
         <div class="ns-other-meds-row">
             <div class="ns-other-meds-col">Reason for Med :</div>
-            <div class="ns-other-meds-selectBox">
-                <md-select placeholder="Select" floatPlaceholder="never" [ngClass]="{'fake-disabled': !medSecondLayerModel.allowEdit }"
-                [(ngModel)]="medSecondLayerModel.reasonForMed"
-                    [disabled]="medSecondLayerModel.encounterStatus==='close'">
+            <div class="ns-other-meds-selectBox" *ngIf="medSecondLayerModel.allowEdit">
+                <md-select placeholder="Select" floatPlaceholder="never" [(ngModel)]="medSecondLayerModel.reasonForMed">
                     <md-option value="Thinking/Memory/Cognition">Thinking/Memory/Cognition </md-option>
                     <md-option value="Fatigue">Fatigue</md-option>
                     <md-option value="Vision">Vision</md-option>
@@ -199,8 +199,11 @@
                     <md-option value="Quality of Life">Quality of Life</md-option>
                 </md-select>
             </div>
+            <div  *ngIf="!medSecondLayerModel.allowEdit">
+                <span>{{medSecondLayerModel.reasonForMed}}</span>
+            </div>
         </div>
-        <div class="ns-other-meds-row">
+        <div class="ns-other-meds-row" *ngIf="medSecondLayerModel.allowEdit">
             <div class="ns-other-meds-update">
                 <button class="call-out-buttons" (click)="updateOtherMeds()">Update</button>
             </div>
