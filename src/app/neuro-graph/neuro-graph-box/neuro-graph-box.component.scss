@@ -178,9 +178,6 @@ label {
         border: solid 1px #aaaaaa !important;
    }
 }
-
-
-
 .btn-info{ 
     width: 23px; 
     height: 23px; 
@@ -193,6 +190,8 @@ label {
     color: #333333; 
     border: solid 1px #F15A24; 
     background-color: #ffffff;
+    margin-top: 7px;
+    cursor: pointer;
     @include border-radius(50%);
     &:not([disabled]):hover {
         border: solid 1px #F15A24; 
@@ -202,7 +201,6 @@ label {
         color: #333333; 
     }
 }
-
 .graph-container {
     overflow: hidden;
 }
@@ -332,7 +330,7 @@ label {
     background-color: $background;
     float: left;
     border: solid 1px #e9e9e9;
-    margin-right: 15px;
+    margin-right: 10px;
 }
 .related-text-rotate {
     font-size: 10pt;
