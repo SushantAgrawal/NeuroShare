@@ -178,6 +178,8 @@ export class CdsComponent implements OnInit {
     let dialogRef = this
       .dialog
       .open(InfoPopupComponent, {
+        backdropClass:'cds-info-popup-backdrop',
+        panelClass:'cds-info-popup',
         width: '300px',
         data: {
           info: this.selectedCdsInfo,
