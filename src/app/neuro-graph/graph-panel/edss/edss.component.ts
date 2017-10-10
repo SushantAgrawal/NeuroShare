@@ -203,7 +203,7 @@ export class EdssComponent implements OnInit {
     let sub3 = modal.subscribe(d => {
       d.error ? console.log(d.error) : (() => {
         this.scoreChartOpType = "Add";
-        let dialogConfig = { hasBackdrop: true, panelClass: 'ns-edss-theme', width: '600px', height: '650px' };
+        let dialogConfig = { hasBackdrop: true, panelClass: 'ns-edss-theme', width: '670px', height: '650px' };
         this.scoreChartDialogRef = this.dialog.open(this.edssSecondLevelAddTemplate, dialogConfig);
       })();
     })
@@ -277,7 +277,7 @@ export class EdssComponent implements OnInit {
   openScoreChartForUpdate() {
     this.scoreChartOpType = "Update";
     this.dialogRef.close();
-    let dialogConfig = { hasBackdrop: true, panelClass: 'ns-edss-theme', width: '600px', height: '650px' };
+    let dialogConfig = { hasBackdrop: true, panelClass: 'ns-edss-theme', width: '670px', height: '650px' };
     this.scoreChartDialogRef = this.dialog.open(this.edssSecondLevelAddTemplate, dialogConfig);
   }
 
