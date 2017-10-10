@@ -32,7 +32,19 @@
     display: block;
 }
 .ns-relapse-addbox{ margin-left: 33%;}
-.ns-relapse-close{ width: 50px; display:inline-block;}
+.ns-relapse-close{ 
+    width: 50px; 
+    display:inline-block;
+    .mat-icon-button {
+        width: 25px;
+        height: 25px;
+        line-height: 25px;
+    }
+    .material-icons{
+        font-size: 12pt;
+    }
+}
+
 .ns-relapse-date{ width:100px; display:inline-block;}
 .ns-relapse-selectdate{ 
     width:160px; 
@@ -40,7 +52,7 @@
      @extend .ns-relapse-selectBox;
     }
 .ns-relapse-update{ width: 50px; display:inline-block;}
-.ns-relapse-confirmed{ width: 100px; display:inline-block;margin-left: 52px; }
+.ns-relapse-confirmed{ width: 100px; display:inline-block;margin-left: 51px; }
 .ns-relapse-checkboxY{ width: 20px; display:inline-block; margin-left: 90px; text-align: center;}
 .ns-relapse-checkboxN{ width: 20px; display:inline-block; margin-left: 20px; text-align: center;}
 

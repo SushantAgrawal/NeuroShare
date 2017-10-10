@@ -17,6 +17,31 @@ $headerBottomBorder : #bfbfbf;
 *:focus {
     outline: none;
 }
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code,
+del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var,
+b, i,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+    margin:0;
+    padding:0;
+    border:0;
+    outline:0;
+    font-size:100%;
+    vertical-align:baseline;
+    background:transparent;
+}
+table {
+    border-collapse:collapse;
+    border-spacing:0;
+}
+
 body {
     font-family: $font-Loto;
     background-color: $background;
@@ -38,30 +63,25 @@ label {
 .mat-checkbox-layout .mat-checkbox-label{
     line-height:normal;
 }
-
 @mixin border-radius($radius) {
     -webkit-border-radius: $radius!important;
     -moz-border-radius: $radius!important;
     -ms-border-radius: $radius!important;
     border-radius: $radius!important;
 }
-.left-float {
+.left-float{
     float: left;
 }
-
-.right-float {
+.right-float{
     float: right;
 }
-
-.clearBoth {
+.clearBoth{
     clear: both;
     content: '';
     display: block;
 }
-
-
-
-.action-buttons {
+/*-------- Action Buttons ----------------*/
+.action-buttons{
     @include border-radius(5px);
     font-size: 22pt;
     width: 35px;
@@ -92,6 +112,8 @@ label {
         box-shadow: 0px 0px 0px 0px #9c9c9c;
     }
 }
+
+/*-------- Call out boxes ----------------*/
 .call-out-buttons{
     @include border-radius(5px);
     font-size: 12pt;
@@ -120,17 +142,20 @@ label {
         box-shadow: 0px 0px 0px 0px #9c9c9c;
     }
 }
-
-.virtual-buttons {
+/*-------- Virtual Caseload ----------------*/
+.virtual-buttons{
     @include border-radius(5px);
-    font-family: $font-Loto;
-    font-weight: 400!important;
-    font-size: 12pt!important;
-    height: 25px!important;
-    line-height: 25px!important;
+    font-family: $font-Loto; height: 25px!important;
     color: #808080!important;
     border: solid 1px $buttonBorder !important;
     text-align: center;
+   .mat-button-wrapper{
+        font-weight: 400;
+        font-size: 12pt;
+    }
+    &.mat-button{
+        line-height: 22px;
+    }
     &:not([disabled]):hover {
         background: #ffffff!important;
         -webkit-box-shadow: 2px 2px 2px 1px #9c9c9c;
@@ -152,17 +177,17 @@ label {
    }
 }
 
-.virtual-buttons .mat-button-wrapper{ line-height: 25px;}
+
 
 .btn-info{ 
-    width: 25px; 
-    height: 25px; 
+    width: 23px; 
+    height: 23px; 
     display: inline-block; 
     text-align:center;
     font-weight: 700;
     margin-left: 8px;
     font-size: 18pt;
-    line-height: 18pt;
+    line-height: 23px;
     color: #333333; 
     border: solid 1px #F15A24; 
     background-color: #ffffff;
@@ -229,6 +254,9 @@ label {
         font-size: 14pt;
         @extend .left-float;
     }
+    .edss-caseload{
+        @extend .left-float;
+    }
 }
 .header-area:after {
     @extend .clearBoth;
@@ -252,6 +280,9 @@ label {
 }
 .modal-body {
     font-size: 10pt;
+    .call-out-buttons{
+        font-size: 10pt;
+    }
 }
 
 /*------------ Neuro Related Care ---------------------*/
@@ -466,9 +497,11 @@ label {
     border: 1px solid orange;
     width: 100%;
 }
+
 .questionContainer{
-    font-size: 11px;
+    font-size: 9pt;
 }
+
 .buttonContainer{
     float: right;
     margin-top: 10px;
