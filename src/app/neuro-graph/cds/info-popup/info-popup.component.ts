@@ -18,17 +18,34 @@ export class InfoPopupComponent implements OnInit {
     this.displayInfo = data.info;
     let label = this.displayInfo.label;
     this.x = data.x - 315;
+    console.log(label);
     if(label == 'review_vitamin_d')
       {
         this.y = data.y - 175;
       }
+      else if(label == 'review_ms_type_status')
+        {
+          this.y = data.y - 100;
+        }
+        else if(label == 'review_dmts')
+          {
+            this.y = data.y - 100;
+          }
+    else if(label == 'review_monitoring_labs')
+      {
+        this.y = data.y - 100;
+      }
     else if(label == 'review_symptoms_referrals')
       {
-        this.y = data.y - 110;
+        this.y = data.y - 160;
+      }
+      else if(label == 'review_other_meds')
+      {
+        this.y = data.y - 160;
       }
     else if(label == 'review_vaccinations')
       {
-        this.y = data.y - 330;
+        this.y = data.y - 400;
       }
     else
       {
