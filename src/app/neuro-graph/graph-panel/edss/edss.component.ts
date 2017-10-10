@@ -277,8 +277,11 @@ export class EdssComponent implements OnInit {
   openScoreChartForUpdate() {
     this.scoreChartOpType = "Update";
     this.dialogRef.close();
-    let dialogConfig = { hasBackdrop: true, panelClass: 'ns-edss-theme', width: '670px', height: '650px' };
-    this.scoreChartDialogRef = this.dialog.open(this.edssSecondLevelAddTemplate, dialogConfig);
+
+    setTimeout(() => {
+      let dialogConfig = { hasBackdrop: true, panelClass: 'ns-edss-theme', width: '670px', height: '650px' };
+      this.scoreChartDialogRef = this.dialog.open(this.edssSecondLevelAddTemplate, dialogConfig);
+    }, 500)
   }
 
   showSecondLevel(data) {
