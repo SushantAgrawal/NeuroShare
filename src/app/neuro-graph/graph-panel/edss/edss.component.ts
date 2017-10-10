@@ -178,6 +178,7 @@ export class EdssComponent implements OnInit {
       .subscribe(d => {
         d.error ? console.log(d.error) : (() => {
           this.edssData = d.data.edss_scores;
+          this.drawEdssAxis();
           this.drawEdssLineCharts();
         })();
       })
@@ -197,7 +198,7 @@ export class EdssComponent implements OnInit {
     });
     let sub2 = edss.filter(t => !t.data.checked).subscribe(d => {
       d.error ? console.log(d.error) : (() => {
-        this.removeChart();
+        this.unloadChart();
       })();
     })
     let sub3 = modal.subscribe(d => {
@@ -300,12 +301,49 @@ export class EdssComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  drawVirtualCaseload() {
+  drawEdssAxis() {
     this.yScale = d3
       .scaleLinear()
       .domain(this.yDomain)
       .range([GRAPH_SETTINGS.edss.chartHeight - 20, 0]);
+    let svg = d3
+      .select('#edss')
+      .append('g')
+      .attr('class', 'edss-axis')
+      .attr('transform', `translate(${GRAPH_SETTINGS.panel.marginLeft},${GRAPH_SETTINGS.edss.positionTop})`);
 
+    let xAxisGridLines = d3.axisLeft(this.yScale).tickSize(0);
+    let oneDecimalFormat = d3.format(".1f");
+
+    //Draws Y Axis
+    svg.append('g')
+      .attr('class', 'edss-y-axis')
+      .call(g => {
+        let yAxis = g.call(d3.axisLeft(this.yScale).tickFormat(oneDecimalFormat));
+        g.select('.domain').remove();
+        yAxis.selectAll('line')
+          .style('display', 'none');
+        yAxis.selectAll('text')
+          .attr('x', '-5')
+          .attr('fill', GRAPH_SETTINGS.edss.color)
+          .style('font-size', '1.2em')
+          .style('font-weight', 'bold');
+      });
+
+    //Grid Lines
+    svg.append('g')
+      .attr('class', 'horizontal-grid-lines')
+      .call(g => {
+        let axis = g.call(xAxisGridLines)
+        axis.select('.domain').remove();
+        axis.selectAll('text').remove();
+        axis.selectAll('line').attr('x2', (d) => {
+          return this.chartState.canvasDimension.offsetWidth;
+        });
+      });
+  }
+
+  drawVirtualCaseload() {
     let line = d3.line<any>()
       .x((d: any) => this.chartState.xScale(d.lastUpdatedDate))
       .y((d: any) => this.yScale(d.scoreValue));
@@ -326,7 +364,8 @@ export class EdssComponent implements OnInit {
 
     let svg = d3
       .select('#edss')
-      .attr('class', 'edss-elements-wrapper')
+      .append('g')
+      .attr('class', 'edss-charts')
       .attr('transform', `translate(${GRAPH_SETTINGS.panel.marginLeft},${GRAPH_SETTINGS.edss.positionTop})`)
 
     svg.append("path")
@@ -376,11 +415,7 @@ export class EdssComponent implements OnInit {
     }).sort((a, b) => a.lastUpdatedDate - b.lastUpdatedDate);
 
     var oneDecimalFormat = d3.format(".1f");
-    //Y axis scale
-    this.yScale = d3
-      .scaleLinear()
-      .domain(this.yDomain)
-      .range([GRAPH_SETTINGS.edss.chartHeight - 20, 0]);
+
     //Chart line
     let line = d3.line<any>()
       .x((d: any) => this.chartState.xScale(d.lastUpdatedDate))
@@ -388,47 +423,11 @@ export class EdssComponent implements OnInit {
     //Drawing container
     let svg = d3
       .select('#edss')
-      .attr('class', 'edss-elements-wrapper')
+      .append('g')
+      .attr('class', 'edss-charts')
       .attr('transform', `translate(${GRAPH_SETTINGS.panel.marginLeft},${GRAPH_SETTINGS.edss.positionTop})`)
-    //Draws Y axis bottom text
-    let axisText = svg.append('text')
-      .attr('y', GRAPH_SETTINGS.edss.chartHeight)
-      .style('font-size', '10px');
-    axisText.append('tspan')
-      .attr('x', -GRAPH_SETTINGS.panel.marginLeft)
-      .attr('dy', 0)
-      .text('EDSS')
-    axisText.append('tspan')
-      .attr('x', -GRAPH_SETTINGS.panel.marginLeft)
-      .attr('dy', 10)
-      .text('Score')
-    //Draws Y Axis
-    svg.append('g')
-      .attr('class', 'edss-y-axis')
-      .call(g => {
-        let yAxis = g.call(d3.axisLeft(this.yScale).tickFormat(oneDecimalFormat));
-        g.select('.domain').remove();
-        yAxis.selectAll('line')
-          .style('display', 'none');
-        yAxis.selectAll('text')
-          .attr('x', '-5')
-          .attr('fill', GRAPH_SETTINGS.edss.color)
-          .style('font-size', '1.2em')
-          .style('font-weight', 'bold');
-      });
-    //Horizontal grid lines
-    let xAxisGridLines = d3.axisLeft(this.yScale).tickSize(0);
-    svg.append('g')
-      .attr('class', 'horizontal-grid-lines')
-      .call(g => {
-        let axis = g.call(xAxisGridLines)
-        axis.select('.domain').remove();
-        axis.selectAll('text').remove();
-        axis.selectAll('line').attr('x2', (d) => {
-          return this.chartState.canvasDimension.offsetWidth;
-        });
-      });
-    //Draws circles for clinician data
+
+      //Draws circles for clinician data
     svg.selectAll('.dot-clinician')
       .data(clinicianDataSet)
       .enter()
@@ -496,6 +495,10 @@ export class EdssComponent implements OnInit {
   }
 
   removeChart() {
+    d3.selectAll('.edss-charts').remove();
+  }
+
+  unloadChart() {
     d3.select('#edss').selectAll("*").remove();
   }
 }
