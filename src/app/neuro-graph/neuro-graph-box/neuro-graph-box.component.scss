@@ -161,9 +161,11 @@ label {
         -webkit-box-shadow: 2px 2px 2px 1px #9c9c9c;
         box-shadow: 2px 2px 2px 1px #9c9c9c;
     }
+    
     .mat-button-focus-overlay {
         background-color: rgba(0,0,0,0);
     }
+
     &.selected{
         background-color: #999999;
         color: #ffffff;
