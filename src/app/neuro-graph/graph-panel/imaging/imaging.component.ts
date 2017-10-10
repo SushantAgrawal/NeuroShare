@@ -33,6 +33,8 @@ export class ImagingComponent implements OnInit {
   private datasetB: Array<any> =[];
   private datasetC: Array<any> =[];
   private dialogRef: any;
+  private hasReportIcon: boolean = false;
+  private hasBrainIcon: boolean = false;
   constructor(private brokerService: BrokerService,public dialog: MdDialog) { }
 
   ngOnInit() {
