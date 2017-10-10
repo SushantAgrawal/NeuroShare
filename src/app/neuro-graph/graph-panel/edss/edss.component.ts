@@ -399,7 +399,6 @@ export class EdssComponent implements OnInit {
       .attr('x', -GRAPH_SETTINGS.panel.marginLeft)
       .attr('dy', 10)
       .text('Score')
-
     //Draws Y Axis
     svg.append('g')
       .attr('class', 'edss-y-axis')
