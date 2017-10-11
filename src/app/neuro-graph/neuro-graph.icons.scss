@@ -1,15 +1,15 @@
 
 @font-face{
-    font-family : 'icomoon';
-    src: url('../../../assets/fonts/icomoon.eot?7o7flt');
-    src: url('../../../assets/fonts/icomoon.eot?7o7flt#iefix') format('embedded-opentype'), url('../../../assets/fonts/icomoon.ttf?7o7flt') format('truetype'), url('../../../assets/fonts/icomoon.woff?7o7flt') format('woff'), url('../../../assets/fonts/icomoon.svg?7o7flt#icomoon') format('svg');
+    font-family : 'neuro-graph';
+    src: url('../../../assets/fonts/neuro-graph.eot?7o7flt');
+    src: url('../../../assets/fonts/neuro-graph.eot?7o7flt#iefix') format('embedded-opentype'), url('../../../assets/fonts/neuro-graph.ttf?7o7flt') format('truetype'), url('../../../assets/fonts/neuro-graph.woff?7o7flt') format('woff'), url('../../../assets/fonts/neuro-graph.svg?7o7flt#icomoon') format('svg');
     font-weight: normal;
     font-style: normal;
 }
 
-[class^="icon-"], [class*=" icon-"] {
+[class^="neuro-icon-"], [class*=" neuro-icon-"] {
     /* use !important to prevent issues with browser extensions that change fonts */
-    font-family: 'icomoon' !important;
+    font-family: 'neuro-graph' !important;
     speak: none;
     font-style: normal;
     font-weight: normal;
@@ -22,179 +22,179 @@
     -moz-osx-font-smoothing: grayscale;
   }
   
-  .icon-clinician:before {
+  .neuro-icon-clinician:before {
     content: "\e900";
   }
-  .icon-close:before {
+  .neuro-icon-close:before {
     content: "\e901";
   }
-  .icon-full-screen .path1:before {
+  .neuro-icon-full-screen .path1:before {
     content: "\e902";
   }
-  .icon-full-screen .path2:before {
+  .neuro-icon-full-screen .path2:before {
     content: "\e903";
     margin-left: -1em;
   }
-  .icon-full-screen .path3:before {
+  .neuro-icon-full-screen .path3:before {
     content: "\e904";
     margin-left: -1em;
   }
-  .icon-full-screen .path4:before {
+  .neuro-icon-full-screen .path4:before {
     content: "\e905";
     margin-left: -1em;
   }
-  .icon-full-screen .path5:before {
+  .neuro-icon-full-screen .path5:before {
     content: "\e906";
     margin-left: -1em;
   }
-  .icon-full-screen .path6:before {
+  .neuro-icon-full-screen .path6:before {
     content: "\e907";
     margin-left: -1em;
   }
-  .icon-full-screen .path7:before {
+  .neuro-icon-full-screen .path7:before {
     content: "\e908";
     margin-left: -1em;
   }
-  .icon-full-screen .path8:before {
+  .neuro-icon-full-screen .path8:before {
     content: "\e909";
     margin-left: -1em;
   }
-  .icon-graph-key:before {
+  .neuro-icon-graph-key:before {
     content: "\e90a";
   }
-  .icon-graph-undo:before {
+  .neuro-icon-graph-undo:before {
     content: "\e90b";
   }
-  .icon-graph-zoom:before {
+  .neuro-icon-graph-zoom:before {
     content: "\e90c";
   }
-  .icon-info:before {
+  .neuro-icon-info:before {
     content: "\e90d";
   }
-  .icon-memo:before {
+  .neuro-icon-memo:before {
     content: "\e90e";
   }
-  .icon-move:before {
+  .neuro-icon-move:before {
     content: "\e90f";
   }
-  .icon-mri .path1:before {
+  .neuro-icon-mri .path1:before {
     content: "\e910";
   }
-  .icon-mri .path2:before {
+  .neuro-icon-mri .path2:before {
     content: "\e911";
     margin-left: -1em;
   }
-  .icon-mri .path3:before {
+  .neuro-icon-mri .path3:before {
     content: "\e912";
     margin-left: -1em;
   }
-  .icon-mri .path4:before {
+  .neuro-icon-mri .path4:before {
     content: "\e913";
     margin-left: -1em;
   }
-  .icon-mri .path5:before {
+  .neuro-icon-mri .path5:before {
     content: "\e914";
     margin-left: -1em;
   }
-  .icon-mri .path6:before {
+  .neuro-icon-mri .path6:before {
     content: "\e915";
     margin-left: -1em;
   }
-  .icon-mri .path7:before {
+  .neuro-icon-mri .path7:before {
     content: "\e916";
     margin-left: -1em;
   }
-  .icon-mri .path8:before {
+  .neuro-icon-mri .path8:before {
     content: "\e917";
     margin-left: -1em;
   }
-  .icon-mri .path9:before {
+  .neuro-icon-mri .path9:before {
     content: "\e918";
     margin-left: -1em;
   }
-  .icon-mri .path10:before {
+  .neuro-icon-mri .path10:before {
     content: "\e919";
     margin-left: -1em;
   }
-  .icon-mri .path11:before {
+  .neuro-icon-mri .path11:before {
     content: "\e91a";
     margin-left: -1em;
   }
-  .icon-mri .path12:before {
+  .neuro-icon-mri .path12:before {
     content: "\e91b";
     margin-left: -1em;
   }
-  .icon-mri .path13:before {
+  .neuro-icon-mri .path13:before {
     content: "\e91c";
     margin-left: -1em;
   }
-  .icon-mri .path14:before {
+  .neuro-icon-mri .path14:before {
     content: "\e91d";
     margin-left: -1em;
   }
-  .icon-mri .path15:before {
+  .neuro-icon-mri .path15:before {
     content: "\e91e";
     margin-left: -1em;
   }
-  .icon-mri .path16:before {
+  .neuro-icon-mri .path16:before {
     content: "\e91f";
     margin-left: -1em;
   }
-  .icon-mri .path17:before {
+  .neuro-icon-mri .path17:before {
     content: "\e920";
     margin-left: -1em;
   }
-  .icon-mri .path18:before {
+  .neuro-icon-mri .path18:before {
     content: "\e921";
     margin-left: -1em;
   }
-  .icon-nav-avs:before {
+  .neuro-icon-nav-avs:before {
     content: "\e922";
   }
-  .icon-nav-book:before {
+  .neuro-icon-nav-book:before {
     content: "\e923";
   }
-  .icon-nav-feedback:before {
+  .neuro-icon-nav-feedback:before {
     content: "\e924";
   }
-  .icon-nav-graph:before {
+  .neuro-icon-nav-graph:before {
     content: "\e925";
   }
-  .icon-nav-note .path1:before {
+  .neuro-icon-nav-note .path1:before {
     content: "\e926";
   }
-  .icon-nav-note .path2:before {
+  .neuro-icon-nav-note .path2:before {
     content: "\e927";
     margin-left: -1em;
   }
-  .icon-nav-note .path3:before {
+  .neuro-icon-nav-note .path3:before {
     content: "\e928";
     margin-left: -1em;
   }
-  .icon-nav-note .path4:before {
+  .neuro-icon-nav-note .path4:before {
     content: "\e929";
     margin-left: -1em;
   }
-  .icon-nav-note .path5:before {
+  .neuro-icon-nav-note .path5:before {
     content: "\e92a";
     margin-left: -1em;
   }
-  .icon-quick-actions:before {
+  .neuro-icon-quick-actions:before {
     content: "\e92b";
   }
-  .icon-symptom:before {
+  .neuro-icon-symptom:before {
     content: "\e92c";
   }
-  .icon-test-tube:before {
+  .neuro-icon-test-tube:before {
     content: "\e92d";
   }
-  .icon-tick:before {
+  .neuro-icon-tick:before {
     content: "\e92e";
   }
-  .icon-visit-task:before {
+  .neuro-icon-visit-task:before {
     content: "\e92f";
   }
-  .icon-walking-stick:before {
+  .neuro-icon-walking-stick:before {
     content: "\e930";
   }
   
