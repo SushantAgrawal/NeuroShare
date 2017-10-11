@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewEncapsulation,ViewChild,TemplateRef } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation, ViewChild, TemplateRef } from '@angular/core';
 import * as d3 from 'd3';
 import { GRAPH_SETTINGS } from '../../neuro-graph.config';
 import { BrokerService } from '../../broker/broker.service';
@@ -28,27 +28,28 @@ export class ImagingComponent implements OnInit {
   private subscriptions: any;
   private imagingDataDetails: Array<any>;
   private imagingData: Array<any>;
-  
-  private datasetA: Array<any> ;
-  private datasetB: Array<any> =[];
-  private datasetC: Array<any> =[];
+
+  private datasetA: Array<any>;
+  private datasetB: Array<any> = [];
+  private datasetC: Array<any> = [];
   private dialogRef: any;
+  private reportDialogRef: any;
   private hasReportIcon: boolean = true;
   private hasBrainIcon: boolean = true;
-  constructor(private brokerService: BrokerService,public dialog: MdDialog) { }
+  constructor(private brokerService: BrokerService, public dialog: MdDialog, public reportDialog: MdDialog) { }
 
   ngOnInit() {
     this.subscriptions = this
-    .brokerService
-    .filterOn(allHttpMessages.httpGetImaging)
-    .subscribe(d => {
-      d.error
-        ? console.log(d.error)
-        : (() => {
-          this.imagingData = d.data.EPIC.patient[0].imagingOrders;
-          this.createChart();
-        })();
-    })
+      .brokerService
+      .filterOn(allHttpMessages.httpGetImaging)
+      .subscribe(d => {
+        d.error
+          ? console.log(d.error)
+          : (() => {
+            this.imagingData = d.data.EPIC.patient[0].imagingOrders;
+            this.createChart();
+          })();
+      })
 
     let imaging = this
       .brokerService
@@ -63,9 +64,9 @@ export class ImagingComponent implements OnInit {
           : (() => {
             console.log(d.data);
             //make api call
-             this
-            .brokerService
-            .httpGet(allHttpMessages.httpGetImaging);
+            this
+              .brokerService
+              .httpGet(allHttpMessages.httpGetImaging);
           })();
       });
 
@@ -80,7 +81,7 @@ export class ImagingComponent implements OnInit {
           })();
       })
 
-      this
+    this
       .subscriptions
       .add(sub1)
       .add(sub2);
@@ -93,19 +94,22 @@ export class ImagingComponent implements OnInit {
 
   showSecondLevel(data) {
     this.imagingDataDetails = data.orderDetails;
-      let dialogConfig = { hasBackdrop: true, panelClass: 'ns-images-theme', width: '375px' };
-      this.dialogRef = this.dialog.open(this.imagingSecondLevelTemplate, dialogConfig);
+    let dialogConfig = { hasBackdrop: true, skipHide: true, panelClass: 'ns-images-theme', width: '375px' };
+    this.dialogRef = this.dialog.open(this.imagingSecondLevelTemplate, dialogConfig);
   }
-  showResult(){
-    
-    let dialogConfig = { hasBackdrop: false, panelClass: 'ns-images-theme', width: '490px', height: '600px'};
-    this.dialogRef = this.dialog.open(this.imagingThirdLevelTemplate, dialogConfig);
-    this.dialogRef.updatePosition({ top: '50px', left: "860px" });
+
+  showResult() {
+    setTimeout(() => {
+      let dialogConfig = { hasBackdrop: false, skipHide: true, panelClass: 'ns-images-theme', width: '490px', height: '600px' };
+      this.reportDialogRef = this.dialog.open(this.imagingThirdLevelTemplate, dialogConfig);
+      this.reportDialogRef.updatePosition({ top: '50px', left: "860px" });
+    }, 200);
   }
+
   removeChart() {
     d3.select('#imaging').selectAll("*").remove();
-    this.datasetB=[];
-    this.datasetC=[];
+    this.datasetB = [];
+    this.datasetC = [];
   }
   createChart() {
     this.datasetA = this.imagingData.map(d => {
@@ -117,42 +121,35 @@ export class ImagingComponent implements OnInit {
         orderFormatDate: d.orderDate
       }
     }).sort((a, b) => a.orderDate - b.orderDate);
-    for(let k=0;k<this.datasetA.length;k++)
-    {
-        this.datasetC.push(this.datasetA[k]);
+    for (let k = 0; k < this.datasetA.length; k++) {
+      this.datasetC.push(this.datasetA[k]);
     }
-    
-    let repeatCount=0;
+
+    let repeatCount = 0;
     let isComplete = "Empty";
-  
-    for(let i=0;i<this.datasetC.length;i++)
-    {
-      for(let j=0;j<this.datasetC.length;j++)
-      {
-        if(this.datasetC[i].orderFormatDate == this.datasetC[j].orderFormatDate)
-        {
-          if(repeatCount == 0)
-          {
-            if(this.datasetC[j].status == "Completed")
-            {
-              isComplete="Full";
+
+    for (let i = 0; i < this.datasetC.length; i++) {
+      for (let j = 0; j < this.datasetC.length; j++) {
+        if (this.datasetC[i].orderFormatDate == this.datasetC[j].orderFormatDate) {
+          if (repeatCount == 0) {
+            if (this.datasetC[j].status == "Completed") {
+              isComplete = "Full";
             }
-           
-              this.datasetB.push({'orderDate':this.datasetC[j].orderDate,
-              'status':isComplete,
+
+            this.datasetB.push({
+              'orderDate': this.datasetC[j].orderDate,
+              'status': isComplete,
               'orderDetails': [this.datasetC[j]]
-              }) 
-          repeatCount++;
+            })
+            repeatCount++;
           }
-          else{
-            if(this.datasetC[j].status != "Completed" && isComplete=="Full")
-            {
-              isComplete="Half";
+          else {
+            if (this.datasetC[j].status != "Completed" && isComplete == "Full") {
+              isComplete = "Half";
               this.datasetB[this.datasetB.length - 1].status = isComplete;
             }
-            else if(this.datasetC[j].status == "Completed" && isComplete=="Empty")
-            {
-              isComplete="Half";
+            else if (this.datasetC[j].status == "Completed" && isComplete == "Empty") {
+              isComplete = "Half";
               this.datasetB[this.datasetB.length - 1].status = isComplete;
             }
             this.datasetB[this.datasetB.length - 1].orderDetails.push(this.datasetC[j]);
@@ -160,7 +157,7 @@ export class ImagingComponent implements OnInit {
           }
         }
       }
-     
+
       repeatCount = 0;
       isComplete = "Empty";
     }
