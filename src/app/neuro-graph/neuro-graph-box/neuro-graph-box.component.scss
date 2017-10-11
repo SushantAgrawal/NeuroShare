@@ -161,9 +161,11 @@ label {
         -webkit-box-shadow: 2px 2px 2px 1px #9c9c9c;
         box-shadow: 2px 2px 2px 1px #9c9c9c;
     }
+    
     .mat-button-focus-overlay {
         background-color: rgba(0,0,0,0);
     }
+
     &.selected{
         background-color: #999999;
         color: #ffffff;
@@ -176,9 +178,6 @@ label {
         border: solid 1px #aaaaaa !important;
    }
 }
-
-
-
 .btn-info{ 
     width: 23px; 
     height: 23px; 
@@ -191,6 +190,8 @@ label {
     color: #333333; 
     border: solid 1px #F15A24; 
     background-color: #ffffff;
+    margin-top: 7px;
+    cursor: pointer;
     @include border-radius(50%);
     &:not([disabled]):hover {
         border: solid 1px #F15A24; 
@@ -200,7 +201,6 @@ label {
         color: #333333; 
     }
 }
-
 .graph-container {
     overflow: hidden;
 }
@@ -330,7 +330,7 @@ label {
     background-color: $background;
     float: left;
     border: solid 1px #e9e9e9;
-    margin-right: 15px;
+    margin-right: 10px;
 }
 .related-text-rotate {
     font-size: 10pt;

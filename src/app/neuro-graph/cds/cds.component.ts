@@ -3,6 +3,8 @@ import {BrokerService} from '../broker/broker.service';
 import {NeuroGraphService} from '../neuro-graph.service';
 import {Observable} from 'rxjs/Observable';
 import {MdDialog} from '@angular/material';
+// import moment from 'moment/src/moment.js';
+// import * as moment from 'moment';
 // import * as _ from 'lodash';
 import {cdsMap, allMessages, manyHttpMessages, allHttpMessages} from '../neuro-graph.config';
 import {InfoPopupComponent} from './info-popup/info-popup.component'
@@ -99,7 +101,7 @@ export class CdsComponent implements OnInit {
             this.cdsUserData = this
               .cdsUserData
               .find(x => x.save_csn == this.csnState.csn);
-            this.setChkBoxes();
+            this.setChkBoxes();          
           })();
       });
     let sub3 = this
@@ -131,24 +133,25 @@ export class CdsComponent implements OnInit {
   saveChkBoxesState() {
     this
       .brokerService
-      .httpPost(allHttpMessages.httpPostCdsUserData, this.getCdsStateData());
-    // if (this.cdsUserData.provider_id) {   this     .brokerService
-    // .put(allHttpMessages.httpPutCdsUserData)   else {     this .brokerService
-    //   .post(allHttpMessages.httpPostCdsUserData)   } }
+      .httpPost(allHttpMessages.httpPostCdsUserData, this.getCdsStateData());    
   }
 
   getCdsStateData() {
-    let cdsStateData = {};
+    let cdsStateData:any = {};
     Object
       .keys(this.cdsState)
       .forEach(x => {
+        this;
         let ret;
-        if (this.cdsState[x]) {
+        if (this.cdsState[x].checked) {
           cdsStateData[x] = "Yes";
         } else {
           cdsStateData[x] = "No";
         }
       });
+      cdsStateData.provider_id = this.cdsUserData.last_updated_provider_id;
+      cdsStateData.encounter_csn = this.cdsUserData.save_csn;
+      cdsStateData.updated_instant = '10/10/2017 11:11:11';// moment().format('MM/DD/YYYY HH:mm:ss');    
     return (cdsStateData);
   }
 
@@ -178,6 +181,8 @@ export class CdsComponent implements OnInit {
     let dialogRef = this
       .dialog
       .open(InfoPopupComponent, {
+        backdropClass:'cds-info-popup-backdrop',
+        panelClass:'cds-info-popup',
         width: '300px',
         data: {
           info: this.selectedCdsInfo,

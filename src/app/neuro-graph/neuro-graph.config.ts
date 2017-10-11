@@ -279,17 +279,17 @@ export const GRAPH_SETTINGS = {
     relapse: {
         positionTop: 265,
         chartHeight: 30,
-        color: "red"
+        color: "#E53935"
     },
     imaging: {
         positionTop: 240,
         chartHeight: 30,
-        color: "violet"
+        color: "#BE90D4"
     },
     labs: {
         positionTop: 200,
         chartHeight: 30,
-        color: "blue"
+        color: "#00AAA5"
     }
 }
 

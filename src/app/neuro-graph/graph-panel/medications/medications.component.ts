@@ -186,8 +186,9 @@ export class MedicationsComponent implements OnInit {
         if (dtParts.length == 2) {
           model.patientReportedStartDateMonth = parseInt(dtParts[0]);
           model.patientReportedStartDateYear = parseInt(dtParts[1]);
+          debugger;
+          model.patientReportedStartDateMonthName = this.months[model.patientReportedStartDateMonth - 1];
         }
-
       }
       if (medType == this.medType.otherMeds) {
         model.reasonForMed = secondLayerData.reason_for_med;

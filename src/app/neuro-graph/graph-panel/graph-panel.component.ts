@@ -1,8 +1,10 @@
-import { Component, OnInit, ViewEncapsulation,ViewChild } from '@angular/core';
+
+import { Component, OnInit, ViewEncapsulation,ViewChild,TemplateRef } from '@angular/core';
 import { GRAPH_SETTINGS } from '../neuro-graph.config';
 import * as d3 from 'd3';
 import { BrokerService } from '../broker/broker.service';
 import { allMessages} from '../neuro-graph.config';
+import { MdDialog, MdDialogRef } from '@angular/material';
 import { SharedGridComponent } from '../graph-panel/shared-grid/shared-grid.component';
 import { RelapsesComponent } from '../graph-panel/relapses/relapses.component';
 import { ImagingComponent } from '../graph-panel/imaging/imaging.component';
@@ -17,48 +19,51 @@ import {EdssComponent} from '../graph-panel/edss/edss.component';
   encapsulation: ViewEncapsulation.None
 })
 export class GraphPanelComponent implements OnInit {
+  @ViewChild('virtualCaseloadInfoTemplate') private virtualCaseloadInfoTemplate: TemplateRef<any>;
+  private virtualCaseloadInfoDialogRef: MdDialogRef<any>;
   isEdssSelected: boolean = true;
-  toggleVirtualCaseLoad: string="Add Virtual Caseload";
+  toggleVirtualCaseLoad: string = "Add Virtual Caseload";
   private state: any;
   private graphSetting = GRAPH_SETTINGS;
+
   @ViewChild(SharedGridComponent) childSharedChart:SharedGridComponent;
   @ViewChild(RelapsesComponent) childrelapsesChart:RelapsesComponent;
   @ViewChild(ImagingComponent) childimagesChart:ImagingComponent;
   @ViewChild(LabsComponent) childlabsChart:LabsComponent;
   @ViewChild(MedicationsComponent) childmedicationsChart:MedicationsComponent;
   @ViewChild(EdssComponent) childedssChart:EdssComponent;
-  constructor(private brokerService: BrokerService){ }
+  constructor(private brokerService: BrokerService, private dialog: MdDialog, ) { }
 
   ngOnInit() {
     console.log('graph-panel ngOnInit');
     this.state = this.getDefaultState();
 
     let edss = this
-    .brokerService
-    .filterOn(allMessages.neuroRelated)
-    .filter(t => (t.data.artifact == 'edss'));
+      .brokerService
+      .filterOn(allMessages.neuroRelated)
+      .filter(t => (t.data.artifact == 'edss'));
 
     edss
-    .filter(t => t.data.checked)
-    .subscribe(d => {
-      d.error
-        ? console.log(d.error)
-        : (() => {
-          console.log(d.data);
-          this.isEdssSelected =true;
-          this.toggleVirtualCaseLoad="Add Virtual Caseload";
-        })();
-    });
+      .filter(t => t.data.checked)
+      .subscribe(d => {
+        d.error
+          ? console.log(d.error)
+          : (() => {
+            console.log(d.data);
+            this.isEdssSelected = true;
+            this.toggleVirtualCaseLoad = "Add Virtual Caseload";
+          })();
+      });
 
     edss
-    .filter(t => !t.data.checked)
-    .subscribe(d => {
-      d.error
-        ? console.log(d.error)
-        : (() => {
-          this.isEdssSelected =false;
-        })();
-    })
+      .filter(t => !t.data.checked)
+      .subscribe(d => {
+        d.error
+          ? console.log(d.error)
+          : (() => {
+            this.isEdssSelected = false;
+          })();
+      })
   }
 
   getXDomain(zoomOption) {
@@ -241,24 +246,28 @@ export class GraphPanelComponent implements OnInit {
     state.zoomVal="";
     return state;
   }
-  addArea()
-  {
-    let value ="";
-    if(this.toggleVirtualCaseLoad=="Add Virtual Caseload")
-      {
-      this.toggleVirtualCaseLoad="Remove Virtual Caseload"
-       value = "add";
-      }
-    else
-      {
-        this.toggleVirtualCaseLoad="Add Virtual Caseload"
-        value = "remove";
-      }
-      
+
+  toggleEdssVirtualCaseload() {
+    let value = "";
+    if (this.toggleVirtualCaseLoad == "Add Virtual Caseload") {
+      this.toggleVirtualCaseLoad = "Remove Virtual Caseload"
+      value = "add";
+    }
+    else {
+      this.toggleVirtualCaseLoad = "Add Virtual Caseload"
+      value = "remove";
+    }
+
     this
-    .brokerService
-    .emit(allMessages.virtualCaseload, {
-      artifact: value
-    });
+      .brokerService
+      .emit(allMessages.virtualCaseload, {
+        artifact: value
+      });
+  }
+
+  showVirtualCaseloadInfo(e) {
+    let dialogConfig = { hasBackdrop: false, panelClass: 'virtual-caseload-info', width: '300px', height: '200px' };
+    this.virtualCaseloadInfoDialogRef = this.dialog.open(this.virtualCaseloadInfoTemplate, dialogConfig);
+    this.virtualCaseloadInfoDialogRef.updatePosition({ top: `${e.clientY}px`, left:`${e.clientX}px` });
   }
 }

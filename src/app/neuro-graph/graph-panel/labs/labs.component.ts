@@ -188,7 +188,7 @@ private datasetC: Array<any> =[];
         { "orderDate": this.chartState.xDomain.defaultMaxValue, "axis": 3.0 }
       ])
       .attr("d", this.lineA)
-      .attr("stroke", "#00AAA5")
+      .attr("stroke", GRAPH_SETTINGS.labs.color)
       .attr("stroke-width", "10")
       .attr("opacity", "0.25")
       .attr("fill", "none")
@@ -203,7 +203,7 @@ private datasetC: Array<any> =[];
       .attr("y1", "100%")
       .attr("y2", "0%");
 
-    gradLab.append("stop").attr("offset", "50%").style("stop-color", "#00AAA5");
+    gradLab.append("stop").attr("offset", "50%").style("stop-color", GRAPH_SETTINGS.labs.color);
     gradLab.append("stop").attr("offset", "50%").style("stop-color", "white");
 
 
@@ -216,14 +216,14 @@ private datasetC: Array<any> =[];
       .attr("cy", d => this.yScale(d.axis))
       .attr("r", 10)
       .attr('class', 'x-axis-arrow')
-      .style("stroke", "#00AAA5")
+      .style("stroke", GRAPH_SETTINGS.labs.color)
       .style("fill", d => {
         let returnColor;
         if (d.status == "Empty") {
           returnColor = "#FFF"
         }
         else if (d.status == "Full") {
-          returnColor = "#00AAA5"
+          returnColor = GRAPH_SETTINGS.labs.color
         }
         else {
           returnColor = "url(#gradLab)"

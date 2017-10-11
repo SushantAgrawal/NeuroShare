@@ -17,7 +17,22 @@
     }
     .mat-select{ padding-top: 0px;} 
 }
-
+.lebel-with-bg{
+    display: inline-block; background-color:#ececec;  text-align: left; padding: 3px;
+}
+.ns-dmt-report-month{
+    @extend .lebel-with-bg;
+    margin-right: 5px;
+    width: 62px;
+}
+.ns-dmt-report-year{
+    @extend .lebel-with-bg;
+    width: 62px;
+ }
+ .ns-dmt-model{
+    @extend .lebel-with-bg;
+    width: 136px;
+ }
 .ns-dmt-selectBox-value{  width: 39%; display: inline-block;
     @extend .ns-selectBox; 
     .mat-select-trigger {
@@ -67,6 +82,10 @@
     min-width: 146px;
     }
 }
+.ns-other-meds-model{
+    @extend .lebel-with-bg;
+    width: 136px;
+ }
 .ns-other-meds-text{font-style: Italic; padding-top: 5px;}
 .ns-other-meds-update{
     float: right;

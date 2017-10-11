@@ -17,7 +17,6 @@ export class ImagingComponent implements OnInit {
   private chart: any;
   private width: number;
   private height: number;
-  //private xScale: any;
   private colors: any;
   private xAxis: any;
   private yAxis: any;
@@ -42,11 +41,9 @@ export class ImagingComponent implements OnInit {
     .brokerService
     .filterOn(allHttpMessages.httpGetImaging)
     .subscribe(d => {
-     // debugger;
       d.error
         ? console.log(d.error)
         : (() => {
-          
           this.imagingData = d.data.EPIC.patient[0].imagingOrders;
           this.createChart();
         })();
@@ -68,7 +65,6 @@ export class ImagingComponent implements OnInit {
              this
             .brokerService
             .httpGet(allHttpMessages.httpGetImaging);
-            //this.createChart();
           })();
       });
 
@@ -95,14 +91,9 @@ export class ImagingComponent implements OnInit {
   }
 
   showSecondLevel(data) {
-    console.log(data);
-   
     this.imagingDataDetails = data.orderDetails;
-   
       let dialogConfig = { hasBackdrop: true, panelClass: 'ns-images-theme', width: '375px' };
       this.dialogRef = this.dialog.open(this.imagingSecondLevelTemplate, dialogConfig);
-   
-
   }
   removeChart() {
     d3.select('#imaging').selectAll("*").remove();
@@ -110,7 +101,6 @@ export class ImagingComponent implements OnInit {
     this.datasetC=[];
   }
   createChart() {
-   // debugger;
     this.datasetA = this.imagingData.map(d => {
       return {
         ...d,
@@ -118,14 +108,11 @@ export class ImagingComponent implements OnInit {
         axis: 3.0,
         status: d.status,
         orderFormatDate: d.orderDate
-
       }
     }).sort((a, b) => a.orderDate - b.orderDate);
     for(let k=0;k<this.datasetA.length;k++)
     {
-      
         this.datasetC.push(this.datasetA[k]);
-     
     }
     
     let repeatCount=0;
@@ -148,8 +135,6 @@ export class ImagingComponent implements OnInit {
               'status':isComplete,
               'orderDetails': [this.datasetC[j]]
               }) 
-            
-            
           repeatCount++;
           }
           else{
@@ -165,9 +150,7 @@ export class ImagingComponent implements OnInit {
             }
             this.datasetB[this.datasetB.length - 1].orderDetails.push(this.datasetC[j]);
             this.datasetC.splice(j, 1);
-            
           }
-           
         }
       }
      
@@ -180,10 +163,8 @@ export class ImagingComponent implements OnInit {
         orderDate: d.orderDate,
         axis: 3.0,
         status: d.status
-       
       }
     }).sort((a, b) => a.orderDate - b.orderDate);
-    //debugger;
     let element = d3.select("#imaging");
     this.width = GRAPH_SETTINGS.panel.offsetWidth - GRAPH_SETTINGS.panel.marginLeft - GRAPH_SETTINGS.panel.marginRight;
     this.height = GRAPH_SETTINGS.panel.offsetHeight - GRAPH_SETTINGS.panel.marginTop - GRAPH_SETTINGS.panel.marginBottom;
@@ -193,7 +174,6 @@ export class ImagingComponent implements OnInit {
       .domain(this.yDomain)
       .range([GRAPH_SETTINGS.imaging.chartHeight - 20, 0]);
 
-    //this.xScale = d3.scaleLinear().domain(this.chartState.xDomain).range([0, this.width, 0]);
     this.lineA = d3.line<any>()
       .x((d: any) => this.chartState.xScale(d.orderDate))
       .y((d: any) => this.yScale(d.axis));
@@ -207,13 +187,11 @@ export class ImagingComponent implements OnInit {
         { "orderDate": this.chartState.xDomain.defaultMaxValue, "axis": 3.0 }
       ])
       .attr("d", this.lineA)
-      .attr("stroke", "#BE90D4")
+      .attr("stroke", GRAPH_SETTINGS.imaging.color)
       .attr("stroke-width", "10")
       .attr("opacity", "0.25")
       .attr("fill", "none")
       .attr("class", "lineA")
-
-
 
     let gradImg = this.chart
       .append("defs")
@@ -224,9 +202,8 @@ export class ImagingComponent implements OnInit {
       .attr("y1", "100%")
       .attr("y2", "0%");
 
-    gradImg.append("stop").attr("offset", "50%").style("stop-color", "#BE90D4");
+    gradImg.append("stop").attr("offset", "50%").style("stop-color", GRAPH_SETTINGS.imaging.color);
     gradImg.append("stop").attr("offset", "50%").style("stop-color", "white");
-
 
     this.chart.selectAll(".dotA")
       .data(this.datasetB)
@@ -237,14 +214,14 @@ export class ImagingComponent implements OnInit {
       .attr("cy", d => this.yScale(d.axis))
       .attr("r", 10)
       .attr('class', 'x-axis-arrow')
-      .style("stroke", "#BE90D4")
+      .style("stroke", GRAPH_SETTINGS.imaging.color)
       .style("fill", d => {
         let returnColor;
         if (d.status == "Empty") {
           returnColor = "#FFF"
         }
         else if (d.status == "Full") {
-          returnColor = "#BE90D4"
+          returnColor = GRAPH_SETTINGS.imaging.color
         }
         else {
           returnColor = "url(#gradImg)"
@@ -261,8 +238,6 @@ export class ImagingComponent implements OnInit {
       .attr("text-anchor", "start")
       .attr("font-size", "10px")
       .text("Images");
-
-
   }
 }
 
