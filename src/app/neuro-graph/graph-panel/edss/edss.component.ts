@@ -323,14 +323,14 @@ export class EdssComponent implements OnInit {
 
       for(let i=0;i<this.edssVirtualLoadDataLength;i++)
       {
-        let date = Date.parse("07/01/2015");
+        let date = Date.parse("06/30/2015");
         if(i==1)
         {
-          date = Date.parse("07/01/2016");
+          date = Date.parse("06/30/2016");
         }
         else if(i==2)
         {
-          date = Date.parse("07/01/2017");
+          date = Date.parse("06/30/2017");
         }
         this.datasetArea1.push({
           "xDate": date,
