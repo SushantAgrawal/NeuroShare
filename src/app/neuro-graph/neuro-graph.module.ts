@@ -21,10 +21,10 @@ import { InfoPopupComponent } from './cds/info-popup/info-popup.component';
 import { ImagingComponent } from './graph-panel/imaging/imaging.component';
 import { LabsComponent } from './graph-panel/labs/labs.component';
 
-export * from './graph-panel/graph-panel.component';
-export * from './cds/cds.component';
-export * from './neuro-graph-box/neuro-graph-box.component';
-export * from './neuro-related/neuro-related.component';
+// export * from './graph-panel/graph-panel.component';
+// export * from './cds/cds.component';
+// export * from './neuro-graph-box/neuro-graph-box.component';
+// export * from './neuro-related/neuro-related.component';
 
 export const ROUTES: Routes = [];
 @NgModule({
@@ -55,7 +55,13 @@ export const ROUTES: Routes = [];
     ImagingComponent,
     LabsComponent
   ],
-  exports: [NeuroGraphBoxComponent],
+  exports: [
+    NeuroGraphBoxComponent,
+    CdsComponent,
+    GraphPanelComponent,
+    NeuroRelatedComponent,
+    PatientConcernsComponent
+  ],
   providers: [NeuroGraphService],
   bootstrap: [InfoPopupComponent]
 })
