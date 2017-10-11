@@ -1,27 +1,89 @@
 <ng-template #imagingSecondLevelTemplate>
     <div class="modal-header">
-    <h4 class="modal-title">Imaging</h4>
-    <button type="button" class="close" aria-label="Close" (click)="dialog.closeAll()">
+        <h4 class="modal-title">Imaging</h4>
+        <button type="button" class="close" aria-label="Close" (click)="dialog.closeAll()">
     <span aria-hidden="true">&times;</span>
     </button>
     </div>
     <div class="modal-body">
-    <div class="imaging-container">
-        <div class="ns-imaging-header">
-            <div class="ns-imaging-col">Study</div>
-            <div class="ns-imaging-col">Ordered</div>
-            <div class="ns-imaging-data">See Data</div>
-        </div>
-        <div  class="ns-imaging-row" *ngFor="let imaging of imagingDataDetails; let i = index;">
-            <div class="ns-imaging-col">{{imaging.displayName}}</div>
-            <div class="ns-imaging-col">{{imaging.orderFormatDate}}</div>
+        <div class="imaging-container">
+            <div class="ns-imaging-header">
+                <div class="ns-imaging-col">Study</div>
+                <div class="ns-imaging-col">Ordered</div>
+                <div class="ns-imaging-data">See Data</div>
+            </div>
+            <div class="ns-imaging-row" *ngFor="let imaging of imagingDataDetails; let i = index;">
+                <div class="ns-imaging-col">{{imaging.displayName}}</div>
+                <div class="ns-imaging-col">{{imaging.orderFormatDate}}</div>
                 <div class="ns-imaging-icon" *ngIf="i == 0">
-                    <span *ngIf="hasReportIcon==true" class="icon-mri">
+                    <span *ngIf="hasReportIcon==true" class="neuro-icon-mri">
                     <span *ngIf="hasReportIcon==true" class="path1"></span>
-                    </span> 
-                    <span *ngIf="hasBrainIcon==true" class="icon-memo"></span>
-                </div>      
+                    </span>
+                    <span *ngIf="hasBrainIcon==true" class="neuro-icon-memo" style="cursor:pointer;" (click)="showResult()"></span>
+                </div>
+            </div>
         </div>
     </div>
-   </div>
-  </ng-template>
+</ng-template>
+<ng-template #imagingThirdLevelTemplate>
+    <div class="modal-header">
+        <h4 class="modal-title">Imaging Report</h4>
+        <button type="button" class="close" aria-label="Close" (click)="dialogRef.close()">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="imaging-container">
+            <table width="100%" border="1">
+                <tr>
+                    <td style="font-weight:bold;background-color:#eee;padding:5px;" width="35%">
+                        <div>Study Name</div>
+                    </td>
+                    <td style="font-weight:bold;background-color:#eee;padding:5px;" width="20%">
+                        <div>Study Date</div>
+                    </td>
+                    <td style="font-weight:bold;background-color:#eee;padding:5px;" width="40%">
+                        <div>Authorizer</div>
+                    </td>
+                </tr>
+            </table>
+           
+            <div class="ns-imaging-row" *ngFor="let imaging of imagingDataDetails; let i = index;">
+                <div *ngIf="imaging.impression.length > 0">
+                    <table width="100%" border="1">
+                        <tr style="font-style:italic;font-weight:bold;">
+                            <td width="35%">
+                                <div>{{imaging.displayName}}</div>
+                            </td>
+                            <td width="20%">
+                                <div>{{imaging.resultDate}}</div>
+                            </td>
+                            <td width="40%">
+                                <div>{{imaging.authorizingProvider}}</div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3">
+
+                                <br>
+                                <div *ngFor="let imp of imaging.impression;">
+                                    <div>{{imp}} </div>
+                                </div>
+                                <br>
+
+                                <div *ngFor="let nar of imaging.narrative;">
+                                    <div>{{nar}}</div>
+                                </div>
+                                <br>
+
+
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

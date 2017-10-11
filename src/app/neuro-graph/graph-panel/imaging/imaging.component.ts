@@ -13,6 +13,7 @@ import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 })
 export class ImagingComponent implements OnInit {
   @ViewChild('imagingSecondLevelTemplate') private imagingSecondLevelTemplate: TemplateRef<any>;
+  @ViewChild('imagingThirdLevelTemplate') private imagingThirdLevelTemplate: TemplateRef<any>;
   @Input() private chartState: any;
   private chart: any;
   private width: number;
@@ -32,8 +33,8 @@ export class ImagingComponent implements OnInit {
   private datasetB: Array<any> =[];
   private datasetC: Array<any> =[];
   private dialogRef: any;
-  private hasReportIcon: boolean = false;
-  private hasBrainIcon: boolean = false;
+  private hasReportIcon: boolean = true;
+  private hasBrainIcon: boolean = true;
   constructor(private brokerService: BrokerService,public dialog: MdDialog) { }
 
   ngOnInit() {
@@ -94,6 +95,12 @@ export class ImagingComponent implements OnInit {
     this.imagingDataDetails = data.orderDetails;
       let dialogConfig = { hasBackdrop: true, panelClass: 'ns-images-theme', width: '375px' };
       this.dialogRef = this.dialog.open(this.imagingSecondLevelTemplate, dialogConfig);
+  }
+  showResult(){
+    
+    let dialogConfig = { hasBackdrop: false, panelClass: 'ns-images-theme', width: '490px', height: '600px'};
+    this.dialogRef = this.dialog.open(this.imagingThirdLevelTemplate, dialogConfig);
+    this.dialogRef.updatePosition({ top: '50px', left: "860px" });
   }
   removeChart() {
     d3.select('#imaging').selectAll("*").remove();
