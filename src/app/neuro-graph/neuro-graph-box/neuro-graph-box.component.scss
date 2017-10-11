@@ -230,10 +230,16 @@ label {
     background-color: $background;
 }
 
+.patient-concerns-container{
+    margin-right: 0px!important;
+    margin-top: 0px!important;
+}
 .patient-concerns {
     height: 330px;
     margin-bottom: 10px;
     background-color: $panel-background;
+    display: block!important;
+    overflow: hidden!important;
 }
 .neuro-related-care {
     height: 358px;
