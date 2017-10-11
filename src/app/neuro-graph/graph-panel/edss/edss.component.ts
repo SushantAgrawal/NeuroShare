@@ -298,21 +298,7 @@ export class EdssComponent implements OnInit {
       .x((d: any) => this.chartState.xScale(d.lastUpdatedDate))
       .y((d: any) => this.yScale(d.scoreValue));
 
-    let lineMean = d3.line<any>()
-      .x((d: any) => this.chartState.xScale(d.xDate))
-      .y((d: any) => this.yScale(d.m));
-
-    var area1 = d3.area()
-      .x((d: any) => this.chartState.xScale(d.xDate))
-      .y0((d: any) => this.yScale(d.q2))
-      .y1((d: any) => this.yScale(d.q3));
-
-    var area2 = d3.area()
-      .x((d: any) => this.chartState.xScale(d.xDate))
-      .y0((d: any) => this.yScale(d.q1))
-      .y1((d: any) => this.yScale(d.q4));
-
-    let svg = d3
+      let svg = d3
       .select('#edss')
       .append('g')
       .attr('class', 'edss-charts')
@@ -360,7 +346,7 @@ export class EdssComponent implements OnInit {
 
         this.datasetMean.push({
           "xDate": date,
-          "q1": this.edssVirtualLoadDatam[i]
+          "m": this.edssVirtualLoadDatam[i]
       });
     }
     
@@ -381,6 +367,19 @@ export class EdssComponent implements OnInit {
       "m": this.edssVirtualLoadDatam[this.edssVirtualLoadDataLength - 1]
     });
 
+    let lineMean = d3.line<any>()
+    .x((d: any) => this.chartState.xScale(d.xDate))
+    .y((d: any) => this.yScale(d.m));
+
+  var area1 = d3.area()
+    .x((d: any) => this.chartState.xScale(d.xDate))
+    .y0((d: any) => this.yScale(d.q2))
+    .y1((d: any) => this.yScale(d.q3));
+
+  var area2 = d3.area()
+    .x((d: any) => this.chartState.xScale(d.xDate))
+    .y0((d: any) => this.yScale(d.q1))
+    .y1((d: any) => this.yScale(d.q4));
 
     svg.append("path")
       .datum(this.datasetArea2)
