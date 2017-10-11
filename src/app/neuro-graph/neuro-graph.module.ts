@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 //UI Frameworks
-import { MdButtonModule, MdCheckboxModule, MdSelectModule, MdInputModule, MdDialogModule, MdTooltipModule, MdGridListModule } from '@angular/material';
+import { MdButtonModule,MdMenuModule, MdCheckboxModule, MdSelectModule, MdInputModule, MdDialogModule, MdTooltipModule, MdGridListModule} from '@angular/material';
 //Custom Components, Services etc
 import { GraphPanelComponent } from './graph-panel/graph-panel.component';
 import { NeuroRelatedComponent } from './neuro-related/neuro-related.component';
@@ -21,10 +21,10 @@ import { InfoPopupComponent } from './cds/info-popup/info-popup.component';
 import { ImagingComponent } from './graph-panel/imaging/imaging.component';
 import { LabsComponent } from './graph-panel/labs/labs.component';
 
-export * from './graph-panel/graph-panel.component';
-export * from './cds/cds.component';
-export * from './neuro-graph-box/neuro-graph-box.component';
-export * from './neuro-related/neuro-related.component';
+// export * from './graph-panel/graph-panel.component';
+// export * from './cds/cds.component';
+// export * from './neuro-graph-box/neuro-graph-box.component';
+// export * from './neuro-related/neuro-related.component';
 
 export const ROUTES: Routes = [];
 @NgModule({
@@ -34,6 +34,7 @@ export const ROUTES: Routes = [];
     FormsModule,
     RouterModule.forRoot(ROUTES),
     MdButtonModule,
+    MdMenuModule,
     MdCheckboxModule,
     MdSelectModule,
     MdInputModule,
@@ -55,7 +56,13 @@ export const ROUTES: Routes = [];
     ImagingComponent,
     LabsComponent
   ],
-  exports: [NeuroGraphBoxComponent],
+  exports: [
+    NeuroGraphBoxComponent,
+    CdsComponent,
+    GraphPanelComponent,
+    NeuroRelatedComponent,
+    PatientConcernsComponent
+  ],
   providers: [NeuroGraphService],
   bootstrap: [InfoPopupComponent]
 })
