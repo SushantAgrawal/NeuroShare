@@ -18,7 +18,7 @@ export class InfoPopupComponent implements OnInit {
     this.displayInfo = data.info;
     let label = this.displayInfo.label;
     this.x = data.x - 315;
-    console.log(label);
+   // console.log(label);
     if(label == 'review_vitamin_d')
       {
         this.y = data.y - 175;
