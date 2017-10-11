@@ -271,6 +271,7 @@ export class RelapsesComponent implements OnInit {
       .enter().append('path')
       .attr('d', arc)
       .attr("class", "triangle")
+      .style('cursor', 'pointer')
       .attr('transform', d => {
         return `translate(${(this.chartState.xScale(d.lastUpdatedDate))},${(this.yScale(d.relapseaxis))}) rotate(180)`;
       })

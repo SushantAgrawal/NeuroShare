@@ -102,6 +102,7 @@ export class EdssComponent implements OnInit {
 
   }
 
+  
   ngOnInit() {
     this.subscriptions = this
       .brokerService
