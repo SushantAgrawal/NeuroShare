@@ -47,8 +47,10 @@
                     <div class="ns-imaging-study">{{imaging.resultDate}}</div>
                     <div class="ns-imaging-study">{{imaging.authorizingProvider}}</div>
                     </div>
-                    <div class="ns-imgression" *ngFor="let imp of imaging.impression;">
+                    <div class="ns-imgression">
+                    <div *ngFor="let imp of imaging.impression;">
                     {{imp}}
+                    </div>
                     </div>
                     <div *ngFor="let nar of imaging.narrative;">
                    {{nar}}
