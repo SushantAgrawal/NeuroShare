@@ -429,7 +429,7 @@ export class EdssComponent implements OnInit {
       return Date.parse(dtPart);
     }
 
-    let clinicianDataSet = this.edssData.map(d => {
+    let clinicianDataSet = this.edssData && this.edssData.map(d => {
       return {
         ...d,
         lastUpdatedDate: getParsedDate(d.last_updated_instant),
